@@ -138,3 +138,5 @@ yarn-error.log*
 # Build directories
 build/
 dist/
+
+.wrangler/

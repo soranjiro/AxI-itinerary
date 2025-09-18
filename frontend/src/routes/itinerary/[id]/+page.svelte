@@ -225,22 +225,7 @@
 
 <main class="relative overflow-hidden">
 	<!-- 動的背景エフェクト -->
-	<div class="fixed inset-0 z-0">
-		<div
-			class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/3 to-pink-500/5 animate-pulse-glow"
-		></div>
-		<div
-			class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400/10 to-purple-600/10 rounded-full blur-3xl animate-float"
-		></div>
-		<div
-			class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-pink-400/10 to-purple-600/10 rounded-full blur-3xl animate-float"
-			style="animation-delay: -1.5s;"
-		></div>
-		<div
-			class="absolute top-3/4 left-1/2 w-64 h-64 bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl animate-float"
-			style="animation-delay: -3s;"
-		></div>
-	</div>
+	<div class="fixed inset-0 z-0 page-bg-hero"></div>
 	{#if isLoading}
 		<div class="flex items-center justify-center h-screen">
 			<div
@@ -276,7 +261,7 @@
 			<div class="max-w-7xl mx-auto px-6 py-8">
 				<div class="flex items-center justify-between">
 					<div class="flex-1 space-y-2">
-						<h1 class="text-4xl font-bold text-gradient animate-fade-in">
+						<h1 class="text-4xl font-bold text-theme-gradient animate-fade-in">
 							{itinerary.title}
 						</h1>
 						{#if itinerary.description}
@@ -288,32 +273,32 @@
 							<div
 								class="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-sm font-medium border border-accent"
 							>
-								<span class="text-gradient">アクティブ</span>
+								<span class="text-theme-gradient">アクティブ</span>
 							</div>
 							<div
 								class="px-3 py-1 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-sm font-medium border border-accent"
 							>
-								<span class="text-gradient">同期済み</span>
+								<span class="text-theme-gradient">同期済み</span>
 							</div>
 						</div>
 					</div>
 					<div class="flex items-center space-x-4">
 						<ThemeSelector />
-						<button class="neo-button group relative overflow-hidden">
+						<button
+							class="btn btn-ghost group relative overflow-hidden"
+							aria-label="members"
+						>
 							<Users
 								class="w-6 h-6 text-accent-primary group-hover:scale-110 transition-transform"
 							/>
-							<div
-								class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
-							></div>
 						</button>
-						<button class="neo-button group relative overflow-hidden">
+						<button
+							class="btn btn-ghost group relative overflow-hidden"
+							aria-label="settings"
+						>
 							<Settings
 								class="w-6 h-6 text-accent-primary group-hover:rotate-90 transition-transform duration-500"
 							/>
-							<div
-								class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
-							></div>
 						</button>
 					</div>
 				</div>
@@ -344,7 +329,7 @@
 						on:click={() => (activeTab = "packing")}
 					>
 						<Package class="w-5 h-5" />
-						<span>持ち物リスト</span>
+						<span>持ち物</span>
 					</button>
 					<button
 						class="flex items-center space-x-2 py-4 px-6 border-b-3 font-semibold text-sm transition-all duration-200 rounded-t-lg {activeTab ===
@@ -354,7 +339,7 @@
 						on:click={() => (activeTab = "budget")}
 					>
 						<Calculator class="w-5 h-5" />
-						<span>予算管理</span>
+						<span>予算</span>
 					</button>
 					<button
 						class="flex items-center space-x-2 py-4 px-6 border-b-3 font-semibold text-sm transition-all duration-200 rounded-t-lg {activeTab ===
@@ -369,6 +354,42 @@
 				</div>
 			</div>
 		</nav>
+
+		<!-- Mobile bottom nav (only visible on small screens) -->
+		<div class="bottom-nav" role="navigation" aria-label="mobile tabs">
+			<button
+				type="button"
+				class="nav-item {activeTab === 'timeline' ? 'active' : ''}"
+				aria-current={activeTab === "timeline"}
+				on:click={() => (activeTab = "timeline")}
+			>
+				<div class="text-xs">タイムライン</div>
+			</button>
+			<button
+				type="button"
+				class="nav-item {activeTab === 'packing' ? 'active' : ''}"
+				aria-current={activeTab === "packing"}
+				on:click={() => (activeTab = "packing")}
+			>
+				<div class="text-xs">持ち物</div>
+			</button>
+			<button
+				type="button"
+				class="nav-item {activeTab === 'budget' ? 'active' : ''}"
+				aria-current={activeTab === "budget"}
+				on:click={() => (activeTab = "budget")}
+			>
+				<div class="text-xs">予算</div>
+			</button>
+			<button
+				type="button"
+				class="nav-item {activeTab === 'chat' ? 'active' : ''}"
+				aria-current={activeTab === "chat"}
+				on:click={() => (activeTab = "chat")}
+			>
+				<div class="text-xs">AI相談</div>
+			</button>
+		</div>
 
 		<!-- コンテンツエリア -->
 		<div class="max-w-7xl mx-auto px-4 py-8 backdrop-blur-glass">
