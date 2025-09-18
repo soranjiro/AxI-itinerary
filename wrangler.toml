@@ -1,6 +1,6 @@
 name = "axi-itinerary"
-main = "frontend/build/index.js"
-compatibility_date = "2023-12-07"
+compatibility_date = "2024-09-17"
+compatibility_flags = ["nodejs_compat"]
 
 [env.production]
 name = "axi-itinerary"
@@ -12,7 +12,7 @@ name = "axi-itinerary-staging"
 [[d1_databases]]
 binding = "DB"
 database_name = "axi-itinerary-db"
-database_id = "your-database-id"
+database_id = "fa91bed8-f5c5-4570-bf38-87994a1ce93c"
 
 [vars]
 ENVIRONMENT = "production"

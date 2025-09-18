@@ -13,12 +13,27 @@
 
 		isCreating = true;
 		try {
-			const id = generateId();
-			// TODO: API呼び出しでしおりを作成
-			// 現在はダミーでID生成のみ
-			await goto(`/itinerary/${id}`);
+			const response = await fetch('/api/itineraries', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					title,
+					description,
+					password: editPassword
+				})
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to create itinerary');
+			}
+
+			const data = await response.json();
+			await goto(`/itinerary/${data.id}`);
 		} catch (error) {
 			console.error('Failed to create itinerary:', error);
+			alert('しおりの作成に失敗しました。再度お試しください。');
 		} finally {
 			isCreating = false;
 		}
@@ -29,7 +44,7 @@
 	};
 </script>
 
-<main class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+<main class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 texture-paper">
 	<!-- ヒーローセクション -->
 	<section class="relative overflow-hidden texture-paper">
 		<div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>

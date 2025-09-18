@@ -4,6 +4,14 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        accent: {
+          primary: '#4f46e5',
+          secondary: '#7c3aed',
+          tertiary: '#ec4899',
+          quaternary: '#06b6d4'
+        }
+      },
       fontFamily: {
         sans: ['Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'sans-serif']
       },

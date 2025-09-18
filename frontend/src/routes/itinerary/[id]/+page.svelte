@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { tick } from 'svelte';
 	import {
 		Calendar,
 		Package,
@@ -11,10 +12,12 @@
 		Plus,
 		Edit3,
 		Save,
-		X
+		X,
+		Palette
 	} from 'lucide-svelte';
 	import AIChat from '$lib/components/AIChat.svelte';
 	import AddItemModal from '$lib/components/AddItemModal.svelte';
+	import ThemeSelector from '$lib/components/ThemeSelector.svelte';
 
 	const itineraryId = $page.params.id;
 
@@ -66,11 +69,24 @@
 	let showAddModal = false;
 	let addModalType: 'timeline' | 'packing' | 'budget' = 'timeline';
 
-	onMount(() => {
-		// TODO: 実際のAPI呼び出し
-		setTimeout(() => {
+	onMount(async () => {
+		try {
+			const response = await fetch(`/api/itineraries/${itineraryId}`);
+			if (!response.ok) {
+				throw new Error('Failed to fetch itinerary');
+			}
+			const data = await response.json();
+
+			itinerary = data.itinerary;
+			timelineItems = data.timelineItems;
+			packingItems = data.packingItems;
+			budgetItems = data.budgetItems;
+		} catch (err) {
+			console.error('Error loading itinerary:', err);
+			error = 'しおりの読み込みに失敗しました。';
+		} finally {
 			isLoading = false;
-		}, 500);
+		}
 	});
 
 	const formatDateTime = (dateTime: string) => {
@@ -105,42 +121,77 @@
 		cancelEditing();
 	};
 
-	const openAddModal = (type: 'timeline' | 'packing' | 'budget') => {
+	const openAddModal = async (type: 'timeline' | 'packing' | 'budget') => {
+		console.log('openAddModal called with type:', type);
+		console.log('Current showAddModal value:', showAddModal);
+
 		addModalType = type;
 		showAddModal = true;
+
+		console.log('showAddModal set to:', showAddModal);
+		console.log('addModalType set to:', addModalType);
+
+		await tick();
+		console.log('After tick, showAddModal:', showAddModal);
 	};
 
-	const handleAddItem = (event: CustomEvent) => {
+	const handleAddItem = async (event: CustomEvent) => {
+		console.log('handleAddItem called with event:', event);
 		const newItem = event.detail;
 		console.log('新しいアイテム:', newItem);
 
-		// TODO: 実際のAPI呼び出し
-		if (addModalType === 'timeline') {
-			const timelineItem = {
-				id: Date.now().toString(),
-				...newItem,
-				sort_order: timelineItems.length + 1
-			};
-			timelineItems = [...timelineItems, timelineItem];
-		} else if (addModalType === 'packing') {
-			const packingItem = {
-				id: Date.now().toString(),
-				...newItem,
-				is_checked: false
-			};
-			packingItems = [...packingItems, packingItem];
-		} else if (addModalType === 'budget') {
-			const budgetItem = {
-				id: Date.now().toString(),
-				...newItem,
-				actual_amount: null
-			};
-			budgetItems = [...budgetItems, budgetItem];
+		try {
+			let endpoint = '';
+			if (addModalType === 'timeline') {
+				endpoint = `/api/itineraries/${itineraryId}/timeline`;
+			} else if (addModalType === 'packing') {
+				endpoint = `/api/itineraries/${itineraryId}/packing`;
+			} else if (addModalType === 'budget') {
+				endpoint = `/api/itineraries/${itineraryId}/budget`;
+			}
+
+			console.log('Making API call to:', endpoint);
+			const response = await fetch(endpoint, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(newItem)
+			});
+
+			console.log('API response status:', response.status);
+			if (!response.ok) {
+				throw new Error('Failed to add item');
+			}
+
+			const addedItem = await response.json();
+			console.log('Added item:', addedItem);
+
+			// Update local state
+			if (addModalType === 'timeline') {
+				timelineItems = [...timelineItems, addedItem];
+			} else if (addModalType === 'packing') {
+				packingItems = [...packingItems, addedItem];
+			} else if (addModalType === 'budget') {
+				budgetItems = [...budgetItems, addedItem];
+			}
+
+			showAddModal = false;
+		} catch (error) {
+			console.error('Error adding item:', error);
+			alert('アイテムの追加に失敗しました。再度お試しください。');
 		}
 	};
 </script>
 
-<main class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors">
+<main class="min-h-screen relative overflow-hidden">
+	<!-- 動的背景エフェクト -->
+	<div class="fixed inset-0 z-0">
+		<div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/3 to-pink-500/5 animate-pulse-glow"></div>
+		<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400/10 to-purple-600/10 rounded-full blur-3xl animate-float"></div>
+		<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-pink-400/10 to-purple-600/10 rounded-full blur-3xl animate-float" style="animation-delay: -1.5s;"></div>
+		<div class="absolute top-3/4 left-1/2 w-64 h-64 bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+	</div>
 	{#if isLoading}
 		<div class="flex items-center justify-center min-h-screen">
 			<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 p-8">
@@ -159,24 +210,35 @@
 			</div>
 		</div>
 	{:else}
-		<!-- ページ固有ヘッダー -->
-		<header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 shadow-sm">
-			<div class="max-w-7xl mx-auto px-4 py-6">
+		<!-- フューチャリスティックヘッダー -->
+		<header class="relative z-10 glass-panel border-0 border-b border-subtle shadow-2xl">
+			<div class="max-w-7xl mx-auto px-6 py-8">
 				<div class="flex items-center justify-between">
-					<div class="flex-1">
-						<h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+					<div class="flex-1 space-y-2">
+						<h1 class="text-4xl font-bold text-gradient animate-fade-in">
 							{itinerary.title}
 						</h1>
 						{#if itinerary.description}
-							<p class="text-gray-600 dark:text-gray-300 text-lg">{itinerary.description}</p>
+							<p class="text-xl text-secondary opacity-80 animate-slide-up">{itinerary.description}</p>
 						{/if}
+						<div class="flex items-center space-x-3 mt-4">
+							<div class="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-sm font-medium border border-accent">
+								<span class="text-gradient">アクティブ</span>
+							</div>
+							<div class="px-3 py-1 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-sm font-medium border border-accent">
+								<span class="text-gradient">同期済み</span>
+							</div>
+						</div>
 					</div>
-					<div class="flex items-center space-x-3">
-						<button class="p-3 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all duration-200 transform hover:scale-105">
-							<Users class="w-6 h-6" />
+					<div class="flex items-center space-x-4">
+						<ThemeSelector />
+						<button class="neo-button group relative overflow-hidden">
+							<Users class="w-6 h-6 text-accent-primary group-hover:scale-110 transition-transform" />
+							<div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 						</button>
-						<button class="p-3 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-xl transition-all duration-200 transform hover:scale-105">
-							<Settings class="w-6 h-6" />
+						<button class="neo-button group relative overflow-hidden">
+							<Settings class="w-6 h-6 text-accent-primary group-hover:rotate-90 transition-transform duration-500" />
+							<div class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 						</button>
 					</div>
 				</div>
@@ -184,7 +246,7 @@
 		</header>
 
 		<!-- タブナビゲーション -->
-		<nav class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+		<nav class="backdrop-blur-glass border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
 			<div class="max-w-7xl mx-auto px-4">
 				<div class="flex space-x-1">
 					<button
@@ -220,7 +282,7 @@
 		</nav>
 
 		<!-- コンテンツエリア -->
-		<div class="max-w-7xl mx-auto px-4 py-8 bg-gray-50/50 dark:bg-gray-900/50 min-h-screen">
+		<div class="max-w-7xl mx-auto px-4 py-8 backdrop-blur-glass min-h-screen">
 			{#if activeTab === 'timeline'}
 				<div class="space-y-6">
 					<div class="flex justify-between items-center">
@@ -230,7 +292,7 @@
 						</div>
 						<button
 							on:click={() => openAddModal('timeline')}
-							class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2"
+							class="btn-primary flex items-center space-x-2"
 						>
 							<Plus class="w-5 h-5" />
 							<span>予定を追加</span>
@@ -239,7 +301,7 @@
 
 					<div class="space-y-4">
 						{#each timelineItems as item}
-							<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 p-6 hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
+							<div class="card p-6 hover-lift animate-fade-in">
 								<div class="flex justify-between items-start">
 									<div class="flex-1">
 										<div class="flex items-center space-x-3 mb-3">
@@ -279,7 +341,7 @@
 						</div>
 						<button
 							on:click={() => openAddModal('packing')}
-							class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2"
+							class="btn-primary flex items-center space-x-2"
 						>
 							<Plus class="w-5 h-5" />
 							<span>アイテムを追加</span>
@@ -326,7 +388,7 @@
 						</div>
 						<button
 							on:click={() => openAddModal('budget')}
-							class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2"
+							class="btn-primary flex items-center space-x-2"
 						>
 							<Plus class="w-5 h-5" />
 							<span>費用を追加</span>
@@ -400,25 +462,28 @@
 					<div class="space-y-4">
 						<!-- ここに編集フォームを追加 -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">
+							<label for="edit-input" class="block text-sm font-medium text-gray-700 mb-2">
 								{#if activeTab === 'timeline'}タイトル
 								{:else if activeTab === 'packing'}アイテム名
 								{:else if activeTab === 'budget'}項目名{/if}
 							</label>
 							{#if activeTab === 'timeline'}
 								<input
+									id="edit-input"
 									type="text"
 									bind:value={editingItem.title}
 									class="input-field"
 								/>
 							{:else if activeTab === 'packing'}
 								<input
+									id="edit-input"
 									type="text"
 									bind:value={editingItem.item_name}
 									class="input-field"
 								/>
 							{:else if activeTab === 'budget'}
 								<input
+									id="edit-input"
 									type="text"
 									bind:value={editingItem.item_name}
 									class="input-field"
@@ -448,10 +513,12 @@
 		{/if}
 
 		<!-- 追加アイテムモーダル -->
-		<AddItemModal
-			bind:isOpen={showAddModal}
-			type={addModalType}
-			on:save={handleAddItem}
-		/>
+		{#if showAddModal}
+			<AddItemModal
+				bind:isOpen={showAddModal}
+				type={addModalType}
+				on:save={handleAddItem}
+			/>
+		{/if}
 	{/if}
 </main>

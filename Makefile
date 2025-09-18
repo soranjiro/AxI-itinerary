@@ -1,7 +1,7 @@
 # AxI-itinerary Makefile
 # 旅行しおりアプリケーションの開発・ビルド・デプロイ用Makefile
 
-.PHONY: help install dev build deploy clean test lint format
+.PHONY: help install dev dev-vite dev-d1 build build-wasm deploy deploy-db deploy-full preview clean test lint format setup logs status env-setup db-status db-tables db-data db-itineraries db-clean
 .DEFAULT_GOAL := help
 
 # カラー定義
@@ -17,7 +17,9 @@ help:
 	@echo ""
 	@echo "$(GREEN)利用可能なコマンド:$(RESET)"
 	@echo "  $(YELLOW)make install$(RESET)    - 依存関係をインストール"
-	@echo "  $(YELLOW)make dev$(RESET)        - 開発サーバーを起動"
+	@echo "  $(YELLOW)make dev$(RESET)        - 開発サーバーを起動（D1付き）"
+	@echo "  $(YELLOW)make dev-vite$(RESET)   - Vite開発サーバーのみ起動"
+	@echo "  $(YELLOW)make dev-d1$(RESET)     - D1データベース開発サーバー"
 	@echo "  $(YELLOW)make build$(RESET)      - プロダクションビルド"
 	@echo "  $(YELLOW)make deploy$(RESET)     - Cloudflareにデプロイ"
 	@echo "  $(YELLOW)make deploy-db$(RESET)  - データベースを初期化・デプロイ"
@@ -25,6 +27,13 @@ help:
 	@echo "  $(YELLOW)make test$(RESET)       - テストを実行"
 	@echo "  $(YELLOW)make lint$(RESET)       - リンターを実行"
 	@echo "  $(YELLOW)make format$(RESET)     - コードフォーマット"
+	@echo ""
+	@echo "$(GREEN)データベース確認コマンド:$(RESET)"
+	@echo "  $(YELLOW)make db-status$(RESET)     - データベース状態確認"
+	@echo "  $(YELLOW)make db-tables$(RESET)     - テーブル一覧表示"
+	@echo "  $(YELLOW)make db-data$(RESET)       - 全テーブルのデータ表示"
+	@echo "  $(YELLOW)make db-itineraries$(RESET) - 旅行データ表示"
+	@echo "  $(YELLOW)make db-clean$(RESET)       - データベースクリーンアップ"
 	@echo ""
 
 ## 依存関係をインストール
@@ -51,10 +60,21 @@ install:
 	fi
 	@echo "$(GREEN)✅ 依存関係のインストール完了$(RESET)"
 
-## 開発サーバーを起動
+## 開発サーバーを起動（D1データベース付き）
 dev: build-wasm
-	@echo "$(GREEN)🚀 開発サーバーを起動中...$(RESET)"
+	@echo "$(GREEN)🚀 D1データベースを使用した開発サーバーを起動中...$(RESET)"
+	wrangler pages dev frontend/.svelte-kit/cloudflare --compatibility-date 2024-09-17 --compatibility-flags nodejs_compat
+
+## Viteのみの開発サーバーを起動
+dev-vite: build-wasm
+	@echo "$(GREEN)🚀 Vite開発サーバーを起動中...$(RESET)"
+	@echo "$(YELLOW)注意: D1データベースを使用するには別途 wrangler pages dev を実行してください$(RESET)"
 	cd frontend && pnpm run dev
+
+## D1データベースを使用した開発サーバーを起動
+dev-d1: build-wasm
+	@echo "$(GREEN)🚀 D1データベースを使用した開発サーバーを起動中...$(RESET)"
+	wrangler pages dev frontend/.svelte-kit/cloudflare --compatibility-date 2024-09-17 --compatibility-flags nodejs_compat
 
 ## Rustコードをwasmにビルド（開発用）
 build-wasm:
@@ -149,3 +169,88 @@ env-setup:
 	@echo "$(YELLOW).env.example を参考に環境変数を設定してください$(RESET)"
 	@if [ ! -f .env ]; then cp .env.example .env; fi
 	@echo "$(BLUE).env ファイルを作成しました。必要に応じて編集してください。$(RESET)"
+
+# =============================================================================
+# データベース確認コマンド
+# =============================================================================
+
+## データベース状態確認
+db-status:
+	@echo "$(GREEN)📊 データベース状態を確認中...$(RESET)"
+	@echo "$(YELLOW)ローカル D1 データベース:$(RESET)"
+	@if [ -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" ]; then \
+		echo "📁 .wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite"; \
+		echo "📏 サイズ: $$(du -h ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" | cut -f1)"; \
+	else \
+		echo "❌ ローカル D1 データベースが見つかりません"; \
+	fi
+	@echo ""
+	@echo "$(YELLOW)Wrangler D1 データベース:$(RESET)"
+	@wrangler d1 list 2>/dev/null || echo "❌ Wrangler D1 データベースが見つかりません"
+
+## テーブル一覧表示
+db-tables:
+	@echo "$(GREEN)📋 テーブル一覧を表示中...$(RESET)"
+	@if [ -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" ]; then \
+		echo "$(YELLOW)ローカル D1 データベース:$(RESET)"; \
+		TABLES=$$(sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" ".tables" 2>/dev/null); \
+		if [ -n "$$TABLES" ]; then \
+			echo "$$TABLES" | tr ' ' '\n' | grep -v '^$$' | while read table; do echo "  📋 $$table"; done; \
+		else \
+			echo "❌ テーブルが見つかりません"; \
+		fi; \
+	else \
+		echo "❌ ローカル D1 データベースが見つかりません"; \
+	fi
+
+## 全テーブルのデータ表示
+db-data:
+	@echo "$(GREEN)📊 全テーブルのデータを表示中...$(RESET)"
+	@if [ -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" ]; then \
+		for table in itineraries timeline_items packing_items budget_items users user_itineraries chat_messages; do \
+			echo ""; \
+			echo "$(BLUE)=== $$table ===$(RESET)"; \
+			count=$$(sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" "SELECT COUNT(*) FROM $$table;" 2>/dev/null); \
+			if [ "$$count" -gt 0 ]; then \
+				sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" "SELECT * FROM $$table LIMIT 5;" 2>/dev/null; \
+				if [ "$$count" -gt 5 ]; then \
+					echo "$(YELLOW)... 他 $$((count-5)) 件$(RESET)"; \
+				fi; \
+			else \
+				echo "$(YELLOW)データなし$(RESET)"; \
+			fi; \
+		done; \
+	else \
+		echo "❌ ローカル D1 データベースが見つかりません"; \
+	fi
+
+## 旅行データ表示
+db-itineraries:
+	@echo "$(GREEN)📋 旅行データを表示中...$(RESET)"
+	@if [ -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" ]; then \
+		count=$$(sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" "SELECT COUNT(*) FROM itineraries;" 2>/dev/null); \
+		if [ "$$count" -gt 0 ]; then \
+			echo ""; \
+			echo "$(BLUE)旅行データ ($$count 件):$(RESET)"; \
+			sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" "SELECT id, title, description, theme, created_at FROM itineraries ORDER BY created_at DESC;" 2>/dev/null; \
+		else \
+			echo "$(YELLOW)旅行データなし$(RESET)"; \
+		fi; \
+	else \
+		echo "❌ ローカル D1 データベースが見つかりません"; \
+	fi
+
+## データベースクリーンアップ
+db-clean:
+	@echo "$(RED)🗑️  データベースをクリーンアップ中...$(RESET)"
+	@echo "$(YELLOW)注意: この操作は取り消せません！$(RESET)"
+	@read -p "本当にローカル D1 データベースを削除しますか？ (y/N): " confirm; \
+	if [ "$$confirm" = "y" ] || [ "$$confirm" = "Y" ]; then \
+		if [ -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" ]; then \
+			rm -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite"* && echo "$(GREEN)✅ ローカル D1 データベースを削除しました$(RESET)"; \
+		else \
+			echo "❌ 削除対象が見つかりません"; \
+		fi; \
+	else \
+		echo "$(BLUE)キャンセルしました$(RESET)"; \
+	fi
