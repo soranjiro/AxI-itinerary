@@ -1,0 +1,21 @@
+/* ダークテーマ */
+:root.dark {
+  /* ベースカラー */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+
+  /* テキストカラー */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  /* ボーダー */
+  --border-color: #334155;
+  --border-hover: #475569;
+
+  /* カード */
+  --card-bg: rgba(30, 41, 59, 0.9);
+  --card-border: rgba(255, 255, 255, 0.1);
+}

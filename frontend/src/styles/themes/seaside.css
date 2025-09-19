@@ -1,0 +1,31 @@
+/* 追加テーマ例: シーサイドテーマ */
+:root.seaside {
+  /* ベースカラー */
+  --bg-primary: #f0f9ff;
+  --bg-secondary: #e0f2fe;
+  --bg-tertiary: #bae6fd;
+  --bg-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+
+  /* テキストカラー */
+  --text-primary: #0c4a6e;
+  --text-secondary: #0369a1;
+  --text-muted: #0891b2;
+
+  /* アクセントカラー */
+  --primary: #0ea5e9;
+  --primary-hover: #0284c7;
+  --primary-light: #bae6fd;
+
+  --secondary: #06b6d4;
+  --secondary-hover: #0891b2;
+  --secondary-light: #a5f3fc;
+
+  /* ボーダー */
+  --border-color: #7dd3fc;
+  --border-hover: #38bdf8;
+  --border-focus: #0ea5e9;
+
+  /* カード */
+  --card-bg: rgba(240, 249, 255, 0.9);
+  --card-border: rgba(14, 165, 233, 0.2);
+}
