@@ -21,6 +21,7 @@
 
   /* ボーダー - shiorisuの薄い赤いライン */
   --border: #f40e0dad;
+  --border: #f40e0dad;
   --border-hover: #ff6d6d;
   --border-focus: #f40e0d;
 
@@ -30,4 +31,33 @@
 
   /* グラデーション */
   --gradient-primary: linear-gradient(135deg, #ff6d6d 0%, #f40e0d 100%);
+}
+
+/* ダーク版: さくらテーマ */
+:root.dark.itinerary-sakura {
+  --bg-primary: #241313;
+  --bg-secondary: #2b1717;
+  --bg-tertiary: #3b2020;
+
+  --text-primary: #ffe4e6;
+  --text-secondary: #fecdd3;
+  --text-muted: #fda4af;
+
+  --accent: #ff6d6d;
+  --accent-secondary: #f40e0d;
+  --accent-hover: #fb7185;
+
+  --primary: #fb7185;
+  --primary-hover: #f43f5e;
+  --primary-light: #9f1239;
+
+  --border: #7f1d1d;
+  --border: #7f1d1d;
+  --border-hover: #9f1239;
+  --border-focus: #fb7185;
+
+  --card-bg: rgba(24, 8, 8, 0.55);
+  --card-border: rgba(251, 113, 133, 0.25);
+
+  --gradient-primary: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
 }

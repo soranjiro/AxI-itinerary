@@ -4,7 +4,11 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = async ({ params, request, platform }) => {
 	try {
 		const { id } = params;
-		const { item_name, category, quantity, notes } = await request.json();
+		const body = await request.json();
+		const item_name = body.item_name;
+		const category = body.category;
+		const quantity = typeof body.quantity === 'number' ? body.quantity : Number(body.quantity) || 1;
+		const notes = body.memo ?? body.notes;
 
 		if (!id) {
 			throw error(400, 'Itinerary ID is required');
@@ -22,9 +26,9 @@ export const POST: RequestHandler = async ({ params, request, platform }) => {
 			itinerary_id: id,
 			item_name: item_name.trim(),
 			category: category?.trim() || '',
-			quantity: quantity || 1,
+			quantity,
 			is_checked: false,
-			memo: notes?.trim() || '',
+			memo: (notes ?? '').toString().trim(),
 			created_at: now,
 			updated_at: now
 		};

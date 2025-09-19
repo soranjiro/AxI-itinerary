@@ -30,7 +30,7 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 			title: title.trim(),
 			description: description?.trim() || '',
 			edit_password_hash: password || null,
-			theme: 'simple',
+			theme: 'travel',
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString()
 		};
@@ -50,6 +50,51 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 				itinerary.created_at,
 				itinerary.updated_at
 			).run();
+
+			// デフォルトデータを投入
+			const now = new Date();
+			const t1 = crypto.randomUUID();
+			const t2 = crypto.randomUUID();
+			await db.batch([
+				db.prepare(`INSERT INTO timeline_items (id, itinerary_id, title, description, location_name, start_datetime, end_datetime, sort_order, created_at, updated_at)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+					.bind(
+						t1,
+						itinerary.id,
+						'集合',
+						'出発前に軽食',
+						'東京駅',
+						new Date(now.getTime() + 24*60*60*1000).toISOString(),
+						new Date(now.getTime() + 25*60*60*1000).toISOString(),
+						1,
+						itinerary.created_at,
+						itinerary.updated_at
+					),
+				db.prepare(`INSERT INTO timeline_items (id, itinerary_id, title, description, location_name, start_datetime, end_datetime, sort_order, created_at, updated_at)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+					.bind(
+						t2,
+						itinerary.id,
+						'チェックイン',
+						'ホテルで休憩',
+						'横浜ベイホテル',
+						new Date(now.getTime() + 27*60*60*1000).toISOString(),
+						new Date(now.getTime() + 28*60*60*1000).toISOString(),
+						2,
+						itinerary.created_at,
+						itinerary.updated_at
+					),
+				db.prepare(`INSERT INTO packing_items (id, itinerary_id, item_name, category, quantity, is_checked, memo, created_at, updated_at)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+					.bind(
+						crypto.randomUUID(), itinerary.id, '着替え', '衣類', 2, 0, '', itinerary.created_at, itinerary.updated_at
+					),
+				db.prepare(`INSERT INTO budget_items (id, itinerary_id, category, item_name, planned_amount, actual_amount, memo, created_at, updated_at)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+					.bind(
+						crypto.randomUUID(), itinerary.id, '交通費', '電車', 1200, null, '', itinerary.created_at, itinerary.updated_at
+					)
+			]);
 
 			// Link to user if logged in
 			if (currentUser?.id) {

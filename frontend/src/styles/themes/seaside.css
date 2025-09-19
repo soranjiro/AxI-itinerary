@@ -21,6 +21,7 @@
   --secondary-light: #a5f3fc;
 
   /* ボーダー */
+  --border: #7dd3fc;
   --border-color: #7dd3fc;
   --border-hover: #38bdf8;
   --border-focus: #0ea5e9;
@@ -28,4 +29,32 @@
   /* カード */
   --card-bg: rgba(240, 249, 255, 0.9);
   --card-border: rgba(14, 165, 233, 0.2);
+}
+
+/* ダーク版: シーサイド */
+:root.dark.seaside {
+  --bg-primary: #0b1b24;
+  --bg-secondary: #0f2430;
+  --bg-tertiary: #143346;
+  --bg-gradient: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+
+  --text-primary: #e2f3ff;
+  --text-secondary: #cfe9fb;
+  --text-muted: #9ed0f6;
+
+  --primary: #0ea5e9;
+  --primary-hover: #0284c7;
+  --primary-light: #0b4660;
+
+  --secondary: #06b6d4;
+  --secondary-hover: #0891b2;
+  --secondary-light: #134e4a;
+
+  --border: #123042;
+  --border-color: #123042;
+  --border-hover: #164b63;
+  --border-focus: #0ea5e9;
+
+  --card-bg: rgba(5, 30, 41, 0.55);
+  --card-border: rgba(14, 165, 233, 0.25);
 }

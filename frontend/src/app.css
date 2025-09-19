@@ -23,6 +23,27 @@
     line-height: 1.5;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    /* スマホでのスクロール改善 */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Z-Index階層管理 */
+  :root {
+    --z-dropdown: 200;
+    --z-modal: 300;
+    --z-toast: 400;
+    --z-tooltip: 500;
+  }
+
+  /* スマホでのタップ改善 */
+  @media (max-width: 768px) {
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, a, [role="button"] {
+      touch-action: manipulation;
+    }
   }
 }
 

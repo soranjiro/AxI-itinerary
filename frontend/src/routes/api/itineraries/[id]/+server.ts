@@ -46,8 +46,59 @@ export const GET: RequestHandler = async ({ params, platform }) => {
 			`).bind(id).all();
 			budgetItems = budgetResult.results || [];
 		} else {
-			// D1 database not available in development
-			throw error(503, 'Database not available. Please use wrangler pages dev for full functionality.');
+			// D1 database not available: return mock data for local development
+			const now = new Date().toISOString();
+			itinerary = {
+				id,
+				title: 'サンプル旅行',
+				description: 'ローカル開発用のサンプルしおりです',
+				theme: 'travel',
+				created_at: now,
+				updated_at: now
+			} as any;
+
+			timelineItems = [
+				{
+					id: crypto.randomUUID(),
+					itinerary_id: id,
+					title: '集合',
+					description: '出発準備',
+					location_name: '東京駅',
+					start_datetime: now,
+					end_datetime: new Date(Date.now() + 60*60*1000).toISOString(),
+					sort_order: 1,
+					created_at: now,
+					updated_at: now
+				}
+			];
+
+			packingItems = [
+				{
+					id: crypto.randomUUID(),
+					itinerary_id: id,
+					item_name: '着替え',
+					category: '衣類',
+					quantity: 2,
+					is_checked: false,
+					memo: '',
+					created_at: now,
+					updated_at: now
+				}
+			];
+
+			budgetItems = [
+				{
+					id: crypto.randomUUID(),
+					itinerary_id: id,
+					category: '交通費',
+					item_name: '電車',
+					planned_amount: 1200,
+					actual_amount: null,
+					memo: '',
+					created_at: now,
+					updated_at: now
+				}
+			];
 		}
 
 		return json({

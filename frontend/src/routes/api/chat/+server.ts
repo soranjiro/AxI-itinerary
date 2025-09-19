@@ -9,10 +9,14 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			throw error(400, 'Message is required');
 		}
 
-		const apiKey = platform?.env?.OPENAI_API_KEY;
-		if (!apiKey) {
-			throw error(500, 'OpenAI API key not configured');
-		}
+		// ProviderとAPIキーを環境変数から選択（ハードコード禁止）
+		const provider = (platform?.env as any)?.LLM_PROVIDER || 'openai';
+		const openaiKey = (platform?.env as any)?.OPENAI_API_KEY;
+		const geminiKey = (platform?.env as any)?.GEMINI_API_KEY;
+
+		let apiKey: string | undefined;
+		let endpoint = '';
+		let payload: any;
 
 		// Build context for AI
 		let systemPrompt = `あなたは旅行計画をサポートするAIアシスタントです。
@@ -22,13 +26,20 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 現在の旅行情報:
 ${context ? JSON.stringify(context, null, 2) : '情報なし'}`;
 
-		const response = await fetch('https://api.openai.com/v1/chat/completions', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${apiKey}`
-			},
-			body: JSON.stringify({
+		if (provider === 'gemini') {
+			apiKey = geminiKey;
+			if (!apiKey) throw error(500, 'Gemini API key not configured');
+			endpoint = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+			payload = {
+				contents: [
+					{ role: 'user', parts: [{ text: `${systemPrompt}\n\n${message}` }] }
+				]
+			};
+		} else {
+			apiKey = openaiKey;
+			if (!apiKey) throw error(500, 'OpenAI API key not configured');
+			endpoint = 'https://api.openai.com/v1/chat/completions';
+			payload = {
 				model: 'gpt-3.5-turbo',
 				messages: [
 					{ role: 'system', content: systemPrompt },
@@ -36,7 +47,16 @@ ${context ? JSON.stringify(context, null, 2) : '情報なし'}`;
 				],
 				max_tokens: 1000,
 				temperature: 0.7
-			})
+			};
+		}
+
+		const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+		if (provider === 'openai') headers['Authorization'] = `Bearer ${apiKey}`;
+
+		const response = await fetch(endpoint, {
+			method: 'POST',
+			headers,
+			body: JSON.stringify(payload)
 		});
 
 		if (!response.ok) {
@@ -44,7 +64,12 @@ ${context ? JSON.stringify(context, null, 2) : '情報なし'}`;
 		}
 
 		const data = await response.json();
-		const aiMessage = data.choices[0]?.message?.content || '申し訳ありませんが、応答を生成できませんでした。';
+		let aiMessage = '申し訳ありませんが、応答を生成できませんでした。';
+		if (provider === 'gemini') {
+			aiMessage = data?.candidates?.[0]?.content?.parts?.[0]?.text || aiMessage;
+		} else {
+			aiMessage = data?.choices?.[0]?.message?.content || aiMessage;
+		}
 
 		return json({
 			message: aiMessage,

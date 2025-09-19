@@ -21,6 +21,7 @@
   --secondary-light: #fed7aa;
 
   /* ボーダー */
+  --border: #fcd34d;
   --border-color: #fcd34d;
   --border-hover: #f59e0b;
   --border-focus: #a16207;
@@ -33,4 +34,32 @@
   --accent-rock: #64748b;
   --accent-forest: #059669;
   --accent-sky: #3b82f6;
+}
+
+/* ダーク版: 山テーマ */
+:root.dark.itinerary-mountain {
+  --bg-primary: #1a1307;
+  --bg-secondary: #22190b;
+  --bg-tertiary: #2b200f;
+  --bg-gradient: linear-gradient(135deg, #a16207 0%, #78350f 100%);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #fed7aa;
+  --text-muted: #fcd34d;
+
+  --primary: #a16207;
+  --primary-hover: #92400e;
+  --primary-light: #6b3a05;
+
+  --secondary: #ea580c;
+  --secondary-hover: #dc2626;
+  --secondary-light: #7c2d12;
+
+  --border-color: #3f2b12;
+  --border: #3f2b12;
+  --border-hover: #6b4421;
+  --border-focus: #a16207;
+
+  --card-bg: rgba(20, 12, 4, 0.55);
+  --card-border: rgba(161, 98, 7, 0.25);
 }

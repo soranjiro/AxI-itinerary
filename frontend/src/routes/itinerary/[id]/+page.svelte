@@ -16,7 +16,7 @@
 		Palette,
 	} from "lucide-svelte";
 	import AIChat from "$lib/components/AIChat.svelte";
-	import AddItemModal from "$lib/components/AddItemModalBasic.svelte";
+	import QuickAddModal from "$lib/components/QuickAddModal.svelte";
 	import ThemeSelector from "$lib/components/ThemeSelector.svelte";
 	import ItineraryThemeSelector from "$lib/components/ItineraryThemeSelector.svelte";
 	import { itineraryTheme } from "$lib/stores/itineraryTheme";
@@ -265,7 +265,7 @@
 	{:else}
 		<!-- モダンヘッダー -->
 		<header
-			class="relative z-10 bg-card-bg border-b border-card-border backdrop-blur-lg"
+			class="relative z-5 bg-card-bg border-b border-card-border backdrop-blur-lg"
 		>
 			<div class="max-w-7xl mx-auto px-6 py-8">
 				<div class="flex items-center justify-between">
@@ -334,7 +334,7 @@
 
 		<!-- タブナビゲーション -->
 		<nav
-			class="bg-card-bg/70 border-b border-card-border/50 backdrop-blur-xl sticky top-0 z-40 py-4"
+			class="bg-card-bg/70 border-b border-card-border/50 backdrop-blur-xl sticky top-0 z-10 py-4"
 		>
 			<div class="max-w-7xl mx-auto px-4">
 				<div class="flex justify-center">
@@ -455,7 +455,7 @@
 
 		<!-- Mobile bottom nav (only visible on small screens) -->
 		<div
-			class="hidden fixed bottom-0 left-0 right-0 bg-card-bg border-t border-card-border backdrop-blur-lg p-2 justify-around z-50 sm:hidden max-sm:flex"
+			class="hidden fixed bottom-0 left-0 right-0 bg-card-bg border-t border-card-border backdrop-blur-lg p-2 justify-around z-10 sm:hidden max-sm:flex"
 			role="navigation"
 			aria-label="mobile tabs"
 		>
@@ -645,7 +645,7 @@
 		<!-- 編集モーダル -->
 		{#if isEditing && editingItem}
 			<div
-				class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+				class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-20 p-4"
 			>
 				<div
 					class="bg-card-bg border border-card-border rounded-3xl shadow-custom-lg w-full max-w-md max-h-[90vh] overflow-y-auto backdrop-blur-lg"
@@ -749,13 +749,18 @@
 			</div>
 		{/if}
 
+		<!-- フローティングアクションボタン -->
+		<button
+			on:click={() => openAddModal("timeline")}
+			class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-110 active:scale-95 z-20 flex items-center justify-center group"
+			aria-label="予定を追加"
+		>
+			<Plus class="w-6 h-6 transition-transform group-hover:rotate-90" />
+		</button>
+
 		<!-- 追加アイテムモーダル -->
 		{#if showAddModal}
-			<AddItemModal
-				bind:isOpen={showAddModal}
-				type={addModalType}
-				on:save={handleAddItem}
-			/>
+			<QuickAddModal bind:isOpen={showAddModal} on:save={handleAddItem} />
 		{/if}
 	{/if}
 </main>

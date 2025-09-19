@@ -21,6 +21,7 @@
   --secondary-light: #e5e5e5;
 
   /* ボーダー */
+  --border: #e5e5e5;
   --border-color: #e5e5e5;
   --border-hover: #d4d4d4;
   --border-focus: #171717;
@@ -28,4 +29,32 @@
   /* カード */
   --card-bg: rgba(255, 255, 255, 0.95);
   --card-border: rgba(23, 23, 23, 0.1);
+}
+
+/* ダーク版: ミニマルテーマ */
+:root.dark.itinerary-minimalist {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #171717;
+  --bg-gradient: linear-gradient(135deg, #111111 0%, #262626 100%);
+
+  --text-primary: #fafafa;
+  --text-secondary: #e5e5e5;
+  --text-muted: #a3a3a3;
+
+  --primary: #fafafa;
+  --primary-hover: #e5e5e5;
+  --primary-light: #404040;
+
+  --secondary: #d4d4d4;
+  --secondary-hover: #a3a3a3;
+  --secondary-light: #262626;
+
+  --border-color: #262626;
+  --border: #262626;
+  --border-hover: #404040;
+  --border-focus: #fafafa;
+
+  --card-bg: rgba(10, 10, 10, 0.6);
+  --card-border: rgba(250, 250, 250, 0.1);
 }
