@@ -469,6 +469,38 @@
     opacity: 0.95;
   }
 
+  /* Compact CTA and icon container for headers */
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 12px;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    box-shadow: 0 8px 22px rgba(79,70,229,0.12);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  }
+
+  .btn-cta:hover { transform: translateY(-3px) scale(1.02); box-shadow: var(--shadow-2xl); }
+
+  .btn-sm { padding: 0.35rem 0.6rem; border-radius: 10px; font-size: 0.9rem; }
+
+  /* Theme/icon container for consistent small circular icons */
+  .icon-theme-container {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+    border: 1px solid var(--border-subtle);
+  }
+
   .btn:active {
     transform: translateY(1px) scale(0.998);
     opacity: 0.98;

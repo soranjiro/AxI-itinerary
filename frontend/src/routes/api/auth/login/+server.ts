@@ -66,6 +66,10 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 		});
 	} catch (err) {
 		console.error('Error logging in:', err);
+		// If this is an HttpError thrown via `error(status, message)`, rethrow
+		// so SvelteKit can return the correct status code instead of mapping
+		// everything to 500.
+		if ((err as any)?.status) throw err;
 		throw error(500, 'Internal server error');
 	}
 };
