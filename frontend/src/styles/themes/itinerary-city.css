@@ -21,6 +21,7 @@
   --secondary-light: #ddd6fe;
 
   /* ボーダー */
+  --border: #c4b5fd;
   --border-color: #c4b5fd;
   --border-hover: #a78bfa;
   --border-focus: #8b5cf6;
@@ -33,4 +34,32 @@
   --accent-neon: #06b6d4;
   --accent-steel: #64748b;
   --accent-electric: #eab308;
+}
+
+/* ダーク版: 都市テーマ */
+:root.dark.itinerary-city {
+  --bg-primary: #120c1a;
+  --bg-secondary: #1a0f2b;
+  --bg-tertiary: #22143a;
+  --bg-gradient: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+
+  --text-primary: #ede9fe;
+  --text-secondary: #ddd6fe;
+  --text-muted: #c4b5fd;
+
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-light: #3b2470;
+
+  --secondary: #a855f7;
+  --secondary-hover: #9333ea;
+  --secondary-light: #3a1a66;
+
+  --border-color: #2e1b47;
+  --border: #2e1b47;
+  --border-hover: #3f2b61;
+  --border-focus: #8b5cf6;
+
+  --card-bg: rgba(18, 12, 26, 0.55);
+  --card-border: rgba(139, 92, 246, 0.25);
 }

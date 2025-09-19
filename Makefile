@@ -1,7 +1,8 @@
 # AxI-itinerary Makefile
 # 旅行しおりアプリケーションの開発・ビルド・デプロイ用Makefile
 
-.PHONY: help install dev dev-vite dev-d1 build build-wasm deploy deploy-db deploy-full preview clean test lint format setup logs status env-setup db-status db-tables db-data db-itineraries db-users db-clean
+.PHONY: help install dev dev-vite dev-d1 build build-wasm deploy deploy-db deploy-full preview clean test lint format setup logs status env-setup db-status db-tables db-data db-itineraries db-users db-clean \
+secrets-pages secrets-wrangler-login deploy-dry-run deploy-preview
 .DEFAULT_GOAL := help
 
 # カラー定義
@@ -23,6 +24,8 @@ help:
 	@echo "  $(YELLOW)make build$(RESET)      - プロダクションビルド"
 	@echo "  $(YELLOW)make deploy$(RESET)     - Cloudflareにデプロイ"
 	@echo "  $(YELLOW)make deploy-db$(RESET)  - データベースを初期化・デプロイ"
+	@echo "  $(YELLOW)make deploy-dry-run$(RESET) - デプロイの健全性チェック（非公開・非破壊）"
+	@echo "  $(YELLOW)make deploy-preview$(RESET) - プレビュー環境に一時デプロイ（preview-* ブランチ）"
 	@echo "  $(YELLOW)make clean$(RESET)      - ビルドファイルを削除"
 	@echo "  $(YELLOW)make test$(RESET)       - テストを実行"
 	@echo "  $(YELLOW)make lint$(RESET)       - リンターを実行"
@@ -35,6 +38,10 @@ help:
 	@echo "  $(YELLOW)make db-itineraries$(RESET) - 旅行データ表示"
 	@echo "  $(YELLOW)make db-users$(RESET)       - ユーザー一覧表示"
 	@echo "  $(YELLOW)make db-clean$(RESET)       - データベースクリーンアップ"
+	@echo ""
+	@echo "$(GREEN)Cloudflare/Secrets 支援:$(RESET)"
+	@echo "  $(YELLOW)make secrets-wrangler-login$(RESET) - Wrangler にログイン"
+	@echo "  $(YELLOW)make secrets-pages$(RESET)        - Pages プロジェクトに Secrets を設定"
 	@echo ""
 
 ## 依存関係をインストール
@@ -122,9 +129,31 @@ deploy: build
 	@# Cloudflare Pagesプロジェクトの作成（存在しない場合）
 	wrangler pages project create axi-itinerary || echo "プロジェクトは既に存在します"
 	@# ビルドファイルをCloudflare Pagesにデプロイ
-	wrangler pages deploy frontend/.svelte-kit/output/client --project-name=axi-itinerary
+	wrangler pages deploy frontend/.svelte-kit/cloudflare --project-name=axi-itinerary
 	@echo "$(GREEN)✅ デプロイ完了 🎉$(RESET)"
 	@echo "$(BLUE)アプリケーションURL: https://axi-itinerary.pages.dev$(RESET)"
+
+## デプロイのドライラン（検証）
+deploy-dry-run: build
+	@echo "$(GREEN)🧪 デプロイ健全性チェックを実行中...$(RESET)"
+	@# 1) Wrangler ログイン確認
+	wrangler whoami >/dev/null 2>&1 || (echo "$(YELLOW)⚠️ Wrangler に未ログインです。'make secrets-wrangler-login' を実行してください。$(RESET)" && exit 1)
+	@# 2) Pages プロジェクト存在確認（なければ作成試行）
+	wrangler pages project create axi-itinerary --production-branch=main 2>/dev/null || true
+	@# 3) プロジェクト一覧を表示
+	wrangler pages project list || true
+	@# 4) 出力ディレクトリ検証
+	@if [ ! -d "frontend/.svelte-kit/cloudflare" ]; then echo "$(RED)❌ Cloudflare ビルド出力がありません。'make build' を先に実行してください。$(RESET)" && exit 1; fi
+	@echo "$(GREEN)✅ 健全性チェック完了。'make deploy-preview' で安全なプレビューデプロイを実行できます。$(RESET)"
+
+## プレビュー環境に安全にデプロイ（preview-* ブランチ）
+deploy-preview: build
+	@echo "$(GREEN)🚀 プレビューデプロイを実行中...（本番には影響しません）$(RESET)"
+	@branch=preview-$$(date +%Y%m%d-%H%M%S); \
+	echo "$(BLUE)ブランチ: $$branch$(RESET)"; \
+	wrangler whoami >/dev/null 2>&1 || (echo "$(YELLOW)⚠️ Wrangler に未ログインです。'make secrets-wrangler-login' を実行してください。$(RESET)" && exit 1); \
+	wrangler pages project create axi-itinerary --production-branch=main 2>/dev/null || true; \
+	wrangler pages deploy frontend/.svelte-kit/cloudflare --project-name=axi-itinerary --branch=$$branch --commit-dirty --skip-caching
 
 ## フルデプロイ（データベース + アプリケーション）
 deploy-full: deploy-db deploy
@@ -181,6 +210,28 @@ status:
 	@echo "$(GREEN)📊 本番環境の状態を確認中...$(RESET)"
 	wrangler pages project list
 	wrangler d1 list
+
+## Wrangler ログイン
+secrets-wrangler-login:
+	@echo "$(GREEN)🔐 Wrangler にログインします...$(RESET)"
+	wrangler login || echo "$(YELLOW)ブラウザでの認証後、再度コマンドを実行してください。$(RESET)"
+
+## Cloudflare Pages Secrets 設定
+secrets-pages:
+	@echo "$(GREEN)🔑 Cloudflare Pages プロジェクトに Secrets を設定します（プロジェクト: axi-itinerary）$(RESET)"
+	@echo "$(YELLOW)LLM_PROVIDER（openai/gemini）を入力してください: $(RESET)"; \
+	read llm; \
+	wrangler pages project secret put LLM_PROVIDER --project-name=axi-itinerary <<< "$$llm"; \
+	if [ "$${llm}" = "openai" ]; then \
+		echo "$(YELLOW)OPENAI_API_KEY を入力してください: $(RESET)"; \
+		read key; \
+		wrangler pages project secret put OPENAI_API_KEY --project-name=axi-itinerary <<< "$$key"; \
+	else \
+		echo "$(YELLOW)GEMINI_API_KEY を入力してください: $(RESET)"; \
+		read key; \
+		wrangler pages project secret put GEMINI_API_KEY --project-name=axi-itinerary <<< "$$key"; \
+	fi; \
+	echo "$(GREEN)✅ Secrets 設定完了$(RESET)"
 
 ## 環境変数の設定
 env-setup:

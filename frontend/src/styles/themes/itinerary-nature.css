@@ -21,6 +21,7 @@
   --secondary-light: #ecfccb;
 
   /* ボーダー */
+  --border: #bbf7d0;
   --border-color: #bbf7d0;
   --border-hover: #86efac;
   --border-focus: #22c55e;
@@ -33,4 +34,32 @@
   --accent-earth: #a16207;
   --accent-water: #0891b2;
   --accent-flower: #ec4899;
+}
+
+/* ダーク版: ナチュラルテーマ */
+:root.dark.itinerary-nature {
+  --bg-primary: #0a1912;
+  --bg-secondary: #0f231a;
+  --bg-tertiary: #123122;
+  --bg-gradient: linear-gradient(135deg, #166534 0%, #065f46 100%);
+
+  --text-primary: #ecfdf5;
+  --text-secondary: #d1fae5;
+  --text-muted: #a7f3d0;
+
+  --primary: #22c55e;
+  --primary-hover: #16a34a;
+  --primary-light: #14532d;
+
+  --secondary: #84cc16;
+  --secondary-hover: #65a30d;
+  --secondary-light: #365314;
+
+  --border-color: #1b3b2a;
+  --border: #1b3b2a;
+  --border-hover: #255a3a;
+  --border-focus: #22c55e;
+
+  --card-bg: rgba(2, 44, 34, 0.55);
+  --card-border: rgba(34, 197, 94, 0.25);
 }

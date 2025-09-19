@@ -21,6 +21,7 @@
   --secondary-light: #fed7aa;
 
   /* ボーダー */
+  --border: #fcd34d;
   --border-color: #fcd34d;
   --border-hover: #f59e0b;
   --border-focus: #f97316;
@@ -33,4 +34,32 @@
   --accent-sky: #0ea5e9;
   --accent-forest: #22c55e;
   --accent-sunset: #ef4444;
+}
+
+/* ダーク版: 旅行テーマ */
+:root.dark.itinerary-travel {
+  --bg-primary: #1a1f2b;
+  --bg-secondary: #232a3a;
+  --bg-tertiary: #2c3549;
+  --bg-gradient: linear-gradient(135deg, #b45309 0%, #c2410c 100%);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-muted: #cbd5e1;
+
+  --primary: #f59e0b;
+  --primary-hover: #d97706;
+  --primary-light: #854d0e;
+
+  --secondary: #f97316;
+  --secondary-hover: #ea580c;
+  --secondary-light: #9a3412;
+
+  --border-color: #3f3f46;
+  --border: #3f3f46;
+  --border-hover: #52525b;
+  --border-focus: #f59e0b;
+
+  --card-bg: rgba(30, 27, 22, 0.6);
+  --card-border: rgba(245, 158, 11, 0.25);
 }

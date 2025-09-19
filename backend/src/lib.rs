@@ -83,6 +83,43 @@ pub fn validate_itinerary_data(data: &str) -> Result<bool, JsValue> {
     Ok(true)
 }
 
+// ===== Tests =====
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_uuid_unique() {
+        let a = generate_uuid();
+        let b = generate_uuid();
+        assert_ne!(a, b);
+        assert_eq!(a.len(), 36);
+    }
+
+    #[test]
+    fn test_validate_email() {
+        assert!(validate_email("test@example.com"));
+        assert!(!validate_email("invalid"));
+    }
+
+    #[test]
+    fn test_format_currency() {
+        assert_eq!(format_currency(0), "¥0");
+        assert_eq!(format_currency(1234), "¥1,234");
+        assert_eq!(format_currency(1000000), "¥1,000,000");
+    }
+
+    #[test]
+    fn test_parse_and_duration() {
+        let start = "2025-01-01T00:00:00+09:00";
+        let end = "2025-01-01T01:30:00+09:00";
+        let parsed = parse_datetime(start).unwrap();
+        assert!(parsed.contains("2025-01-01"));
+        let minutes = calculate_duration(start, end).unwrap();
+        assert_eq!(minutes, 90);
+    }
+}
+
 #[wasm_bindgen]
 pub fn validate_timeline_data(data: &str) -> Result<bool, JsValue> {
     let timeline: CreateTimelineItemRequest = serde_json::from_str(data)

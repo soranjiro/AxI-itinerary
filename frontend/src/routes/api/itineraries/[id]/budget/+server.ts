@@ -4,7 +4,11 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = async ({ params, request, platform }) => {
 	try {
 		const { id } = params;
-		const { item_name, category, planned_amount, notes } = await request.json();
+		const body = await request.json();
+		const item_name = body.item_name;
+		const category = body.category;
+		const planned_amount_raw = body.planned_amount;
+		const notes = body.memo ?? body.notes;
 
 		if (!id) {
 			throw error(400, 'Itinerary ID is required');
@@ -14,6 +18,7 @@ export const POST: RequestHandler = async ({ params, request, platform }) => {
 			throw error(400, 'Item name is required');
 		}
 
+		const planned_amount = typeof planned_amount_raw === 'number' ? planned_amount_raw : Number(planned_amount_raw);
 		if (!planned_amount || planned_amount <= 0) {
 			throw error(400, 'Valid planned amount is required');
 		}
@@ -28,7 +33,7 @@ export const POST: RequestHandler = async ({ params, request, platform }) => {
 			item_name: item_name.trim(),
 			planned_amount: Number(planned_amount),
 			actual_amount: null,
-			memo: notes?.trim() || '',
+			memo: (notes ?? '').toString().trim(),
 			created_at: now,
 			updated_at: now
 		};
