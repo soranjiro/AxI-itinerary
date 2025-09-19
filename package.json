@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm run dev:frontend & pnpm run dev:backend",
+    "dev": "pnpm run dev:full",
+    "dev:full": "pnpm run build:backend && wrangler pages dev frontend/.svelte-kit/cloudflare --compatibility-date 2024-09-17 --compatibility-flags nodejs_compat",
+    "dev:vite": "pnpm run dev:frontend & pnpm run dev:backend",
+    "dev:open": "pnpm run dev:frontend:open & pnpm run dev:backend",
     "build": "pnpm run build:frontend && pnpm run build:backend",
     "deploy": "pnpm run build && wrangler deploy",
     "dev:frontend": "cd frontend && pnpm run dev",
+    "dev:frontend:open": "cd frontend && rm -rf .svelte-kit && (sleep 3 && open http://localhost:5173 &) && pnpm run dev --host",
     "dev:backend": "cd backend && cargo build --target wasm32-unknown-unknown",
     "build:frontend": "cd frontend && pnpm run build",
     "build:backend": "cd backend && wasm-pack build --target web --out-dir ../frontend/src/lib/wasm"

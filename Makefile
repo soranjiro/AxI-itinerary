@@ -1,7 +1,7 @@
 # AxI-itinerary Makefile
 # 旅行しおりアプリケーションの開発・ビルド・デプロイ用Makefile
 
-.PHONY: help install dev dev-vite dev-d1 build build-wasm deploy deploy-db deploy-full preview clean test lint format setup logs status env-setup db-status db-tables db-data db-itineraries db-clean
+.PHONY: help install dev dev-vite dev-d1 build build-wasm deploy deploy-db deploy-full preview clean test lint format setup logs status env-setup db-status db-tables db-data db-itineraries db-users db-clean
 .DEFAULT_GOAL := help
 
 # カラー定義
@@ -17,9 +17,9 @@ help:
 	@echo ""
 	@echo "$(GREEN)利用可能なコマンド:$(RESET)"
 	@echo "  $(YELLOW)make install$(RESET)    - 依存関係をインストール"
-	@echo "  $(YELLOW)make dev$(RESET)        - 開発サーバーを起動（D1付き）"
-	@echo "  $(YELLOW)make dev-vite$(RESET)   - Vite開発サーバーのみ起動"
-	@echo "  $(YELLOW)make dev-d1$(RESET)     - D1データベース開発サーバー"
+	@echo "  $(YELLOW)make dev$(RESET)        - 完全なローカル開発環境（D1データベース付き）"
+	@echo "  $(YELLOW)make dev-vite$(RESET)   - Vite開発サーバーのみ（軽量）"
+	@echo "  $(YELLOW)make dev-d1$(RESET)     - D1データベース開発サーバー（別名）"
 	@echo "  $(YELLOW)make build$(RESET)      - プロダクションビルド"
 	@echo "  $(YELLOW)make deploy$(RESET)     - Cloudflareにデプロイ"
 	@echo "  $(YELLOW)make deploy-db$(RESET)  - データベースを初期化・デプロイ"
@@ -33,6 +33,7 @@ help:
 	@echo "  $(YELLOW)make db-tables$(RESET)     - テーブル一覧表示"
 	@echo "  $(YELLOW)make db-data$(RESET)       - 全テーブルのデータ表示"
 	@echo "  $(YELLOW)make db-itineraries$(RESET) - 旅行データ表示"
+	@echo "  $(YELLOW)make db-users$(RESET)       - ユーザー一覧表示"
 	@echo "  $(YELLOW)make db-clean$(RESET)       - データベースクリーンアップ"
 	@echo ""
 
@@ -60,21 +61,39 @@ install:
 	fi
 	@echo "$(GREEN)✅ 依存関係のインストール完了$(RESET)"
 
-## 開発サーバーを起動（D1データベース付き）
-dev: build-wasm
-	@echo "$(GREEN)🚀 D1データベースを使用した開発サーバーを起動中...$(RESET)"
+## 完全なローカル開発環境（D1データベース付き）
+dev: build-wasm build-frontend-for-d1
+	@echo "$(GREEN)🚀 完全なローカル開発環境を起動中（D1データベース付き）...$(RESET)"
+	@echo "$(BLUE)🌐 自動でブラウザを開きます...$(RESET)"
+	@echo "$(YELLOW)💡 フルスタック機能: ✅ D1データベース ✅ API ✅ 認証 ✅ リアルタイム$(RESET)"
+	@# バックグラウンドでブラウザを開く処理を開始
+	@(sleep 4 && open http://localhost:8788 2>/dev/null || echo "$(YELLOW)手動でブラウザを開いてください: http://localhost:8788$(RESET)") &
+	@# D1サーバーを起動（フォアグラウンド）
 	wrangler pages dev frontend/.svelte-kit/cloudflare --compatibility-date 2024-09-17 --compatibility-flags nodejs_compat
 
-## Viteのみの開発サーバーを起動
+## D1データベース開発サーバー（dev の別名）
+dev-d1: dev
+
+## D1用のフロントエンドビルド
+build-frontend-for-d1:
+	@echo "$(GREEN)🏗️  D1用フロントエンドビルド中...$(RESET)"
+	@if [ ! -d "frontend/.svelte-kit/cloudflare" ]; then \
+		echo "$(YELLOW)Cloudflareビルドが見つからないため、ビルドを実行します...$(RESET)"; \
+		cd frontend && pnpm run build; \
+	else \
+		echo "$(GREEN)✅ Cloudflareビルドが存在します$(RESET)"; \
+	fi
+
+## 軽量開発サーバー（Viteのみ - UI開発用）
 dev-vite: build-wasm
-	@echo "$(GREEN)🚀 Vite開発サーバーを起動中...$(RESET)"
-	@echo "$(YELLOW)注意: D1データベースを使用するには別途 wrangler pages dev を実行してください$(RESET)"
-	cd frontend && pnpm run dev
-
-## D1データベースを使用した開発サーバーを起動
-dev-d1: build-wasm
-	@echo "$(GREEN)🚀 D1データベースを使用した開発サーバーを起動中...$(RESET)"
-	wrangler pages dev frontend/.svelte-kit/cloudflare --compatibility-date 2024-09-17 --compatibility-flags nodejs_compat
+	@echo "$(GREEN)🚀 軽量開発サーバーを起動中（UI開発用）...$(RESET)"
+	@echo "$(BLUE)🌐 自動でブラウザを開きます...$(RESET)"
+	@echo "$(YELLOW)💡 軽量機能: ✅ ホットリロード ✅ 最新CSS ❌ データベース$(RESET)"
+	@cd frontend && rm -rf .svelte-kit
+	@# バックグラウンドでブラウザを開く処理を開始
+	@(sleep 4 && open http://localhost:5173 2>/dev/null || echo "$(YELLOW)手動でブラウザを開いてください: http://localhost:5173$(RESET)") &
+	@# 開発サーバーを起動（フォアグラウンド）
+	cd frontend && pnpm run dev --host
 
 ## Rustコードをwasmにビルド（開発用）
 build-wasm:
@@ -235,6 +254,26 @@ db-itineraries:
 			sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" "SELECT id, title, description, theme, created_at FROM itineraries ORDER BY created_at DESC;" 2>/dev/null; \
 		else \
 			echo "$(YELLOW)旅行データなし$(RESET)"; \
+		fi; \
+	else \
+		echo "❌ ローカル D1 データベースが見つかりません"; \
+	fi
+
+## ユーザー一覧表示
+db-users:
+	@echo "$(GREEN)👥 ユーザー一覧を表示中...$(RESET)"
+	@if [ -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" ]; then \
+		count=$$(sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" "SELECT COUNT(*) FROM users;" 2>/dev/null); \
+		if [ "$$count" -gt 0 ]; then \
+			echo ""; \
+			echo "$(BLUE)ユーザー一覧 ($$count 件):$(RESET)"; \
+			echo "$(YELLOW)ID | Email | Name | Created$(RESET)"; \
+			echo "$(YELLOW)---|-------|------|--------$(RESET)"; \
+			sqlite3 ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/bd861069eb23128e9d4bd003b52b3dcf854af88b145490dd1b5d33d517db984f.sqlite" "SELECT id, email, name, created_at FROM users ORDER BY created_at DESC;" 2>/dev/null | while IFS='|' read -r id email name created; do \
+				echo "$$(echo $$id | cut -c1-8)... | $$email | $$name | $$(echo $$created | cut -d'T' -f1)"; \
+			done; \
+		else \
+			echo "$(YELLOW)ユーザーなし$(RESET)"; \
 		fi; \
 	else \
 		echo "❌ ローカル D1 データベースが見つかりません"; \

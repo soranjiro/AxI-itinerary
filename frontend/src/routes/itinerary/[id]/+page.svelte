@@ -307,87 +307,127 @@
 
 		<!-- タブナビゲーション -->
 		<nav
-			class="backdrop-blur-glass border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40"
+			class="bg-white/95 backdrop-blur-[10px] border-b border-black/8 dark:bg-gray-900/95 dark:border-white/10 sticky top-0 z-40 py-2"
 		>
 			<div class="max-w-7xl mx-auto px-4">
-				<div class="flex space-x-1">
+				<div class="flex gap-2 relative">
 					<button
-						class="flex items-center space-x-2 py-4 px-6 border-b-3 font-semibold text-sm transition-all duration-200 rounded-t-lg {activeTab ===
+						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
 						'timeline'
-							? 'border-blue-500 text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20'
-							: 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50/50 dark:hover:bg-gray-700/50'}"
+							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
+							: ''}"
 						on:click={() => (activeTab = "timeline")}
 					>
-						<Calendar class="w-5 h-5" />
+						<Calendar class="w-4 h-4" />
 						<span>タイムライン</span>
+						{#if activeTab === "timeline"}
+							<div
+								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
+							></div>
+						{/if}
 					</button>
 					<button
-						class="flex items-center space-x-2 py-4 px-6 border-b-3 font-semibold text-sm transition-all duration-200 rounded-t-lg {activeTab ===
+						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
 						'packing'
-							? 'border-green-500 text-green-600 dark:text-green-400 bg-green-50/50 dark:bg-green-900/20'
-							: 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50/50 dark:hover:bg-gray-700/50'}"
+							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
+							: ''}"
 						on:click={() => (activeTab = "packing")}
 					>
-						<Package class="w-5 h-5" />
-						<span>持ち物</span>
+						<Package class="w-4 h-4" />
+						<span>持ち物リスト</span>
+						{#if activeTab === "packing"}
+							<div
+								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
+							></div>
+						{/if}
 					</button>
 					<button
-						class="flex items-center space-x-2 py-4 px-6 border-b-3 font-semibold text-sm transition-all duration-200 rounded-t-lg {activeTab ===
+						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
 						'budget'
-							? 'border-purple-500 text-purple-600 dark:text-purple-400 bg-purple-50/50 dark:bg-purple-900/20'
-							: 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50/50 dark:hover:bg-gray-700/50'}"
+							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
+							: ''}"
 						on:click={() => (activeTab = "budget")}
 					>
-						<Calculator class="w-5 h-5" />
-						<span>予算</span>
+						<Calculator class="w-4 h-4" />
+						<span>予算管理</span>
+						{#if activeTab === "budget"}
+							<div
+								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
+							></div>
+						{/if}
 					</button>
 					<button
-						class="flex items-center space-x-2 py-4 px-6 border-b-3 font-semibold text-sm transition-all duration-200 rounded-t-lg {activeTab ===
+						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
 						'chat'
-							? 'border-orange-500 text-orange-600 dark:text-orange-400 bg-orange-50/50 dark:bg-orange-900/20'
-							: 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50/50 dark:hover:bg-gray-700/50'}"
+							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
+							: ''}"
 						on:click={() => (activeTab = "chat")}
 					>
-						<MessageCircle class="w-5 h-5" />
+						<MessageCircle class="w-4 h-4" />
 						<span>AI相談</span>
+						{#if activeTab === "chat"}
+							<div
+								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
+							></div>
+						{/if}
 					</button>
 				</div>
 			</div>
 		</nav>
 
 		<!-- Mobile bottom nav (only visible on small screens) -->
-		<div class="bottom-nav" role="navigation" aria-label="mobile tabs">
+		<div
+			class="hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-[10px] border-t border-black/8 dark:bg-gray-900/95 dark:border-white/10 p-2 justify-around z-50 sm:hidden max-sm:flex"
+			role="navigation"
+			aria-label="mobile tabs"
+		>
 			<button
 				type="button"
-				class="nav-item {activeTab === 'timeline' ? 'active' : ''}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
+				'timeline'
+					? 'text-indigo-500 bg-indigo-500/10'
+					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
 				aria-current={activeTab === "timeline"}
 				on:click={() => (activeTab = "timeline")}
 			>
-				<div class="text-xs">タイムライン</div>
+				<Calendar class="w-5 h-5" />
+				<div>タイムライン</div>
 			</button>
 			<button
 				type="button"
-				class="nav-item {activeTab === 'packing' ? 'active' : ''}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
+				'packing'
+					? 'text-indigo-500 bg-indigo-500/10'
+					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
 				aria-current={activeTab === "packing"}
 				on:click={() => (activeTab = "packing")}
 			>
-				<div class="text-xs">持ち物</div>
+				<Package class="w-5 h-5" />
+				<div>持ち物</div>
 			</button>
 			<button
 				type="button"
-				class="nav-item {activeTab === 'budget' ? 'active' : ''}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
+				'budget'
+					? 'text-indigo-500 bg-indigo-500/10'
+					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
 				aria-current={activeTab === "budget"}
 				on:click={() => (activeTab = "budget")}
 			>
-				<div class="text-xs">予算</div>
+				<Calculator class="w-5 h-5" />
+				<div>予算</div>
 			</button>
 			<button
 				type="button"
-				class="nav-item {activeTab === 'chat' ? 'active' : ''}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
+				'chat'
+					? 'text-indigo-500 bg-indigo-500/10'
+					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
 				aria-current={activeTab === "chat"}
 				on:click={() => (activeTab = "chat")}
 			>
-				<div class="text-xs">AI相談</div>
+				<MessageCircle class="w-5 h-5" />
+				<div>AI相談</div>
 			</button>
 		</div>
 

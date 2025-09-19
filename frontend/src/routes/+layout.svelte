@@ -22,8 +22,7 @@
 </svelte:head>
 
 <div
-	class="min-h-screen transition-all duration-300"
-	style="background-color: var(--bg-primary); color: var(--text-primary);"
+	class="min-h-screen transition-all duration-300 bg-[color:var(--bg-primary)] text-[color:var(--text-primary)]"
 >
 	<Header />
 	<main class="flex-1 animate-fade-in">
