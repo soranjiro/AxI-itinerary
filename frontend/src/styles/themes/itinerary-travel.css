@@ -1,0 +1,36 @@
+/* しおり専用テーマ: Travel テーマ */
+:root.itinerary-travel {
+  /* ベースカラー - 旅行をイメージした明るく活動的な色合い */
+  --bg-primary: #fef3c7;
+  --bg-secondary: #fef9e7;
+  --bg-tertiary: #fff4d1;
+  --bg-gradient: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+
+  /* テキストカラー */
+  --text-primary: #78350f;
+  --text-secondary: #92400e;
+  --text-muted: #a16207;
+
+  /* アクセントカラー */
+  --primary: #f59e0b;
+  --primary-hover: #d97706;
+  --primary-light: #fef3c7;
+
+  --secondary: #f97316;
+  --secondary-hover: #ea580c;
+  --secondary-light: #fed7aa;
+
+  /* ボーダー */
+  --border-color: #fcd34d;
+  --border-hover: #f59e0b;
+  --border-focus: #f97316;
+
+  /* カード */
+  --card-bg: rgba(254, 243, 199, 0.95);
+  --card-border: rgba(245, 158, 11, 0.3);
+
+  /* 旅行特有の色 */
+  --accent-sky: #0ea5e9;
+  --accent-forest: #22c55e;
+  --accent-sunset: #ef4444;
+}

@@ -1,0 +1,36 @@
+/* しおり専用テーマ: Mountain テーマ */
+:root.itinerary-mountain {
+  /* ベースカラー - 山と秋をイメージした茶色とオレンジ */
+  --bg-primary: #fefaf0;
+  --bg-secondary: #fef3c7;
+  --bg-tertiary: #fed7aa;
+  --bg-gradient: linear-gradient(135deg, #a16207 0%, #92400e 100%);
+
+  /* テキストカラー */
+  --text-primary: #451a03;
+  --text-secondary: #92400e;
+  --text-muted: #a16207;
+
+  /* アクセントカラー */
+  --primary: #a16207;
+  --primary-hover: #92400e;
+  --primary-light: #fef3c7;
+
+  --secondary: #ea580c;
+  --secondary-hover: #dc2626;
+  --secondary-light: #fed7aa;
+
+  /* ボーダー */
+  --border-color: #fcd34d;
+  --border-hover: #f59e0b;
+  --border-focus: #a16207;
+
+  /* カード */
+  --card-bg: rgba(254, 250, 240, 0.95);
+  --card-border: rgba(161, 98, 7, 0.2);
+
+  /* 山特有の色 */
+  --accent-rock: #64748b;
+  --accent-forest: #059669;
+  --accent-sky: #3b82f6;
+}

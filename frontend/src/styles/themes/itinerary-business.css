@@ -1,0 +1,31 @@
+/* しおり専用テーマ: Business テーマ */
+:root.itinerary-business {
+  /* ベースカラー - ビジネスライクで洗練された色合い */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-tertiary: #e2e8f0;
+  --bg-gradient: linear-gradient(135deg, #475569 0%, #1e293b 100%);
+
+  /* テキストカラー */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* アクセントカラー */
+  --primary: #475569;
+  --primary-hover: #334155;
+  --primary-light: #cbd5e1;
+
+  --secondary: #6366f1;
+  --secondary-hover: #4f46e5;
+  --secondary-light: #c7d2fe;
+
+  /* ボーダー */
+  --border-color: #cbd5e1;
+  --border-hover: #94a3b8;
+  --border-focus: #6366f1;
+
+  /* カード */
+  --card-bg: rgba(248, 250, 252, 0.95);
+  --card-border: rgba(71, 85, 105, 0.2);
+}

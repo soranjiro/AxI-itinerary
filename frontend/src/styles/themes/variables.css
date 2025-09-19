@@ -12,6 +12,10 @@
   --text-muted: #64748b;
 
   /* アクセントカラー */
+  --accent: #6366f1;
+  --accent-secondary: #8b5cf6;
+  --accent-hover: #5b21b6;
+
   --primary: #6366f1;
   --primary-hover: #5b21b6;
   --primary-light: #ddd6fe;
@@ -33,9 +37,10 @@
   --danger-light: #fee2e2;
 
   /* ボーダー */
-  --border-color: #e2e8f0;
+  --border: #e2e8f0;
   --border-hover: #cbd5e1;
   --border-focus: #6366f1;
+  --border-color: #e2e8f0;
 
   /* シャドウ */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -46,4 +51,7 @@
   --container-max-width: 1200px;
   --card-bg: rgba(255, 255, 255, 0.9);
   --card-border: rgba(0, 0, 0, 0.05);
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }

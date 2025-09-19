@@ -1,0 +1,33 @@
+/* しおり専用テーマ: Sakura テーマ - Shiorisuスタイル */
+:root.itinerary-sakura {
+  /* ベースカラー - shiorisuの淡いピンクベース */
+  --bg-primary: #fc948957;
+  --bg-secondary: #b7b7b733;
+  --bg-tertiary: #fce7f3;
+
+  /* テキストカラー - shiorisuの暗めのグレー */
+  --text-primary: #21252b;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+
+  /* アクセントカラー - shiorisuの赤っぽいピンク */
+  --accent: #ff6d6d;
+  --accent-secondary: #f40e0d;
+  --accent-hover: #e53e3e;
+
+  --primary: #ff6d6d;
+  --primary-hover: #e53e3e;
+  --primary-light: #fed7d7;
+
+  /* ボーダー - shiorisuの薄い赤いライン */
+  --border: #f40e0dad;
+  --border-hover: #ff6d6d;
+  --border-focus: #f40e0d;
+
+  /* カード - shiorisuの丸角ボックス */
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(244, 14, 13, 0.2);
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #ff6d6d 0%, #f40e0d 100%);
+}

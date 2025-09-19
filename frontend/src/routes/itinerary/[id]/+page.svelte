@@ -18,6 +18,8 @@
 	import AIChat from "$lib/components/AIChat.svelte";
 	import AddItemModal from "$lib/components/AddItemModalBasic.svelte";
 	import ThemeSelector from "$lib/components/ThemeSelector.svelte";
+	import ItineraryThemeSelector from "$lib/components/ItineraryThemeSelector.svelte";
+	import { itineraryTheme } from "$lib/stores/itineraryTheme";
 	import TimelineList from "$lib/components/itinerary/TimelineList.svelte";
 	import PackingList from "$lib/components/itinerary/PackingList.svelte";
 	import BudgetList from "$lib/components/itinerary/BudgetList.svelte";
@@ -33,7 +35,7 @@
 		id: itineraryId,
 		title: "サンプル旅行",
 		description: "これはサンプルの旅行しおりです",
-		theme: "simple",
+		theme: "travel", // しおりテーマを追加
 	};
 
 	let timelineItems = [
@@ -120,6 +122,11 @@
 			timelineItems = data.timelineItems;
 			packingItems = data.packingItems;
 			budgetItems = data.budgetItems;
+
+			// しおりのテーマを適用
+			if (itinerary.theme) {
+				itineraryTheme.init(itinerary.theme);
+			}
 		} catch (err) {
 			console.error("Error loading itinerary:", err);
 			error = "しおりの読み込みに失敗しました。";
@@ -223,81 +230,101 @@
 	};
 </script>
 
-<main class="relative overflow-hidden">
+<main class="min-h-screen" style="background-color: var(--bg-primary);">
 	<!-- 動的背景エフェクト -->
-	<div class="fixed inset-0 z-0 page-bg-hero"></div>
+	<div
+		class="fixed inset-0 z-0 opacity-5"
+		style="background: var(--gradient-primary);"
+	></div>
+
 	{#if isLoading}
 		<div class="flex items-center justify-center h-screen">
 			<div
-				class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 p-8"
+				class="bg-card-bg border border-card-border rounded-2xl shadow-custom-lg p-8 backdrop-blur-lg"
 			>
 				<div
-					class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"
+					class="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mx-auto mb-4"
 				></div>
-				<p class="text-xl text-gray-600 dark:text-gray-300 text-center">
-					読み込み中...
-				</p>
+				<p class="text-xl text-text-secondary text-center">読み込み中...</p>
 			</div>
 		</div>
 	{:else if error}
 		<div class="flex items-center justify-center h-screen">
 			<div
-				class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 p-8"
+				class="bg-card-bg border border-card-border rounded-2xl shadow-custom-lg p-8 backdrop-blur-lg"
 			>
 				<div class="text-center">
 					<div class="text-6xl mb-4">⚠️</div>
-					<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+					<h2 class="text-2xl font-bold text-text-primary mb-2">
 						エラーが発生しました
 					</h2>
-					<p class="text-gray-600 dark:text-gray-300">{error}</p>
+					<p class="text-text-secondary">{error}</p>
 				</div>
 			</div>
 		</div>
 	{:else}
-		<!-- フューチャリスティックヘッダー -->
+		<!-- モダンヘッダー -->
 		<header
-			class="relative z-10 glass-panel border-0 border-b border-subtle shadow-2xl"
+			class="relative z-10 bg-card-bg border-b border-card-border backdrop-blur-lg"
 		>
 			<div class="max-w-7xl mx-auto px-6 py-8">
 				<div class="flex items-center justify-between">
 					<div class="flex-1 space-y-2">
-						<h1 class="text-4xl font-bold text-theme-gradient animate-fade-in">
+						<h1
+							class="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent"
+						>
 							{itinerary.title}
 						</h1>
 						{#if itinerary.description}
-							<p class="text-xl text-secondary opacity-80 animate-slide-up">
+							<p class="text-xl text-text-secondary">
 								{itinerary.description}
 							</p>
 						{/if}
 						<div class="flex items-center space-x-3 mt-4">
 							<div
-								class="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-sm font-medium border border-accent"
+								class="px-3 py-1 rounded-full bg-primary/20 text-sm font-medium border border-primary/30"
 							>
-								<span class="text-theme-gradient">アクティブ</span>
+								<span class="text-primary">アクティブ</span>
 							</div>
 							<div
-								class="px-3 py-1 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-sm font-medium border border-accent"
+								class="px-3 py-1 rounded-full bg-success/20 text-sm font-medium border border-success/30"
 							>
-								<span class="text-theme-gradient">同期済み</span>
+								<span class="text-success">同期済み</span>
 							</div>
 						</div>
 					</div>
 					<div class="flex items-center space-x-4">
+						<ItineraryThemeSelector />
 						<ThemeSelector />
 						<button
-							class="btn btn-ghost group relative overflow-hidden"
+							class="group relative overflow-hidden p-4 bg-bg-secondary/80 border border-border/50
+							       rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
+							       shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 backdrop-blur-sm"
 							aria-label="members"
 						>
+							<div
+								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
+							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+							            transition-transform duration-700"
+							></div>
 							<Users
-								class="w-6 h-6 text-accent-primary group-hover:scale-110 transition-transform"
+								class="relative w-6 h-6 text-text-secondary group-hover:text-text-primary transition-colors duration-200"
 							/>
 						</button>
 						<button
-							class="btn btn-ghost group relative overflow-hidden"
+							class="group relative overflow-hidden p-4 bg-bg-secondary/80 border border-border/50
+							       rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
+							       shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 backdrop-blur-sm"
 							aria-label="settings"
 						>
+							<div
+								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
+							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+							            transition-transform duration-700"
+							></div>
 							<Settings
-								class="w-6 h-6 text-accent-primary group-hover:rotate-90 transition-transform duration-500"
+								class="relative w-6 h-6 text-text-secondary group-hover:text-text-primary
+							                 group-hover:rotate-90 transition-all duration-500"
 							/>
 						</button>
 					</div>
@@ -307,86 +334,137 @@
 
 		<!-- タブナビゲーション -->
 		<nav
-			class="bg-white/95 backdrop-blur-[10px] border-b border-black/8 dark:bg-gray-900/95 dark:border-white/10 sticky top-0 z-40 py-2"
+			class="bg-card-bg/70 border-b border-card-border/50 backdrop-blur-xl sticky top-0 z-40 py-4"
 		>
 			<div class="max-w-7xl mx-auto px-4">
-				<div class="flex gap-2 relative">
-					<button
-						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
-						'timeline'
-							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
-							: ''}"
-						on:click={() => (activeTab = "timeline")}
+				<div class="flex justify-center">
+					<div
+						class="flex bg-bg-secondary/60 p-2 rounded-2xl border border-border/40 shadow-lg backdrop-blur-lg"
 					>
-						<Calendar class="w-4 h-4" />
-						<span>タイムライン</span>
-						{#if activeTab === "timeline"}
-							<div
-								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
-							></div>
-						{/if}
-					</button>
-					<button
-						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
-						'packing'
-							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
-							: ''}"
-						on:click={() => (activeTab = "packing")}
-					>
-						<Package class="w-4 h-4" />
-						<span>持ち物リスト</span>
-						{#if activeTab === "packing"}
-							<div
-								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
-							></div>
-						{/if}
-					</button>
-					<button
-						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
-						'budget'
-							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
-							: ''}"
-						on:click={() => (activeTab = "budget")}
-					>
-						<Calculator class="w-4 h-4" />
-						<span>予算管理</span>
-						{#if activeTab === "budget"}
-							<div
-								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
-							></div>
-						{/if}
-					</button>
-					<button
-						class="flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-sm text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 relative hover:text-[color:var(--text-primary)] hover:bg-indigo-500/8 {activeTab ===
-						'chat'
-							? 'text-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/15'
-							: ''}"
-						on:click={() => (activeTab = "chat")}
-					>
-						<MessageCircle class="w-4 h-4" />
-						<span>AI相談</span>
-						{#if activeTab === "chat"}
-							<div
-								class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-sm"
-							></div>
-						{/if}
-					</button>
+						<button
+							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
+							       transition-all duration-300 overflow-hidden
+							       {activeTab === 'timeline'
+								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
+							on:click={() => (activeTab = "timeline")}
+						>
+							{#if activeTab !== "timeline"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+								            transition-transform duration-700"
+								></div>
+							{/if}
+
+							{#if activeTab === "timeline"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+								            animate-pulse rounded-xl"
+								></div>
+							{/if}
+
+							<Calendar class="relative w-5 h-5" />
+							<span class="relative">タイムライン</span>
+						</button>
+
+						<button
+							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
+							       transition-all duration-300 overflow-hidden
+							       {activeTab === 'packing'
+								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
+							on:click={() => (activeTab = "packing")}
+						>
+							{#if activeTab !== "packing"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+								            transition-transform duration-700"
+								></div>
+							{/if}
+
+							{#if activeTab === "packing"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+								            animate-pulse rounded-xl"
+								></div>
+							{/if}
+
+							<Package class="relative w-5 h-5" />
+							<span class="relative">持ち物リスト</span>
+						</button>
+
+						<button
+							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
+							       transition-all duration-300 overflow-hidden
+							       {activeTab === 'budget'
+								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
+							on:click={() => (activeTab = "budget")}
+						>
+							{#if activeTab !== "budget"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+								            transition-transform duration-700"
+								></div>
+							{/if}
+
+							{#if activeTab === "budget"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+								            animate-pulse rounded-xl"
+								></div>
+							{/if}
+
+							<Calculator class="relative w-5 h-5" />
+							<span class="relative">予算管理</span>
+						</button>
+
+						<button
+							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
+							       transition-all duration-300 overflow-hidden
+							       {activeTab === 'chat'
+								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
+							on:click={() => (activeTab = "chat")}
+						>
+							{#if activeTab !== "chat"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+								            transition-transform duration-700"
+								></div>
+							{/if}
+
+							{#if activeTab === "chat"}
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+								            animate-pulse rounded-xl"
+								></div>
+							{/if}
+
+							<MessageCircle class="relative w-5 h-5" />
+							<span class="relative">AI相談</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</nav>
 
 		<!-- Mobile bottom nav (only visible on small screens) -->
 		<div
-			class="hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-[10px] border-t border-black/8 dark:bg-gray-900/95 dark:border-white/10 p-2 justify-around z-50 sm:hidden max-sm:flex"
+			class="hidden fixed bottom-0 left-0 right-0 bg-card-bg border-t border-card-border backdrop-blur-lg p-2 justify-around z-50 sm:hidden max-sm:flex"
 			role="navigation"
 			aria-label="mobile tabs"
 		>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
-				'timeline'
-					? 'text-indigo-500 bg-indigo-500/10'
-					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+					   {activeTab === 'timeline'
+					? 'text-primary bg-primary/10'
+					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
 				aria-current={activeTab === "timeline"}
 				on:click={() => (activeTab = "timeline")}
 			>
@@ -395,10 +473,10 @@
 			</button>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
-				'packing'
-					? 'text-indigo-500 bg-indigo-500/10'
-					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+					   {activeTab === 'packing'
+					? 'text-primary bg-primary/10'
+					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
 				aria-current={activeTab === "packing"}
 				on:click={() => (activeTab = "packing")}
 			>
@@ -407,10 +485,10 @@
 			</button>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
-				'budget'
-					? 'text-indigo-500 bg-indigo-500/10'
-					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+					   {activeTab === 'budget'
+					? 'text-primary bg-primary/10'
+					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
 				aria-current={activeTab === "budget"}
 				on:click={() => (activeTab = "budget")}
 			>
@@ -419,10 +497,10 @@
 			</button>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 text-xs {activeTab ===
-				'chat'
-					? 'text-indigo-500 bg-indigo-500/10'
-					: 'hover:text-indigo-500 hover:bg-indigo-500/10'}"
+				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+					   {activeTab === 'chat'
+					? 'text-primary bg-primary/10'
+					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
 				aria-current={activeTab === "chat"}
 				on:click={() => (activeTab = "chat")}
 			>
@@ -432,24 +510,36 @@
 		</div>
 
 		<!-- コンテンツエリア -->
-		<div class="max-w-7xl mx-auto px-4 py-8 backdrop-blur-glass">
+		<div class="max-w-2xl mx-auto px-4 py-8" style="max-width: 640px;">
 			{#if activeTab === "timeline"}
 				<div class="space-y-6">
 					<div class="flex justify-between items-center">
 						<div>
-							<h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-								タイムライン
-							</h2>
-							<p class="text-gray-600 dark:text-gray-300 mt-1">
+							<h2 class="text-2xl font-bold text-text-primary">タイムライン</h2>
+							<p class="text-text-secondary mt-1">
 								旅行の予定を時系列で管理しましょう
 							</p>
 						</div>
 						<button
 							on:click={() => openAddModal("timeline")}
-							class="btn-primary flex items-center space-x-2"
+							class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-2xl
+							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
+							       border border-white/20 backdrop-blur-sm"
 						>
-							<Plus class="w-5 h-5" />
-							<span>予定を追加</span>
+							<!-- 光沢エフェクト -->
+							<div
+								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+							            transition-transform duration-700"
+							></div>
+
+							<div class="relative flex items-center space-x-3">
+								<div class="p-1 bg-white/20 rounded-lg">
+									<Plus class="w-5 h-5" />
+								</div>
+								<span class="font-semibold">予定を追加</span>
+							</div>
 						</button>
 					</div>
 
@@ -462,24 +552,35 @@
 				<div class="space-y-6">
 					<div class="flex justify-between items-center">
 						<div>
-							<h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-								持ち物リスト
-							</h2>
-							<p class="text-gray-600 dark:text-gray-300 mt-1">
+							<h2 class="text-2xl font-bold text-text-primary">持ち物リスト</h2>
+							<p class="text-text-secondary mt-1">
 								必要なアイテムをチェックリストで管理しましょう
 							</p>
 						</div>
 						<button
 							on:click={() => openAddModal("packing")}
-							class="btn-primary flex items-center space-x-2"
+							class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-2xl
+							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
+							       border border-white/20 backdrop-blur-sm"
 						>
-							<Plus class="w-5 h-5" />
-							<span>アイテムを追加</span>
+							<div
+								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+							            transition-transform duration-700"
+							></div>
+
+							<div class="relative flex items-center space-x-3">
+								<div class="p-1 bg-white/20 rounded-lg">
+									<Plus class="w-5 h-5" />
+								</div>
+								<span class="font-semibold">アイテムを追加</span>
+							</div>
 						</button>
 					</div>
 
 					<div
-						class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 overflow-hidden"
+						class="bg-card-bg border border-card-border rounded-2xl shadow-custom-lg overflow-hidden backdrop-blur-lg"
 					>
 						<PackingList
 							{packingItems}
@@ -491,24 +592,35 @@
 				<div class="space-y-6">
 					<div class="flex justify-between items-center">
 						<div>
-							<h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-								予算管理
-							</h2>
-							<p class="text-gray-600 dark:text-gray-300 mt-1">
+							<h2 class="text-2xl font-bold text-text-primary">予算管理</h2>
+							<p class="text-text-secondary mt-1">
 								旅行費用の計画と実績を管理しましょう
 							</p>
 						</div>
 						<button
 							on:click={() => openAddModal("budget")}
-							class="btn-primary flex items-center space-x-2"
+							class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-2xl
+							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
+							       border border-white/20 backdrop-blur-sm"
 						>
-							<Plus class="w-5 h-5" />
-							<span>費用を追加</span>
+							<div
+								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+							            transition-transform duration-700"
+							></div>
+
+							<div class="relative flex items-center space-x-3">
+								<div class="p-1 bg-white/20 rounded-lg">
+									<Plus class="w-5 h-5" />
+								</div>
+								<span class="font-semibold">費用を追加</span>
+							</div>
 						</button>
 					</div>
 
 					<div
-						class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 overflow-hidden"
+						class="bg-card-bg border border-card-border rounded-2xl shadow-custom-lg overflow-hidden backdrop-blur-lg"
 					>
 						<BudgetList {budgetItems} on:edit={(e) => startEditing(e.detail)} />
 					</div>
@@ -516,15 +628,13 @@
 			{:else if activeTab === "chat"}
 				<div class="space-y-6">
 					<div>
-						<h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-							AI旅行相談
-						</h2>
-						<p class="text-gray-600 dark:text-gray-300 mt-1">
+						<h2 class="text-2xl font-bold text-text-primary">AI旅行相談</h2>
+						<p class="text-text-secondary mt-1">
 							AIと一緒に旅行プランを最適化しましょう
 						</p>
 					</div>
 					<div
-						class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 p-6"
+						class="bg-card-bg border border-card-border rounded-2xl shadow-custom-lg p-6 backdrop-blur-lg"
 					>
 						<AIChat {itineraryId} />
 					</div>
@@ -538,29 +648,28 @@
 				class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
 			>
 				<div
-					class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/50 w-full max-w-md max-h-[90vh] overflow-y-auto"
+					class="bg-card-bg border border-card-border rounded-3xl shadow-custom-lg w-full max-w-md max-h-[90vh] overflow-y-auto backdrop-blur-lg"
 				>
 					<div class="p-8">
 						<div class="flex justify-between items-center mb-6">
 							<h3
-								class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+								class="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent"
 							>
 								編集
 							</h3>
 							<button
 								on:click={cancelEditing}
-								class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-all duration-200 transform hover:scale-110"
+								class="p-2 text-text-muted hover:text-text-primary hover:bg-bg-tertiary rounded-xl transition-all duration-200"
 							>
 								<X class="w-6 h-6" />
 							</button>
 						</div>
 
 						<div class="space-y-4">
-							<!-- ここに編集フォームを追加 -->
 							<div>
 								<label
 									for="edit-input"
-									class="block text-sm font-medium text-gray-700 mb-2"
+									class="block text-sm font-medium text-text-primary mb-2"
 								>
 									{#if activeTab === "timeline"}タイトル
 									{:else if activeTab === "packing"}アイテム名
@@ -571,21 +680,36 @@
 										id="edit-input"
 										type="text"
 										bind:value={editingItem.title}
-										class="input-field"
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="イベントのタイトルを入力..."
 									/>
 								{:else if activeTab === "packing"}
 									<input
 										id="edit-input"
 										type="text"
 										bind:value={editingItem.item_name}
-										class="input-field"
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="アイテム名を入力..."
 									/>
 								{:else if activeTab === "budget"}
 									<input
 										id="edit-input"
 										type="text"
 										bind:value={editingItem.item_name}
-										class="input-field"
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="項目名を入力..."
 									/>
 								{/if}
 							</div>
@@ -594,16 +718,30 @@
 						<div class="flex justify-end space-x-4 mt-8">
 							<button
 								on:click={cancelEditing}
-								class="px-6 py-3 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 transform hover:scale-105 font-semibold"
+								class="group relative overflow-hidden px-8 py-4 text-text-secondary border border-border/50
+								       rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
+								       font-semibold backdrop-blur-sm hover:text-text-primary shadow-lg hover:shadow-xl"
 							>
-								キャンセル
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+								            transition-transform duration-700"
+								></div>
+								<span class="relative">キャンセル</span>
 							</button>
 							<button
 								on:click={saveItem}
-								class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold flex items-center space-x-2"
+								class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-accent to-accent-secondary
+								       hover:from-accent-hover hover:to-accent text-white rounded-2xl transition-all duration-300
+								       shadow-lg hover:shadow-xl font-semibold flex items-center space-x-3 transform hover:scale-105 active:scale-95"
 							>
-								<Save class="w-5 h-5" />
-								<span>保存</span>
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+								            transition-transform duration-700"
+								></div>
+								<Save class="relative w-5 h-5" />
+								<span class="relative">保存</span>
 							</button>
 						</div>
 					</div>

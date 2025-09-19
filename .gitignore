@@ -140,3 +140,5 @@ build/
 dist/
 
 .wrangler/
+
+00_memo

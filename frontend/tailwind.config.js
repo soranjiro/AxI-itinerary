@@ -6,6 +6,11 @@ export default {
     extend: {
       colors: {
         // CSS変数を参照
+        accent: {
+          DEFAULT: 'var(--accent)',
+          secondary: 'var(--accent-secondary)',
+          hover: 'var(--accent-hover)',
+        },
         primary: {
           DEFAULT: 'var(--primary)',
           hover: 'var(--primary-hover)',
@@ -45,7 +50,7 @@ export default {
         },
         // ボーダー
         border: {
-          DEFAULT: 'var(--border-color)',
+          DEFAULT: 'var(--border)',
           hover: 'var(--border-hover)',
           focus: 'var(--border-focus)',
         },
@@ -56,7 +61,7 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-primary': 'var(--bg-gradient)',
+        'gradient-primary': 'var(--gradient-primary)',
       },
       boxShadow: {
         'custom-sm': 'var(--shadow-sm)',

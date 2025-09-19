@@ -1,0 +1,38 @@
+/* しおり専用テーマ: Ocean テーマ - Shiorisuスタイル */
+:root.itinerary-ocean {
+  /* ベースカラー - 涼しい海のブルー */
+  --bg-primary: #e0f7fa57;
+  --bg-secondary: #b7b7b733;
+  --bg-tertiary: #e0f2fe;
+
+  /* テキストカラー - shiorisuの暗めのグレー */
+  --text-primary: #21252b;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+
+  /* アクセントカラー - 鮮やかな海のブルー */
+  --accent: #0ea5e9;
+  --accent-secondary: #0284c7;
+  --accent-hover: #0369a1;
+
+  --primary: #0ea5e9;
+  --primary-hover: #0369a1;
+  --primary-light: #bae6fd;
+
+  /* ボーダー */
+  --border: #0ea5e9ad;
+  --border-hover: #0ea5e9;
+  --border-focus: #0284c7;
+
+  /* カード */
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(14, 165, 233, 0.2);
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+
+  /* 海特有の色 */
+  --accent-wave: #22d3ee;
+  --accent-coral: #fb7185;
+  --accent-sand: #fbbf24;
+}

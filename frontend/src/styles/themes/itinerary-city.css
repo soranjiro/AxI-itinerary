@@ -1,0 +1,36 @@
+/* しおり専用テーマ: City テーマ */
+:root.itinerary-city {
+  /* ベースカラー - 都市をイメージしたモダンなグレーと紫 */
+  --bg-primary: #faf7ff;
+  --bg-secondary: #f3e8ff;
+  --bg-tertiary: #e9d5ff;
+  --bg-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+
+  /* テキストカラー */
+  --text-primary: #44047b;
+  --text-secondary: #6b21a8;
+  --text-muted: #7c3aed;
+
+  /* アクセントカラー */
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-light: #e9d5ff;
+
+  --secondary: #a855f7;
+  --secondary-hover: #9333ea;
+  --secondary-light: #ddd6fe;
+
+  /* ボーダー */
+  --border-color: #c4b5fd;
+  --border-hover: #a78bfa;
+  --border-focus: #8b5cf6;
+
+  /* カード */
+  --card-bg: rgba(250, 247, 255, 0.95);
+  --card-border: rgba(139, 92, 246, 0.2);
+
+  /* 都市特有の色 */
+  --accent-neon: #06b6d4;
+  --accent-steel: #64748b;
+  --accent-electric: #eab308;
+}
