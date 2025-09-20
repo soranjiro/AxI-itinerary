@@ -21,19 +21,19 @@
 </script>
 
 <header
-	class="border-b border-black/5 dark:bg-gray-900 dark:border-white/10 transition-all duration-300"
+	class="border-b border-border bg-bg-primary transition-all duration-300"
 >
 	<div class="container mx-auto px-6 py-4">
 		<div class="flex items-center justify-between">
 			<!-- ロゴ -->
 			<button
 				on:click={goHome}
-				class="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 text-[color:var(--text-primary)] bg-transparent border-0 cursor-pointer hover:bg-[color:var(--primary-light)] hover:-translate-y-0.5"
+				class="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 text-text-primary bg-transparent border-0 cursor-pointer hover:bg-primary-light hover:-translate-y-0.5"
 				aria-label="ホームに戻る"
 			>
 				<BookOpen class="w-5 h-5" />
 				<span
-					class="text-xl font-bold bg-[var(--gradient-primary)] bg-clip-text text-transparent"
+					class="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent"
 					>AxI-itinerary</span
 				>
 			</button>
@@ -43,19 +43,19 @@
 				{#if $user}
 					<button
 						on:click={() => goto("/my-itineraries")}
-						class="px-4 py-2 rounded-lg font-medium text-[color:var(--text-secondary)] bg-transparent border-0 cursor-pointer transition-all duration-200 hover:text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]"
+						class="px-4 py-2 rounded-lg font-medium text-text-secondary bg-transparent border-0 cursor-pointer transition-all duration-200 hover:text-text-primary hover:bg-bg-tertiary"
 					>
 						<User class="w-4 h-4" />
 						<span>{$user.name || $user.email}</span>
 					</button>
 					<!-- <div
-					class="flex items-center gap-2 px-3 py-2 rounded-lg bg-[color:var(--bg-tertiary)] text-[color:var(--text-secondary)] text-sm"
+					class="flex items-center gap-2 px-3 py-2 rounded-lg bg-bg-tertiary text-text-secondary text-sm"
 					>
 					マイしおり
 				</div> -->
 					<button
 						on:click={logout}
-						class="flex items-center justify-center w-10 h-10 rounded-lg border-0 cursor-pointer transition-all duration-200 bg-transparent text-[color:var(--text-secondary)] hover:bg-[color:var(--danger-light)] hover:text-[color:var(--danger)]"
+						class="flex items-center justify-center w-10 h-10 rounded-lg border-0 cursor-pointer transition-all duration-200 bg-transparent text-text-secondary hover:bg-danger-light hover:text-danger"
 						aria-label="ログアウト"
 					>
 						<LogOut class="w-4 h-4" />
@@ -63,7 +63,7 @@
 				{:else}
 					<button
 						on:click={openAuthModal}
-						class="px-4 py-2 rounded-lg font-medium bg-[var(--gradient-primary)] text-white border-0 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[color:var(--primary)]"
+						class="px-4 py-2 rounded-lg font-medium bg-gradient-primary text-white border-0 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary"
 					>
 						ログイン
 					</button>

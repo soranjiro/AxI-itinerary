@@ -868,13 +868,13 @@
 										value={formatDateTimeForInput(editingItem.start_datetime)}
 										on:input={(e) =>
 											(editingItem.start_datetime = parseDateTimeFromInput(
-												e.target.value,
+												(e.target as HTMLInputElement).value,
 											))}
 										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
-										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
-										       focus:ring-accent/20 transition-all duration-300 text-text-primary
-										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
-										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+											   border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+											   focus:ring-accent/20 transition-all duration-300 text-text-primary
+											   backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+											   focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
 									/>
 								</div>
 							{/if}

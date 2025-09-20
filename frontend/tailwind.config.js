@@ -73,6 +73,7 @@ export default {
         'custom-sm': 'var(--shadow-sm)',
         'custom-md': 'var(--shadow-md)',
         'custom-lg': 'var(--shadow-lg)',
+        'primary': '0 4px 14px 0 var(--primary)',
       },
       maxWidth: {
         'container': 'var(--container-max-width)',
