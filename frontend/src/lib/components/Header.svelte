@@ -28,12 +28,12 @@
 			<!-- ロゴ -->
 			<button
 				on:click={goHome}
-				class="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 text-[color:var(--text-primary)] bg-transparent border-0 cursor-pointer hover:bg-indigo-500/10 hover:-translate-y-0.5"
+				class="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 text-[color:var(--text-primary)] bg-transparent border-0 cursor-pointer hover:bg-[color:var(--primary-light)] hover:-translate-y-0.5"
 				aria-label="ホームに戻る"
 			>
 				<BookOpen class="w-5 h-5" />
 				<span
-					class="text-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent"
+					class="text-xl font-bold bg-[var(--gradient-primary)] bg-clip-text text-transparent"
 					>AxI-itinerary</span
 				>
 			</button>
@@ -55,7 +55,7 @@
 				</div> -->
 					<button
 						on:click={logout}
-						class="flex items-center justify-center w-10 h-10 rounded-lg border-0 cursor-pointer transition-all duration-200 bg-transparent text-[color:var(--text-secondary)] hover:bg-[color:var(--bg-tertiary)] hover:text-[color:var(--text-primary)] hover:bg-red-500/10 hover:text-red-500"
+						class="flex items-center justify-center w-10 h-10 rounded-lg border-0 cursor-pointer transition-all duration-200 bg-transparent text-[color:var(--text-secondary)] hover:bg-[color:var(--danger-light)] hover:text-[color:var(--danger)]"
 						aria-label="ログアウト"
 					>
 						<LogOut class="w-4 h-4" />
@@ -63,7 +63,7 @@
 				{:else}
 					<button
 						on:click={openAuthModal}
-						class="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-indigo-500 to-purple-600 text-white border-0 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/40"
+						class="px-4 py-2 rounded-lg font-medium bg-[var(--gradient-primary)] text-white border-0 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[color:var(--primary)]"
 					>
 						ログイン
 					</button>

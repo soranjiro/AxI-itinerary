@@ -200,7 +200,7 @@
 <div class="flex flex-col h-[600px] card border-theme-glow overflow-hidden">
 	<!-- チャットヘッダー -->
 	<div
-		class="flex items-center justify-between p-6 border-b border-theme-glow bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-900/20 dark:to-purple-900/20"
+		class="flex items-center justify-between p-6 border-b border-theme-glow bg-[var(--bg-secondary)]"
 	>
 		<div class="flex items-center space-x-4">
 			<div class="icon-theme-container">
@@ -238,7 +238,7 @@
 					<div
 						class="icon-theme-container flex-shrink-0 shadow-lg {message.sender ===
 						'user'
-							? 'bg-gradient-to-r from-blue-500 to-purple-600 ml-3'
+							? 'bg-[var(--gradient-primary)] ml-3'
 							: 'bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 mr-3'}"
 					>
 						{#if message.sender === "user"}
@@ -252,7 +252,7 @@
 					<div class="flex flex-col">
 						<div
 							class="rounded-2xl px-6 py-4 shadow-lg {message.sender === 'user'
-								? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+								? 'bg-[var(--gradient-primary)] text-white'
 								: 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-theme-glow'}"
 						>
 							<p class="text-sm whitespace-pre-wrap leading-relaxed">
@@ -346,7 +346,7 @@
 			<button
 				on:click={sendMessage}
 				disabled={!inputMessage.trim() || isLoading}
-				class="px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-400 text-white rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center hover-theme-lift"
+				class="px-6 py-4 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center hover-theme-lift"
 			>
 				{#if isLoading}
 					<div

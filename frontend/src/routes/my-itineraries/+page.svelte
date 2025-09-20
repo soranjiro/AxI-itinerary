@@ -61,7 +61,7 @@
 				</div>
 				<button
 					on:click={createNewItinerary}
-					class="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
+					class="flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
 				>
 					<Plus class="w-5 h-5" />
 					<span>新しいしおりを作成</span>
@@ -109,7 +109,7 @@
 				</p>
 				<button
 					on:click={createNewItinerary}
-					class="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
+					class="inline-flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
 				>
 					<Plus class="w-6 h-6" />
 					<span>最初のしおりを作成</span>

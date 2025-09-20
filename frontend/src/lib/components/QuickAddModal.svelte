@@ -436,7 +436,7 @@
               (type === "budget" &&
                 (!formData.category?.trim() || !formData.item_name?.trim())) ||
               isSubmitting}
-            class="flex-1 px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2"
+            class="flex-1 px-4 py-3 rounded-lg bg-[var(--gradient-primary)] text-white font-medium hover:shadow-lg hover:shadow-[color:var(--primary)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2"
           >
             {#if isSubmitting}
               <div

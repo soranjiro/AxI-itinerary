@@ -25,25 +25,25 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: var(--gradient-primary);
     color: white;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+    box-shadow: var(--shadow-sm);
   }
 
   .btn-primary:hover:not(:disabled) {
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
   }
 
   .btn-secondary {
-    background: rgba(99, 102, 241, 0.1);
-    color: #6366f1;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--border);
   }
 
   .btn-secondary:hover:not(:disabled) {
-    background: rgba(99, 102, 241, 0.15);
-    border-color: rgba(99, 102, 241, 0.3);
+    background: var(--primary-light);
+    border-color: var(--border-hover);
     transform: translateY(-1px);
   }
 
@@ -100,7 +100,7 @@
   .input-field:focus, .textarea-field:focus, .select-field:focus {
     outline: none;
     border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px var(--primary-light);
   }
 
   .textarea-field {
@@ -110,7 +110,7 @@
 
   /* ユーティリティ */
   .text-gradient {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: var(--gradient-primary);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;

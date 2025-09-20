@@ -145,11 +145,17 @@
 		});
 	};
 
-	const formatCurrency = (amount: number) => {
-		return new Intl.NumberFormat("ja-JP", {
-			style: "currency",
-			currency: "JPY",
-		}).format(amount);
+	const formatDateTimeForInput = (dateTime: string) => {
+		if (!dateTime) return "";
+		const date = new Date(dateTime);
+		// datetime-local input expects format: YYYY-MM-DDTHH:mm
+		return date.toISOString().slice(0, 16);
+	};
+
+	const parseDateTimeFromInput = (inputValue: string) => {
+		if (!inputValue) return "";
+		// Convert local datetime to ISO string
+		return new Date(inputValue).toISOString();
 	};
 
 	const startEditing = (item: any) => {
@@ -162,10 +168,71 @@
 		isEditing = false;
 	};
 
-	const saveItem = () => {
-		// TODO: 実際の保存処理
-		console.log("保存:", editingItem);
-		cancelEditing();
+	const saveItem = async () => {
+		try {
+			let endpoint = "";
+			let requestBody = {};
+
+			if (activeTab === "timeline") {
+				endpoint = `/api/itineraries/${itineraryId}/timeline/${editingItem.id}`;
+				requestBody = {
+					title: editingItem.title,
+					description: editingItem.description,
+					location_name: editingItem.location_name,
+					start_datetime: editingItem.start_datetime,
+				};
+			} else if (activeTab === "packing") {
+				endpoint = `/api/itineraries/${itineraryId}/packing/${editingItem.id}`;
+				requestBody = {
+					item_name: editingItem.item_name,
+					category: editingItem.category,
+					quantity: editingItem.quantity,
+					is_checked: editingItem.is_checked,
+				};
+			} else if (activeTab === "budget") {
+				endpoint = `/api/itineraries/${itineraryId}/budget/${editingItem.id}`;
+				requestBody = {
+					item_name: editingItem.item_name,
+					category: editingItem.category,
+					planned_amount: editingItem.planned_amount,
+					actual_amount: editingItem.actual_amount,
+				};
+			}
+
+			const response = await fetch(endpoint, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(requestBody),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to update item");
+			}
+
+			const updatedItem = await response.json();
+
+			// Update local state
+			if (activeTab === "timeline") {
+				timelineItems = timelineItems.map((item) =>
+					item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
+				);
+			} else if (activeTab === "packing") {
+				packingItems = packingItems.map((item) =>
+					item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
+				);
+			} else if (activeTab === "budget") {
+				budgetItems = budgetItems.map((item) =>
+					item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
+				);
+			}
+
+			cancelEditing();
+		} catch (error) {
+			console.error("Error saving item:", error);
+			alert("アイテムの保存に失敗しました。再度お試しください。");
+		}
 	};
 
 	const openAddModal = async (type: "timeline" | "packing" | "budget") => {
@@ -740,6 +807,71 @@
 									/>
 								{/if}
 							</div>
+
+							{#if activeTab === "timeline"}
+								<div>
+									<label
+										for="edit-description"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										説明
+									</label>
+									<textarea
+										id="edit-description"
+										bind:value={editingItem.description}
+										rows="3"
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary resize-none"
+										placeholder="イベントの詳細説明を入力..."
+									></textarea>
+								</div>
+
+								<div>
+									<label
+										for="edit-location"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										場所
+									</label>
+									<input
+										id="edit-location"
+										type="text"
+										bind:value={editingItem.location_name}
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="場所名を入力..."
+									/>
+								</div>
+
+								<div>
+									<label
+										for="edit-datetime"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										日時
+									</label>
+									<input
+										id="edit-datetime"
+										type="datetime-local"
+										value={formatDateTimeForInput(editingItem.start_datetime)}
+										on:input={(e) =>
+											(editingItem.start_datetime = parseDateTimeFromInput(
+												e.target.value,
+											))}
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+									/>
+								</div>
+							{/if}
 						</div>
 
 						<div class="flex justify-end space-x-4 mt-8">
