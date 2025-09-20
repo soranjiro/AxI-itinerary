@@ -7,6 +7,15 @@ pages_build_output_dir = "frontend/.svelte-kit/cloudflare"
 name = "axi-itinerary"
 route = "axi-itinerary.app/*"
 
+[env.production.vars]
+ENVIRONMENT = "production"
+LLM_PROVIDER = "openai"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "axi-itinerary-db"
+database_id = "fa91bed8-f5c5-4570-bf38-87994a1ce93c"
+
 [env.preview]
 name = "axi-itinerary-preview"
 
