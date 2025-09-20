@@ -2,7 +2,6 @@ name = "axi-itinerary"
 compatibility_date = "2024-09-17"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "frontend/.svelte-kit/cloudflare"
-account_id = "7e2036133c7f64f0a9dcabac89f44a3a"
 
 [env.production]
 name = "axi-itinerary"
