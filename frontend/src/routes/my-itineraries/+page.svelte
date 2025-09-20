@@ -136,6 +136,7 @@
 						<option value="Asia/Tokyo">日本 (JST)</option>
 						<option value="America/New_York">アメリカ東部 (EST)</option>
 						<option value="Europe/London">ロンドン (GMT)</option>
+						<option value="Europe/Amsterdam">オランダ (CET)</option>
 						<option value="Asia/Shanghai">中国 (CST)</option>
 						<option value="Australia/Sydney">シドニー (AEST)</option>
 					</select>
