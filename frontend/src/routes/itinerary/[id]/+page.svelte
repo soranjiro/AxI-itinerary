@@ -573,7 +573,7 @@
 								持ち物リスト
 							</h2>
 							<p class="text-sm sm:text-base text-text-secondary mt-1">
-								必要なアイテムをチェックリストで管理しましょう
+								必要なアイテムをチェックリストで管理
 							</p>
 						</div>
 						<button
