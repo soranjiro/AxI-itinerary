@@ -34,6 +34,9 @@
   --accent-rock: #64748b;
   --accent-forest: #059669;
   --accent-sky: #3b82f6;
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #a16207 0%, #ea580c 100%);
 }
 
 /* ダーク版: 山テーマ */
@@ -62,4 +65,7 @@
 
   --card-bg: rgba(20, 12, 4, 0.55);
   --card-border: rgba(161, 98, 7, 0.25);
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #a16207 0%, #ea580c 100%);
 }

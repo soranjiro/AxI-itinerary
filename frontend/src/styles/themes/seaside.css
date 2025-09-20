@@ -29,6 +29,9 @@
   /* カード */
   --card-bg: rgba(240, 249, 255, 0.9);
   --card-border: rgba(14, 165, 233, 0.2);
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
 }
 
 /* ダーク版: シーサイド */
@@ -57,4 +60,7 @@
 
   --card-bg: rgba(5, 30, 41, 0.55);
   --card-border: rgba(14, 165, 233, 0.25);
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
 }

@@ -18,4 +18,7 @@
   /* カード */
   --card-bg: rgba(30, 41, 59, 0.9);
   --card-border: rgba(255, 255, 255, 0.1);
+
+  /* グラデーション */
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
 }
