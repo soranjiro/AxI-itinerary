@@ -6,9 +6,9 @@ CREATE TABLE itineraries (
     title TEXT NOT NULL,
     description TEXT,
     edit_password_hash TEXT,
-    theme TEXT DEFAULT 'simple',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    theme TEXT DEFAULT 'travel',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
 );
 
 -- タイムライン項目テーブル
@@ -18,16 +18,11 @@ CREATE TABLE timeline_items (
     title TEXT NOT NULL,
     description TEXT,
     location_name TEXT,
-    location_address TEXT,
-    location_lat REAL,
-    location_lng REAL,
-    start_datetime DATETIME,
-    end_datetime DATETIME,
-    budget_amount INTEGER,
-    memo TEXT,
-    sort_order INTEGER,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    start_datetime TEXT NOT NULL,
+    end_datetime TEXT NOT NULL,
+    sort_order INTEGER NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
     FOREIGN KEY (itinerary_id) REFERENCES itineraries (id)
 );
 
@@ -36,13 +31,12 @@ CREATE TABLE packing_items (
     id TEXT PRIMARY KEY,
     itinerary_id TEXT NOT NULL,
     item_name TEXT NOT NULL,
-    category TEXT,
-    quantity INTEGER DEFAULT 1,
-    is_checked BOOLEAN DEFAULT FALSE,
+    category TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    is_checked INTEGER NOT NULL DEFAULT 0,
     memo TEXT,
-    assignee TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
     FOREIGN KEY (itinerary_id) REFERENCES itineraries (id)
 );
 
@@ -52,23 +46,10 @@ CREATE TABLE budget_items (
     itinerary_id TEXT NOT NULL,
     category TEXT NOT NULL,
     item_name TEXT NOT NULL,
-    planned_amount INTEGER,
-    actual_amount INTEGER,
-    payer TEXT,
-    split_method TEXT DEFAULT 'equal',
-    expense_date DATE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (itinerary_id) REFERENCES itineraries (id)
-);
-
--- チャットメッセージテーブル
-CREATE TABLE chat_messages (
-    id TEXT PRIMARY KEY,
-    itinerary_id TEXT NOT NULL,
-    role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
-    content TEXT NOT NULL,
-    llm_provider TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    planned_amount REAL NOT NULL,
+    actual_amount REAL,
+    memo TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
     FOREIGN KEY (itinerary_id) REFERENCES itineraries (id)
 );
