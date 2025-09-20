@@ -36,7 +36,7 @@
   <button
     class="group relative overflow-hidden px-6 py-4 rounded-2xl transition-all duration-300
            shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-           bg-gradient-to-r {currentThemeInfo.gradient} text-white
+           bg-gradient-to-r {currentThemeInfo.gradient} text-primary-text
            border-2 border-white/20 hover:border-white/40
            backdrop-blur-sm"
     on:click={toggleDropdown}
@@ -104,7 +104,7 @@
               class="group relative overflow-hidden p-4 rounded-2xl transition-all duration-300
                      hover:scale-105 active:scale-95 transform
                      {$itineraryTheme === themeKey
-                ? `bg-gradient-to-r ${themeInfo.gradient} text-white shadow-lg scale-105`
+                ? `bg-gradient-to-r ${themeInfo.gradient} text-primary-text shadow-lg scale-105`
                 : 'bg-bg-secondary hover:bg-bg-tertiary text-text-primary border border-border hover:border-border-hover'}"
               on:click={() => selectTheme(themeKey as ItineraryTheme)}
               role="option"

@@ -102,7 +102,7 @@
 				</div>
 				<button
 					on:click={logout}
-					class="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
+					class="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-danger-text font-semibold py-2 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
 				>
 					<LogOut class="w-4 h-4" />
 					<span class="hidden sm:inline">ログアウト</span>
@@ -115,7 +115,9 @@
 			>
 				<div class="flex items-center space-x-2 mb-3">
 					<Settings class="w-5 h-5 text-gray-600 dark:text-gray-300" />
-					<h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+					<h3
+						class="text-lg font-semibold text-gray-900 dark:text-dark-primary"
+					>
 						設定
 					</h3>
 				</div>
@@ -131,7 +133,7 @@
 						bind:value={selectedTimezone}
 						on:change={updateTimezone}
 						disabled={isUpdatingTimezone}
-						class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+						class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
 					>
 						<option value="Asia/Tokyo">日本 (JST)</option>
 						<option value="America/New_York">アメリカ東部 (EST)</option>
@@ -150,7 +152,7 @@
 
 			<button
 				on:click={createNewItinerary}
-				class="flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
+				class="flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-primary-text font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
 			>
 				<Plus class="w-5 h-5" />
 				<span>新しいしおりを作成</span>
@@ -177,7 +179,9 @@
 				>
 					<div class="text-center">
 						<div class="text-6xl mb-4">⚠️</div>
-						<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+						<h2
+							class="text-2xl font-bold text-gray-900 dark:text-dark-primary mb-2"
+						>
 							エラーが発生しました
 						</h2>
 						<p class="text-gray-600 dark:text-gray-300">{error}</p>
@@ -189,7 +193,9 @@
 				<BookOpen
 					class="w-24 h-24 text-gray-300 dark:text-gray-600 mx-auto mb-6"
 				/>
-				<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+				<h2
+					class="text-2xl font-bold text-gray-900 dark:text-dark-primary mb-4"
+				>
 					まだしおりがありません
 				</h2>
 				<p class="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
@@ -197,7 +203,7 @@
 				</p>
 				<button
 					on:click={createNewItinerary}
-					class="inline-flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
+					class="inline-flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-primary-text font-semibold py-4 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
 				>
 					<Plus class="w-6 h-6" />
 					<span>最初のしおりを作成</span>
@@ -214,7 +220,7 @@
 						<div class="flex items-start justify-between mb-4">
 							<div class="flex-1">
 								<h3
-									class="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2"
+									class="text-xl font-bold text-gray-900 dark:text-dark-primary mb-2 line-clamp-2"
 								>
 									{itinerary.title}
 								</h3>
@@ -227,7 +233,7 @@
 								{/if}
 							</div>
 							<div class="icon-theme-container flex-shrink-0 ml-4">
-								<BookOpen class="w-6 h-6 text-white" />
+								<BookOpen class="w-6 h-6 text-text-primary" />
 							</div>
 						</div>
 

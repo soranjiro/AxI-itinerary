@@ -53,7 +53,7 @@
 		<div class="container">
 			<div class="text-center mb-12">
 				<div class="flex justify-center mb-6">
-					<div class="bg-primary text-white rounded-xl p-4">
+					<div class="bg-primary text-primary-text rounded-xl p-4">
 						<BookOpen class="w-12 h-12" />
 					</div>
 				</div>
@@ -139,7 +139,9 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div class="card">
 					<div class="flex items-start gap-4">
-						<div class="bg-primary text-white rounded-lg p-2 flex-shrink-0">
+						<div
+							class="bg-primary text-primary-text rounded-lg p-2 flex-shrink-0"
+						>
 							<BookOpen class="w-6 h-6" />
 						</div>
 						<div>
@@ -153,7 +155,9 @@
 
 				<div class="card">
 					<div class="flex items-start gap-4">
-						<div class="bg-secondary text-white rounded-lg p-2 flex-shrink-0">
+						<div
+							class="bg-secondary text-secondary-text rounded-lg p-2 flex-shrink-0"
+						>
 							<Sparkles class="w-6 h-6" />
 						</div>
 						<div>
@@ -167,7 +171,9 @@
 
 				<div class="card">
 					<div class="flex items-start gap-4">
-						<div class="bg-success text-white rounded-lg p-2 flex-shrink-0">
+						<div
+							class="bg-success text-success-text rounded-lg p-2 flex-shrink-0"
+						>
 							<BookOpen class="w-6 h-6" />
 						</div>
 						<div>
@@ -179,7 +185,9 @@
 
 				<div class="card">
 					<div class="flex items-start gap-4">
-						<div class="bg-warning text-white rounded-lg p-2 flex-shrink-0">
+						<div
+							class="bg-warning text-warning-text rounded-lg p-2 flex-shrink-0"
+						>
 							<Sparkles class="w-6 h-6" />
 						</div>
 						<div>

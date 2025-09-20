@@ -47,23 +47,32 @@ export default {
           primary: 'var(--bg-primary)',
           secondary: 'var(--bg-secondary)',
           tertiary: 'var(--bg-tertiary)',
+          'dark-primary': 'var(--bg-dark-primary)',
+          'dark-secondary': 'var(--bg-dark-secondary)',
+          'dark-tertiary': 'var(--bg-dark-tertiary)',
         },
         // テキスト色
         text: {
           primary: 'var(--text-primary)',
           secondary: 'var(--text-secondary)',
           muted: 'var(--text-muted)',
+          'dark-primary': 'var(--text-dark-primary)',
+          'dark-secondary': 'var(--text-dark-secondary)',
+          'dark-muted': 'var(--text-dark-muted)',
         },
         // ボーダー
         border: {
           DEFAULT: 'var(--border)',
           hover: 'var(--border-hover)',
           focus: 'var(--border-focus)',
+          dark: 'var(--border-dark)',
         },
         // カード
         card: {
           bg: 'var(--card-bg)',
           border: 'var(--card-border)',
+          'bg-dark': 'var(--card-bg-dark)',
+          'border-dark': 'var(--card-border-dark)',
         },
       },
       backgroundImage: {

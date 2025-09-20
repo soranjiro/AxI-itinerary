@@ -248,7 +248,7 @@
               type="text"
               bind:value={formData.title}
               placeholder="例: 東京駅集合"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               required
             />
           </div>
@@ -265,11 +265,11 @@
               <input
                 type="date"
                 bind:value={formData.date}
-                class="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                class="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
               <select
                 bind:value={formData.hour}
-                class="w-20 px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                class="w-20 px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               >
                 {#each Array(24) as _, i}
                   <option value={i.toString().padStart(2, "0")}
@@ -280,7 +280,7 @@
               <span class="flex items-center text-gray-500">:</span>
               <select
                 bind:value={formData.minute}
-                class="w-20 px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                class="w-20 px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               >
                 <option value="0">00</option>
                 <option value="15">15</option>
@@ -304,7 +304,7 @@
               type="text"
               bind:value={formData.location_name}
               placeholder="例: 東京駅丸の内口"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
 
@@ -321,7 +321,7 @@
               bind:value={formData.description}
               placeholder="詳細情報があれば記入..."
               rows="2"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
             ></textarea>
           </div>
         {:else if type === "packing"}
@@ -338,7 +338,7 @@
               type="text"
               bind:value={formData.item_name}
               placeholder="例: Tシャツ"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
             />
           </div>
@@ -356,7 +356,7 @@
               type="text"
               bind:value={formData.category}
               placeholder="例: 衣類"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
 
@@ -373,7 +373,7 @@
               type="number"
               bind:value={formData.quantity}
               min="1"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
 
@@ -390,7 +390,7 @@
               bind:value={formData.memo}
               placeholder="詳細情報があれば記入..."
               rows="2"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
             ></textarea>
           </div>
         {:else if type === "budget"}
@@ -407,7 +407,7 @@
               type="text"
               bind:value={formData.category}
               placeholder="例: 交通費"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
           </div>
@@ -425,7 +425,7 @@
               type="text"
               bind:value={formData.item_name}
               placeholder="例: 新幹線代"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
           </div>
@@ -444,7 +444,7 @@
               bind:value={formData.planned_amount}
               min="0"
               placeholder="0"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-dark-primary placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         {/if}
@@ -466,11 +466,11 @@
               (type === "budget" &&
                 (!formData.category?.trim() || !formData.item_name?.trim())) ||
               isSubmitting}
-            class="flex-1 px-4 py-3 rounded-lg bg-gradient-primary text-white font-medium hover:shadow-lg hover:shadow-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2"
+            class="flex-1 px-4 py-3 rounded-lg bg-gradient-primary text-primary-text font-medium hover:shadow-lg hover:shadow-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2"
           >
             {#if isSubmitting}
               <div
-                class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+                class="w-4 h-4 border-2 border-primary-text border-t-transparent rounded-full animate-spin"
               ></div>
               追加中...
             {:else}

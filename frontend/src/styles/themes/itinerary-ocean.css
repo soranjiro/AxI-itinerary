@@ -15,9 +15,11 @@
   --accent-secondary: #0284c7;
   --accent-hover: #0369a1;
 
-  --primary: #0ea5e9;
-  --primary-hover: #0369a1;
+  --primary: #7dd3fc;
+  --primary-text: #1e293b;
+  --primary-hover: #38bdf8;
   --primary-light: #bae6fd;
+  --primary-text: #21252b;
 
   /* ボーダー */
   --border: #0ea5e9ad;
@@ -39,6 +41,7 @@
 }
 
 /* ダーク版: 海テーマ */
+
 :root.dark.itinerary-ocean {
   --bg-primary: #0b1b24;
   --bg-secondary: #0f2430;
@@ -53,8 +56,10 @@
   --accent-hover: #22d3ee;
 
   --primary: #0ea5e9;
+  --primary-text: #1e293b;
   --primary-hover: #0284c7;
   --primary-light: #0b4660;
+  --primary-text: #ffffff;
 
   --border: #123042;
   --border: #123042;

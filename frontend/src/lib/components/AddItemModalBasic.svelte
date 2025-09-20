@@ -355,7 +355,7 @@
           on:click={handleSubmit}
           disabled={isSubmitting}
           class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-accent to-accent-secondary
-                 hover:from-accent-hover hover:to-accent text-white rounded-2xl transition-all duration-300
+                 hover:from-accent-hover hover:to-accent text-accent-text rounded-2xl transition-all duration-300
                  shadow-lg hover:shadow-xl font-semibold flex items-center space-x-3 transform hover:scale-105
                  active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
         >

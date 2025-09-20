@@ -35,7 +35,7 @@ src/styles/
 <p class="text-text-secondary">セカンダリテキスト</p>
 
 <!-- アクセント色 -->
-<button class="bg-primary hover:bg-primary-hover text-white">ボタン</button>
+<button class="bg-primary hover:bg-primary-hover text-primary-text">ボタン</button>
 
 <!-- カード -->
 <div class="bg-card-bg border border-card-border shadow-custom-md">カード</div>

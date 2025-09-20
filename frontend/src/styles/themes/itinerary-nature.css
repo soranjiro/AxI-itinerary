@@ -12,9 +12,11 @@
   --text-muted: #15803d;
 
   /* アクセントカラー */
-  --primary: #22c55e;
-  --primary-hover: #16a34a;
+  --primary: #86efac;
+  --primary-text: #1e293b;
+  --primary-hover: #4ade80;
   --primary-light: #dcfce7;
+  --primary-text: #14532d;
 
   --secondary: #84cc16;
   --secondary-hover: #65a30d;
@@ -40,6 +42,7 @@
 }
 
 /* ダーク版: ナチュラルテーマ */
+
 :root.dark.itinerary-nature {
   --bg-primary: #0a1912;
   --bg-secondary: #0f231a;
@@ -51,8 +54,10 @@
   --text-muted: #a7f3d0;
 
   --primary: #22c55e;
+  --primary-text: #1e293b;
   --primary-hover: #16a34a;
   --primary-light: #14532d;
+  --primary-text: #ffffff;
 
   --secondary: #84cc16;
   --secondary-hover: #65a30d;

@@ -13,6 +13,7 @@
 
   /* アクセントカラー */
   --primary: #a16207;
+  --primary-text: #1e293b;
   --primary-hover: #92400e;
   --primary-light: #fef3c7;
 
@@ -40,6 +41,7 @@
 }
 
 /* ダーク版: 山テーマ */
+
 :root.dark.itinerary-mountain {
   --bg-primary: #1a1307;
   --bg-secondary: #22190b;
@@ -51,6 +53,7 @@
   --text-muted: #fcd34d;
 
   --primary: #a16207;
+  --primary-text: #ffffff;
   --primary-hover: #92400e;
   --primary-light: #6b3a05;
 

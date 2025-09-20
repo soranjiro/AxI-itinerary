@@ -80,7 +80,7 @@ itineraryTheme.init(itinerary.theme);
 <!-- テーマに応じて自動的に色が変わる -->
 <div class="bg-bg-primary text-text-primary border border-border">
   <h1 class="text-primary">タイトル</h1>
-  <button class="bg-primary hover:bg-primary-hover text-white">
+  <button class="bg-primary hover:bg-primary-hover text-primary-text">
     ボタン
   </button>
 </div>

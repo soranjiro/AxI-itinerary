@@ -12,15 +12,37 @@
   --text-muted: #a16207;
 
   /* アクセントカラー */
-  --primary: #f59e0b;
-  --primary-hover: #d97706;
+  --primary: #fef3c7;
+  --primary-text: #1e293b;
+  --primary-hover: #fde68a;
   --primary-light: #fef3c7;
+  --primary-text: #78350f;
 
   --secondary: #f97316;
   --secondary-hover: #ea580c;
   --secondary-light: #fed7aa;
+  --secondary-text: #ffffff;
 
-  /* ボーダー */
+  --success: #10b981;
+  --success-hover: #059669;
+  --success-light: #d1fae5;
+  --success-text: #ffffff;
+
+  --warning: #f59e0b;
+  --warning-hover: #d97706;
+  --warning-light: #fef3c7;
+  --warning-text: #78350f;
+
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --danger-light: #fee2e2;
+  --danger-text: #ffffff;
+
+  /* アクセントカラー */
+  --accent: #f59e0b;
+  --accent-secondary: #f97316;
+  --accent-hover: #d97706;
+  --accent-text: #ffffff;
   --border: #fcd34d;
   --border-color: #fcd34d;
   --border-hover: #f59e0b;
@@ -40,6 +62,7 @@
 }
 
 /* ダーク版: 旅行テーマ */
+
 :root.dark.itinerary-travel {
   --bg-primary: #1a1f2b;
   --bg-secondary: #232a3a;
@@ -50,7 +73,16 @@
   --text-secondary: #e2e8f0;
   --text-muted: #cbd5e1;
 
+  --primary-text: #ffffff;
+  --secondary-text: #ffffff;
+  --secondary-text: #ffffff;
+  --success-text: #ffffff;
+  --warning-text: #1a1f2b;
+  --danger-text: #ffffff;
+  --accent-text: #ffffff;
+
   --primary: #f59e0b;
+  --primary-text: #1e293b;
   --primary-hover: #d97706;
   --primary-light: #854d0e;
 

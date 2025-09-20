@@ -204,7 +204,7 @@
 	>
 		<div class="flex items-center space-x-4">
 			<div class="icon-theme-container">
-				<Bot class="w-7 h-7 text-white" />
+				<Bot class="w-7 h-7 text-text-primary" />
 			</div>
 			<div>
 				<h3 class="text-lg font-bold text-text-primary">AI旅行アシスタント</h3>
@@ -238,7 +238,7 @@
 							: 'bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 mr-3'}"
 					>
 						{#if message.sender === "user"}
-							<User class="w-5 h-5 text-white" />
+							<User class="w-5 h-5 text-primary-text" />
 						{:else}
 							<Bot class="w-5 h-5 text-gray-600 dark:text-gray-300" />
 						{/if}
@@ -248,7 +248,7 @@
 					<div class="flex flex-col">
 						<div
 							class="rounded-2xl px-6 py-4 shadow-lg {message.sender === 'user'
-								? 'bg-gradient-primary text-white'
+								? 'bg-gradient-primary text-primary-text'
 								: 'bg-card-bg text-text-primary border-border'}"
 						>
 							<p class="text-sm whitespace-pre-wrap leading-relaxed">
@@ -342,11 +342,11 @@
 			<button
 				on:click={sendMessage}
 				disabled={!inputMessage.trim() || isLoading}
-				class="px-6 py-4 bg-gradient-primary hover:bg-gradient-primary disabled:bg-text-muted disabled:text-bg-primary text-white rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
+				class="px-6 py-4 bg-gradient-primary hover:bg-gradient-primary disabled:bg-text-muted disabled:text-bg-primary text-primary-text rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
 			>
 				{#if isLoading}
 					<div
-						class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"
+						class="animate-spin rounded-full h-5 w-5 border-2 border-primary-text border-t-transparent"
 					></div>
 				{:else}
 					<Send class="w-5 h-5" />

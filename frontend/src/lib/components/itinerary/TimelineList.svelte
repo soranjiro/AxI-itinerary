@@ -64,13 +64,13 @@
           {formattedDate}
         </div>
         <div
-          class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold"
+          class="bg-primary text-primary rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold"
         >
           {dayOfWeek}
         </div>
       </div>
       <div
-        class="bg-primary text-white border border-default rounded-lg px-3 py-1"
+        class="bg-primary text-primary border border-default rounded-lg px-3 py-1"
       >
         <span class="text-sm font-medium text-secondary"
           >{getDayFromDateTime(dateKey, group.dayIndex)}</span

@@ -16,6 +16,7 @@
   --accent-hover: #e53e3e;
 
   --primary: #ff6d6d;
+  --primary-text: #1e293b;
   --primary-hover: #e53e3e;
   --primary-light: #fed7d7;
 
@@ -34,6 +35,7 @@
 }
 
 /* ダーク版: さくらテーマ */
+
 :root.dark.itinerary-sakura {
   --bg-primary: #241313;
   --bg-secondary: #2b1717;
@@ -48,6 +50,7 @@
   --accent-hover: #fb7185;
 
   --primary: #fb7185;
+  --primary-text: #ffffff;
   --primary-hover: #f43f5e;
   --primary-light: #9f1239;
 

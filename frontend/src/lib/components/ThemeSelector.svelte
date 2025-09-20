@@ -144,7 +144,7 @@
             aria-selected={currentTheme === theme.value}
           >
             <div
-              class="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs shadow-lg bg-primary transition-transform"
+              class="w-6 h-6 rounded-full flex items-center justify-center text-primary-text text-xs shadow-lg bg-primary transition-transform"
             >
               {theme.icon}
             </div>

@@ -15,26 +15,33 @@
   --accent: #6366f1;
   --accent-secondary: #8b5cf6;
   --accent-hover: #5b21b6;
+  --accent-text: #ffffff;
 
-  --primary: #6366f1;
-  --primary-hover: #5b21b6;
+  --primary: #a5b4fc;
+  --primary-text: #1e293b;
+  --primary-hover: #818cf8;
   --primary-light: #ddd6fe;
+  --primary-text: #1e293b;
 
   --secondary: #8b5cf6;
   --secondary-hover: #7c3aed;
   --secondary-light: #ede9fe;
+  --secondary-text: #ffffff;
 
   --success: #10b981;
   --success-hover: #059669;
   --success-light: #d1fae5;
+  --success-text: #ffffff;
 
   --warning: #f59e0b;
   --warning-hover: #d97706;
   --warning-light: #fef3c7;
+  --warning-text: #1e293b;
 
   --danger: #ef4444;
   --danger-hover: #dc2626;
   --danger-light: #fee2e2;
+  --danger-text: #ffffff;
 
   /* ボーダー */
   --border: #e2e8f0;
@@ -51,6 +58,17 @@
   --container-max-width: 1200px;
   --card-bg: rgba(255, 255, 255, 0.9);
   --card-border: rgba(0, 0, 0, 0.05);
+
+  /* ダークモード用 */
+  --bg-dark-primary: #0f172a;
+  --bg-dark-secondary: #1e293b;
+  --bg-dark-tertiary: #334155;
+  --text-dark-primary: #f1f5f9;
+  --text-dark-secondary: #cbd5e1;
+  --text-dark-muted: #94a3b8;
+  --border-dark: #334155;
+  --card-bg-dark: rgba(30, 41, 59, 0.9);
+  --card-border-dark: rgba(255, 255, 255, 0.1);
 
   /* グラデーション */
   --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

@@ -13,6 +13,7 @@
 
   /* アクセントカラー */
   --primary: #8b5cf6;
+  --primary-text: #1e293b;
   --primary-hover: #7c3aed;
   --primary-light: #e9d5ff;
 
@@ -40,6 +41,7 @@
 }
 
 /* ダーク版: 都市テーマ */
+
 :root.dark.itinerary-city {
   --bg-primary: #120c1a;
   --bg-secondary: #1a0f2b;
@@ -51,6 +53,7 @@
   --text-muted: #c4b5fd;
 
   --primary: #8b5cf6;
+  --primary-text: #ffffff;
   --primary-hover: #7c3aed;
   --primary-light: #3b2470;
 
