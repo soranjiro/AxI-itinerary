@@ -51,9 +51,12 @@
   function resetForm() {
     switch (type) {
       case "timeline":
+        const now = new Date();
         formData = {
           title: "",
-          start_datetime: "",
+          date: now.toISOString().split("T")[0],
+          hour: now.getHours().toString().padStart(2, "0"),
+          minute: (Math.floor(now.getMinutes() / 15) * 15).toString(),
           location_name: "",
           description: "",
         };
@@ -109,15 +112,17 @@
       let submitData: QuickAddSavePayload;
       switch (type) {
         case "timeline":
+          const startDatetime =
+            formData.date && formData.hour && formData.minute !== undefined
+              ? `${formData.date}T${formData.hour.padStart(2, "0")}:${formData.minute.padStart(2, "0")}:00`
+              : (() => {
+                  const now = new Date();
+                  now.setMinutes(Math.floor(now.getMinutes() / 15) * 15, 0, 0);
+                  return now.toISOString().slice(0, 16);
+                })();
           submitData = {
             title: formData.title.trim(),
-            start_datetime:
-              formData.start_datetime ||
-              (() => {
-                const now = new Date();
-                now.setMinutes(0, 0, 0);
-                return now.toISOString().slice(0, 16);
-              })(),
+            start_datetime: startDatetime,
             location_name: formData.location_name || "",
             description: formData.description || "",
             end_datetime: "",
@@ -255,18 +260,38 @@
           <!-- 日時 -->
           <div>
             <label
-              for="datetime"
               class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1"
             >
               <Calendar class="w-4 h-4" />
               日時
             </label>
-            <input
-              id="datetime"
-              type="datetime-local"
-              bind:value={formData.start_datetime}
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            />
+            <div class="flex space-x-2">
+              <input
+                type="date"
+                bind:value={formData.date}
+                class="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              />
+              <select
+                bind:value={formData.hour}
+                class="w-20 px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              >
+                {#each Array(24) as _, i}
+                  <option value={i.toString().padStart(2, "0")}
+                    >{i.toString().padStart(2, "0")}</option
+                  >
+                {/each}
+              </select>
+              <span class="flex items-center text-gray-500">:</span>
+              <select
+                bind:value={formData.minute}
+                class="w-20 px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              >
+                <option value="0">00</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+              </select>
+            </div>
           </div>
 
           <!-- 場所 -->

@@ -1,12 +1,21 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
-	import { BookOpen, Plus, Calendar, MapPin, LogOut } from "lucide-svelte";
+	import {
+		BookOpen,
+		Plus,
+		Calendar,
+		MapPin,
+		LogOut,
+		Settings,
+	} from "lucide-svelte";
 	import { user } from "$lib/stores/user";
 
 	let itineraries: any[] = [];
 	let isLoading = true;
 	let error = "";
+	let selectedTimezone = $user?.timezone || "Asia/Tokyo";
+	let isUpdatingTimezone = false;
 
 	onMount(async () => {
 		if (!$user) {
@@ -49,6 +58,30 @@
 		user.logout();
 		goto("/");
 	};
+
+	const updateTimezone = async () => {
+		if (!$user) return;
+		isUpdatingTimezone = true;
+		try {
+			const response = await fetch(`/api/users/${$user.id}`, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ timezone: selectedTimezone }),
+			});
+			if (!response.ok) {
+				throw new Error("Failed to update timezone");
+			}
+			const updatedUser = { ...$user, timezone: selectedTimezone };
+			user.set(updatedUser);
+		} catch (err) {
+			console.error("Error updating timezone:", err);
+			error = "タイムゾーンの更新に失敗しました。";
+		} finally {
+			isUpdatingTimezone = false;
+		}
+	};
 </script>
 
 <main class="min-h-screen page-bg-hero">
@@ -75,6 +108,45 @@
 					<span class="hidden sm:inline">ログアウト</span>
 				</button>
 			</div>
+
+			<!-- 設定セクション -->
+			<div
+				class="mt-6 p-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50"
+			>
+				<div class="flex items-center space-x-2 mb-3">
+					<Settings class="w-5 h-5 text-gray-600 dark:text-gray-300" />
+					<h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+						設定
+					</h3>
+				</div>
+				<div class="flex items-center space-x-3">
+					<label
+						for="timezone"
+						class="text-sm font-medium text-gray-700 dark:text-gray-300"
+					>
+						タイムゾーン:
+					</label>
+					<select
+						id="timezone"
+						bind:value={selectedTimezone}
+						on:change={updateTimezone}
+						disabled={isUpdatingTimezone}
+						class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+					>
+						<option value="Asia/Tokyo">日本 (JST)</option>
+						<option value="America/New_York">アメリカ東部 (EST)</option>
+						<option value="Europe/London">ロンドン (GMT)</option>
+						<option value="Asia/Shanghai">中国 (CST)</option>
+						<option value="Australia/Sydney">シドニー (AEST)</option>
+					</select>
+					{#if isUpdatingTimezone}
+						<div
+							class="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"
+						></div>
+					{/if}
+				</div>
+			</div>
+
 			<button
 				on:click={createNewItinerary}
 				class="flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"

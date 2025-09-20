@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Edit3, Clock, MapPin, Trash2 } from "lucide-svelte";
   import { createEventDispatcher } from "svelte";
+  import { user } from "$lib/stores/user";
 
   export let timelineItems: Array<any> = [];
   const dispatch = createEventDispatcher<{ edit: any; delete: any }>();
@@ -9,14 +10,17 @@
 
   const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
+    const timezone = $user?.timezone || "Asia/Tokyo";
     return {
       time: date.toLocaleString("ja-JP", {
         hour: "2-digit",
         minute: "2-digit",
+        timeZone: timezone,
       }),
       date: date.toLocaleDateString("ja-JP", {
         month: "numeric",
         day: "numeric",
+        timeZone: timezone,
       }),
     };
   };
@@ -27,24 +31,29 @@
 
   // 日付ごとにアイテムをグループ化
   $: groupedItems = timelineItems.reduce((groups, item, index) => {
-    const date = new Date(item.start_datetime).toDateString();
-    if (!groups[date]) {
-      groups[date] = { items: [], dayIndex: Object.keys(groups).length };
+    const date = new Date(item.start_datetime);
+    const timezone = $user?.timezone || "Asia/Tokyo";
+    const dateKey = date.toLocaleDateString("en-CA", { timeZone: timezone }); // YYYY-MM-DD format
+    if (!groups[dateKey]) {
+      groups[dateKey] = { items: [], dayIndex: Object.keys(groups).length };
     }
-    groups[date].items.push(item);
+    groups[dateKey].items.push(item);
     return groups;
   }, {});
 </script>
 
 <div class="relative">
   {#each Object.entries(groupedItems) as [dateKey, group]}
-    {@const dateObj = new Date(dateKey)}
+    {@const timezone = $user?.timezone || "Asia/Tokyo"}
+    {@const dateObj = new Date(dateKey + "T00:00:00")}
     {@const formattedDate = dateObj.toLocaleDateString("ja-JP", {
       month: "numeric",
       day: "numeric",
+      timeZone: timezone,
     })}
     {@const dayOfWeek = dateObj.toLocaleDateString("ja-JP", {
       weekday: "short",
+      timeZone: timezone,
     })}
     <!-- 日付ヘッダー -->
     <div
