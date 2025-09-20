@@ -160,6 +160,12 @@
 
 	const startEditing = (item: any) => {
 		editingItem = { ...item };
+		// 編集時のデフォルトとして、分の部分を00に揃える
+		if (editingItem.start_datetime) {
+			const date = new Date(editingItem.start_datetime);
+			date.setMinutes(0, 0, 0);
+			editingItem.start_datetime = date.toISOString();
+		}
 		isEditing = true;
 	};
 

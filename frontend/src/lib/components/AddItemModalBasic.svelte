@@ -20,7 +20,11 @@
           description: "",
           location_name: "",
           location_address: "",
-          start_datetime: "",
+          start_datetime: (() => {
+            const now = new Date();
+            now.setMinutes(0, 0, 0);
+            return now.toISOString().slice(0, 16);
+          })(),
           end_datetime: "",
           budget_amount: "",
           memo: "",

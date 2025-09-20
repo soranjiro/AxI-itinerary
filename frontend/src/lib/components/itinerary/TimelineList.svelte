@@ -61,7 +61,7 @@
         </div>
       </div>
       <div
-        class="bg-white border border-[color:var(--border)] rounded-lg px-3 py-1"
+        class="bg-[color:var(--primary)] text-white border border-[color:var(--border)] rounded-lg px-3 py-1"
       >
         <span class="text-sm font-medium text-[color:var(--text-secondary)]"
           >{getDayFromDateTime(dateKey, group.dayIndex)}</span

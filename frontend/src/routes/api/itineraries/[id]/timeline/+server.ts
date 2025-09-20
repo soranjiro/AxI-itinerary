@@ -22,12 +22,16 @@ export const POST: RequestHandler = async ({ params, request, platform }) => {
 		}
 
 		const itemId = crypto.randomUUID();
-		const now = new Date().toISOString();
+		const now = new Date();
 
-		// 開始日時が未指定の場合は現在時刻を使用
+		// 開始日時が未指定の場合は分の部分を00にした現在時刻を使用
 		const startISO = start_datetime && !isNaN(Date.parse(start_datetime))
 			? new Date(start_datetime).toISOString()
-			: new Date().toISOString();
+			: (() => {
+				const date = new Date(now);
+				date.setMinutes(0, 0, 0); // 分と秒とミリ秒を0に設定
+				return date.toISOString();
+			})();
 
 		// 終了日時の決定ロジック
 		let endISO: string;

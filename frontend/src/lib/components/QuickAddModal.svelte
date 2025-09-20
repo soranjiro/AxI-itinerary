@@ -110,7 +110,12 @@
           submitData = {
             title: formData.title.trim(),
             start_datetime:
-              formData.start_datetime || new Date().toISOString().slice(0, 16),
+              formData.start_datetime ||
+              (() => {
+                const now = new Date();
+                now.setMinutes(0, 0, 0);
+                return now.toISOString().slice(0, 16);
+              })(),
             location_name: formData.location_name || "",
             description: formData.description || "",
             end_datetime: "",
