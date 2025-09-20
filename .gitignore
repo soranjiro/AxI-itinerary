@@ -142,3 +142,4 @@ dist/
 .wrangler/
 
 00_memo
+memo*
