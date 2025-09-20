@@ -8,8 +8,7 @@ export async function GET({ params }: RequestEvent) {
 	const user = {
 		id,
 		email: 'user@example.com',
-		name: 'ユーザー',
-		timezone: 'Asia/Tokyo'
+		name: 'ユーザー'
 	};
 
 	return json(user);
@@ -24,8 +23,7 @@ export async function PATCH({ params, request }: RequestEvent) {
 	const updatedUser = {
 		id,
 		email: 'user@example.com',
-		name: 'ユーザー',
-		timezone: data.timezone || 'Asia/Tokyo'
+		name: 'ユーザー'
 	};
 
 	return json(updatedUser);
