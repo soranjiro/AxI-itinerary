@@ -34,8 +34,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			updated_at: now
 		};
 
-		if (platform?.DB) {
-			const db = platform.DB;
+		if (platform?.env?.DB) {
+			const db = platform.env.DB;
 
 			// Check if user already exists
 			const existingUser = await db.prepare(`
@@ -57,6 +57,10 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				user.created_at,
 				user.updated_at
 			).run();
+		} else {
+			console.log('platform', platform);
+			console.log('platform.DB', platform?.DB);
+			throw error(500, 'Database not available');
 		}
 
 		// Don't return password hash

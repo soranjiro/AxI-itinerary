@@ -14,4 +14,3 @@ enabled = true
 binding = "DB"
 database_name = "axi-itinerary-db"
 database_id = "fa91bed8-f5c5-4570-bf38-87994a1ce93c"
-
