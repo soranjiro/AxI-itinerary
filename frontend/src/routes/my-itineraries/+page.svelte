@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
-	import { BookOpen, Plus, Calendar, MapPin } from "lucide-svelte";
+	import { BookOpen, Plus, Calendar, MapPin, LogOut } from "lucide-svelte";
 	import { user } from "$lib/stores/user";
 
 	let itineraries: any[] = [];
@@ -44,6 +44,11 @@
 	const createNewItinerary = () => {
 		goto("/");
 	};
+
+	const logout = () => {
+		user.logout();
+		goto("/");
+	};
 </script>
 
 <main class="min-h-screen page-bg-hero">
@@ -56,17 +61,27 @@
 						マイしおり
 					</h1>
 					<p class="text-gray-600 dark:text-gray-300">
+						こんにちは、{$user?.name}さん
+					</p>
+					<p class="text-gray-600 dark:text-gray-300">
 						作成した旅行しおりの一覧です
 					</p>
 				</div>
 				<button
-					on:click={createNewItinerary}
-					class="flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
+					on:click={logout}
+					class="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
 				>
-					<Plus class="w-5 h-5" />
-					<span>新しいしおりを作成</span>
+					<LogOut class="w-4 h-4" />
+					<span class="hidden sm:inline">ログアウト</span>
 				</button>
 			</div>
+			<button
+				on:click={createNewItinerary}
+				class="flex items-center space-x-2 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover-theme-lift"
+			>
+				<Plus class="w-5 h-5" />
+				<span>新しいしおりを作成</span>
+			</button>
 		</div>
 
 		{#if isLoading}

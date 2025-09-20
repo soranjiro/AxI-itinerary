@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { BookOpen, User, LogOut } from "lucide-svelte";
+	import { BookOpen, User } from "lucide-svelte";
 	import { user } from "$lib/stores/user";
 	import ThemeSelector from "./ThemeSelector.svelte";
 
@@ -12,11 +12,6 @@
 
 	const openAuthModal = () => {
 		showAuthModal = true;
-	};
-
-	const logout = () => {
-		user.logout();
-		goto("/");
 	};
 </script>
 
@@ -33,8 +28,7 @@
 			>
 				<BookOpen class="w-5 h-5" />
 				<!-- TODO: グラデーションテキスト -->
-				<span
-					class="text-xl font-bold bg-gradient-primary bg-clip-text"
+				<span class="text-xl font-bold bg-gradient-primary bg-clip-text"
 					>AxI-itinerary</span
 				>
 			</button>
@@ -47,19 +41,6 @@
 						class="px-4 py-2 rounded-lg font-medium text-text-secondary bg-transparent border-0 cursor-pointer transition-all duration-200 hover:text-text-primary hover:bg-bg-tertiary"
 					>
 						<User class="w-4 h-4" />
-						<span>{$user.name || $user.email}</span>
-					</button>
-					<!-- <div
-					class="flex items-center gap-2 px-3 py-2 rounded-lg bg-bg-tertiary text-text-secondary text-sm"
-					>
-					マイしおり
-				</div> -->
-					<button
-						on:click={logout}
-						class="flex items-center justify-center w-10 h-10 rounded-lg border-0 cursor-pointer transition-all duration-200 bg-transparent text-text-secondary hover:bg-danger-light hover:text-danger"
-						aria-label="ログアウト"
-					>
-						<LogOut class="w-4 h-4" />
 					</button>
 				{:else}
 					<button
