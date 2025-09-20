@@ -32,8 +32,9 @@
 				aria-label="ホームに戻る"
 			>
 				<BookOpen class="w-5 h-5" />
+				<!-- TODO: グラデーションテキスト -->
 				<span
-					class="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent"
+					class="text-xl font-bold bg-gradient-primary bg-clip-text"
 					>AxI-itinerary</span
 				>
 			</button>
