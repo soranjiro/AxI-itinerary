@@ -108,6 +108,7 @@
 	let editingItem: any = null;
 	let isEditing = false;
 	let showAddModal = false;
+	let showSettingsModal = false;
 	let addModalType: "timeline" | "packing" | "budget" = "timeline";
 
 	onMount(async () => {
@@ -179,6 +180,10 @@
 
 		await tick();
 		console.log("After tick, showAddModal:", showAddModal);
+	};
+
+	const closeSettingsModal = () => {
+		showSettingsModal = false;
 	};
 
 	const handleAddItem = async (event: CustomEvent) => {
@@ -263,78 +268,37 @@
 			</div>
 		</div>
 	{:else}
-		<!-- モダンヘッダー -->
-		<header
-			class="relative z-5 bg-card-bg border-b border-card-border backdrop-blur-lg"
-		>
-			<div class="max-w-7xl mx-auto px-6 py-8">
-				<div class="flex items-center justify-between">
-					<div class="flex-1 space-y-2">
-						<h1
-							class="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent"
+		<!-- モバイル用ヘッダー（スクロール可能）-->
+		<div class="border-b border-gray-200 shadow-sm">
+			<div class="max-w-2xl mx-auto px-4 py-6" style="max-width: 640px;">
+				<div class="space-y-4">
+					<h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
+						{itinerary.title}
+					</h1>
+					{#if itinerary.description}
+						<p class="text-base text-gray-600">
+							{itinerary.description}
+						</p>
+					{/if}
+					<div class="flex items-center flex-wrap gap-2">
+						<div
+							class="px-3 py-1 rounded-full bg-blue-50 text-sm font-medium border border-blue-200"
 						>
-							{itinerary.title}
-						</h1>
-						{#if itinerary.description}
-							<p class="text-xl text-text-secondary">
-								{itinerary.description}
-							</p>
-						{/if}
-						<div class="flex items-center space-x-3 mt-4">
-							<div
-								class="px-3 py-1 rounded-full bg-primary/20 text-sm font-medium border border-primary/30"
-							>
-								<span class="text-primary">アクティブ</span>
-							</div>
-							<div
-								class="px-3 py-1 rounded-full bg-success/20 text-sm font-medium border border-success/30"
-							>
-								<span class="text-success">同期済み</span>
-							</div>
+							<span class="text-blue-700">アクティブ</span>
 						</div>
-					</div>
-					<div class="flex items-center space-x-4">
-						<ItineraryThemeSelector />
-						<ThemeSelector />
-						<button
-							class="group relative overflow-hidden p-4 bg-bg-secondary/80 border border-border/50
-							       rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
-							       shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 backdrop-blur-sm"
-							aria-label="members"
+						<div
+							class="px-3 py-1 rounded-full bg-green-50 text-sm font-medium border border-green-200"
 						>
-							<div
-								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
-							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
-							            transition-transform duration-700"
-							></div>
-							<Users
-								class="relative w-6 h-6 text-text-secondary group-hover:text-text-primary transition-colors duration-200"
-							/>
-						</button>
-						<button
-							class="group relative overflow-hidden p-4 bg-bg-secondary/80 border border-border/50
-							       rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
-							       shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 backdrop-blur-sm"
-							aria-label="settings"
-						>
-							<div
-								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
-							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
-							            transition-transform duration-700"
-							></div>
-							<Settings
-								class="relative w-6 h-6 text-text-secondary group-hover:text-text-primary
-							                 group-hover:rotate-90 transition-all duration-500"
-							/>
-						</button>
+							<span class="text-green-700">同期済み</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</header>
+		</div>
 
-		<!-- タブナビゲーション -->
+		<!-- デスクトップ用タブナビゲーション（スマホでは非表示）-->
 		<nav
-			class="bg-card-bg/70 border-b border-card-border/50 backdrop-blur-xl sticky top-0 z-10 py-4"
+			class="bg-card-bg/70 border-b border-card-border/50 backdrop-blur-xl sticky top-0 z-10 py-4 hidden sm:block"
 		>
 			<div class="max-w-7xl mx-auto px-4">
 				<div class="flex justify-center">
@@ -450,18 +414,54 @@
 						</button>
 					</div>
 				</div>
+				<div class="flex justify-end mt-4 space-x-4">
+					<ItineraryThemeSelector />
+					<ThemeSelector />
+					<button
+						class="group relative overflow-hidden p-4 bg-bg-secondary/80 border border-border/50
+						       rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
+						       shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 backdrop-blur-sm"
+						aria-label="members"
+					>
+						<div
+							class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
+						            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+						            transition-transform duration-700"
+						></div>
+						<Users
+							class="relative w-6 h-6 text-text-secondary group-hover:text-text-primary transition-colors duration-200"
+						/>
+					</button>
+					<button
+						on:click={() => (showSettingsModal = true)}
+						class="group relative overflow-hidden p-4 bg-bg-secondary/80 border border-border/50
+						       rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
+						       shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 backdrop-blur-sm"
+						aria-label="settings"
+					>
+						<div
+							class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
+						            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+						            transition-transform duration-700"
+						></div>
+						<Settings
+							class="relative w-6 h-6 text-text-secondary group-hover:text-text-primary
+						                 group-hover:rotate-90 transition-all duration-500"
+						/>
+					</button>
+				</div>
 			</div>
 		</nav>
 
 		<!-- Mobile bottom nav (only visible on small screens) -->
 		<div
-			class="hidden fixed bottom-0 left-0 right-0 bg-card-bg border-t border-card-border backdrop-blur-lg p-2 justify-around z-10 sm:hidden max-sm:flex"
+			class="fixed bottom-0 left-0 right-0 bg-card-bg/95 border-t border-card-border backdrop-blur-lg p-2 justify-around z-20 sm:hidden flex"
 			role="navigation"
 			aria-label="mobile tabs"
 		>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+				class="flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-200 text-xs
 					   {activeTab === 'timeline'
 					? 'text-primary bg-primary/10'
 					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
@@ -473,7 +473,7 @@
 			</button>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+				class="flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-200 text-xs
 					   {activeTab === 'packing'
 					? 'text-primary bg-primary/10'
 					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
@@ -485,7 +485,7 @@
 			</button>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+				class="flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-200 text-xs
 					   {activeTab === 'budget'
 					? 'text-primary bg-primary/10'
 					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
@@ -497,7 +497,7 @@
 			</button>
 			<button
 				type="button"
-				class="flex flex-col items-center gap-1 p-2 rounded-lg transition-all duration-200 text-xs
+				class="flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-200 text-xs
 					   {activeTab === 'chat'
 					? 'text-primary bg-primary/10'
 					: 'text-text-secondary hover:text-primary hover:bg-primary/10'}"
@@ -507,25 +507,39 @@
 				<MessageCircle class="w-5 h-5" />
 				<div>AI相談</div>
 			</button>
+			<button
+				type="button"
+				class="flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-200 text-xs
+					   text-text-secondary hover:text-primary hover:bg-primary/10"
+				on:click={() => (showSettingsModal = true)}
+			>
+				<Settings class="w-5 h-5" />
+				<div>設定</div>
+			</button>
 		</div>
 
 		<!-- コンテンツエリア -->
-		<div class="max-w-2xl mx-auto px-4 py-8" style="max-width: 640px;">
+		<div
+			class="max-w-2xl mx-auto px-4 py-8 pb-24 sm:pb-8"
+			style="max-width: 640px;"
+		>
 			{#if activeTab === "timeline"}
 				<div class="space-y-6">
 					<div class="flex justify-between items-center">
 						<div>
-							<h2 class="text-2xl font-bold text-text-primary">タイムライン</h2>
-							<p class="text-text-secondary mt-1">
+							<h2 class="text-xl sm:text-2xl font-bold text-text-primary">
+								タイムライン
+							</h2>
+							<p class="text-sm sm:text-base text-text-secondary mt-1">
 								旅行の予定を時系列で管理しましょう
 							</p>
 						</div>
 						<button
 							on:click={() => openAddModal("timeline")}
-							class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
-							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-2xl
+							class="group relative overflow-hidden px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-xl sm:rounded-2xl
 							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-							       border border-white/20 backdrop-blur-sm"
+							       border border-white/20 backdrop-blur-sm text-sm sm:text-base"
 						>
 							<!-- 光沢エフェクト -->
 							<div
@@ -534,11 +548,12 @@
 							            transition-transform duration-700"
 							></div>
 
-							<div class="relative flex items-center space-x-3">
-								<div class="p-1 bg-white/20 rounded-lg">
-									<Plus class="w-5 h-5" />
+							<div class="relative flex items-center space-x-2 sm:space-x-3">
+								<div class="p-0.5 sm:p-1 bg-white/20 rounded-lg">
+									<Plus class="w-4 h-4 sm:w-5 sm:h-5" />
 								</div>
-								<span class="font-semibold">予定を追加</span>
+								<span class="font-semibold hidden sm:inline">予定を追加</span>
+								<span class="font-semibold sm:hidden">追加</span>
 							</div>
 						</button>
 					</div>
@@ -552,17 +567,19 @@
 				<div class="space-y-6">
 					<div class="flex justify-between items-center">
 						<div>
-							<h2 class="text-2xl font-bold text-text-primary">持ち物リスト</h2>
-							<p class="text-text-secondary mt-1">
+							<h2 class="text-xl sm:text-2xl font-bold text-text-primary">
+								持ち物リスト
+							</h2>
+							<p class="text-sm sm:text-base text-text-secondary mt-1">
 								必要なアイテムをチェックリストで管理しましょう
 							</p>
 						</div>
 						<button
 							on:click={() => openAddModal("packing")}
-							class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
-							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-2xl
+							class="group relative overflow-hidden px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-xl sm:rounded-2xl
 							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-							       border border-white/20 backdrop-blur-sm"
+							       border border-white/20 backdrop-blur-sm text-sm sm:text-base"
 						>
 							<div
 								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
@@ -570,11 +587,14 @@
 							            transition-transform duration-700"
 							></div>
 
-							<div class="relative flex items-center space-x-3">
-								<div class="p-1 bg-white/20 rounded-lg">
-									<Plus class="w-5 h-5" />
+							<div class="relative flex items-center space-x-2 sm:space-x-3">
+								<div class="p-0.5 sm:p-1 bg-white/20 rounded-lg">
+									<Plus class="w-4 h-4 sm:w-5 sm:h-5" />
 								</div>
-								<span class="font-semibold">アイテムを追加</span>
+								<span class="font-semibold hidden sm:inline"
+									>アイテムを追加</span
+								>
+								<span class="font-semibold sm:hidden">追加</span>
 							</div>
 						</button>
 					</div>
@@ -592,17 +612,19 @@
 				<div class="space-y-6">
 					<div class="flex justify-between items-center">
 						<div>
-							<h2 class="text-2xl font-bold text-text-primary">予算管理</h2>
-							<p class="text-text-secondary mt-1">
+							<h2 class="text-xl sm:text-2xl font-bold text-text-primary">
+								予算管理
+							</h2>
+							<p class="text-sm sm:text-base text-text-secondary mt-1">
 								旅行費用の計画と実績を管理しましょう
 							</p>
 						</div>
 						<button
 							on:click={() => openAddModal("budget")}
-							class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
-							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-2xl
+							class="group relative overflow-hidden px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-xl sm:rounded-2xl
 							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-							       border border-white/20 backdrop-blur-sm"
+							       border border-white/20 backdrop-blur-sm text-sm sm:text-base"
 						>
 							<div
 								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
@@ -610,11 +632,12 @@
 							            transition-transform duration-700"
 							></div>
 
-							<div class="relative flex items-center space-x-3">
-								<div class="p-1 bg-white/20 rounded-lg">
-									<Plus class="w-5 h-5" />
+							<div class="relative flex items-center space-x-2 sm:space-x-3">
+								<div class="p-0.5 sm:p-1 bg-white/20 rounded-lg">
+									<Plus class="w-4 h-4 sm:w-5 sm:h-5" />
 								</div>
-								<span class="font-semibold">費用を追加</span>
+								<span class="font-semibold hidden sm:inline">費用を追加</span>
+								<span class="font-semibold sm:hidden">追加</span>
 							</div>
 						</button>
 					</div>
@@ -628,8 +651,10 @@
 			{:else if activeTab === "chat"}
 				<div class="space-y-6">
 					<div>
-						<h2 class="text-2xl font-bold text-text-primary">AI旅行相談</h2>
-						<p class="text-text-secondary mt-1">
+						<h2 class="text-xl sm:text-2xl font-bold text-text-primary">
+							AI旅行相談
+						</h2>
+						<p class="text-sm sm:text-base text-text-secondary mt-1">
 							AIと一緒に旅行プランを最適化しましょう
 						</p>
 					</div>
@@ -749,10 +774,102 @@
 			</div>
 		{/if}
 
-		<!-- フローティングアクションボタン -->
+		<!-- 設定モーダル -->
+		{#if showSettingsModal}
+			<div
+				class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-30 p-4"
+			>
+				<div
+					class="bg-card-bg border border-card-border rounded-3xl shadow-custom-lg w-full max-w-md max-h-[90vh] overflow-y-auto backdrop-blur-lg"
+				>
+					<div class="p-8">
+						<div class="flex justify-between items-center mb-6">
+							<h3
+								class="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent"
+							>
+								設定
+							</h3>
+							<button
+								on:click={closeSettingsModal}
+								class="p-2 text-text-muted hover:text-text-primary hover:bg-bg-tertiary rounded-xl transition-all duration-200"
+							>
+								<X class="w-6 h-6" />
+							</button>
+						</div>
+
+						<div class="space-y-6">
+							<!-- テーマ設定 -->
+							<div class="space-y-3">
+								<h4
+									class="text-lg font-semibold text-text-primary flex items-center gap-2"
+								>
+									<Palette class="w-5 h-5" />
+									アプリテーマ
+								</h4>
+								<div
+									class="bg-bg-secondary/50 p-4 rounded-2xl border border-border/30"
+								>
+									<ThemeSelector />
+								</div>
+							</div>
+
+							<!-- しおりテーマ設定 -->
+							<div class="space-y-3">
+								<h4
+									class="text-lg font-semibold text-text-primary flex items-center gap-2"
+								>
+									<Palette class="w-5 h-5" />
+									しおりテーマ
+								</h4>
+								<div
+									class="bg-bg-secondary/50 p-4 rounded-2xl border border-border/30"
+								>
+									<ItineraryThemeSelector />
+								</div>
+							</div>
+
+							<!-- メンバー管理 -->
+							<div class="space-y-3">
+								<h4
+									class="text-lg font-semibold text-text-primary flex items-center gap-2"
+								>
+									<Users class="w-5 h-5" />
+									メンバー管理
+								</h4>
+								<div
+									class="bg-bg-secondary/50 p-4 rounded-2xl border border-border/30"
+								>
+									<p class="text-text-secondary text-sm">
+										メンバー機能は近日公開予定です
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="flex justify-end mt-8">
+							<button
+								on:click={closeSettingsModal}
+								class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-accent to-accent-secondary
+								       hover:from-accent-hover hover:to-accent text-white rounded-2xl transition-all duration-300
+								       shadow-lg hover:shadow-xl font-semibold transform hover:scale-105 active:scale-95"
+							>
+								<div
+									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
+								            transition-transform duration-700"
+								></div>
+								<span class="relative">完了</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
+
+		<!-- フローティングアクションボタン（スマホ時は非表示）-->
 		<button
 			on:click={() => openAddModal("timeline")}
-			class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-110 active:scale-95 z-20 flex items-center justify-center group"
+			class="hidden sm:flex fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-110 active:scale-95 z-20 items-center justify-center group"
 			aria-label="予定を追加"
 		>
 			<Plus class="w-6 h-6 transition-transform group-hover:rotate-90" />
