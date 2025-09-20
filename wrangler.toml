@@ -1,42 +1,13 @@
 name = "axi-itinerary"
 compatibility_date = "2024-09-17"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = "frontend/.svelte-kit/cloudflare"
+main = "frontend/.svelte-kit/cloudflare/_worker.js"
 
-[env.production]
-name = "axi-itinerary"
-route = "axi-itinerary.app/*"
-
-[env.production.vars]
-ENVIRONMENT = "production"
-LLM_PROVIDER = "openai"
-
-[[env.production.d1_databases]]
-binding = "DB"
-database_name = "axi-itinerary-db"
-database_id = "fa91bed8-f5c5-4570-bf38-87994a1ce93c"
-
-[env.preview]
-name = "axi-itinerary-preview"
-
-[env.preview.vars]
-ENVIRONMENT = "preview"
-LLM_PROVIDER = "openai"
-
-[[env.preview.d1_databases]]
-binding = "DB"
-database_name = "axi-itinerary-db"
-database_id = "fa91bed8-f5c5-4570-bf38-87994a1ce93c"
+[assets]
+directory = "frontend/.svelte-kit/cloudflare/"
+binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "axi-itinerary-db"
 database_id = "fa91bed8-f5c5-4570-bf38-87994a1ce93c"
-
-[vars]
-ENVIRONMENT = "production"
-LLM_PROVIDER = "openai" # または "gemini"
-
-# 以下のAPIキーはwranglerのSecretsで設定してください（例: wrangler secret put OPENAI_API_KEY）
-# OPENAI_API_KEY
-# GEMINI_API_KEY

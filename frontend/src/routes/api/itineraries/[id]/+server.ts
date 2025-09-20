@@ -14,8 +14,8 @@ export const GET: RequestHandler = async ({ params, platform }) => {
 		let packingItems = [];
 		let budgetItems = [];
 
-		if (platform?.env?.DB) {
-			const db = platform.env.DB;
+		if (platform?.DB) {
+			const db = platform.DB;
 
 			// Get itinerary
 			const itineraryResult = await db.prepare(`

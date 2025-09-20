@@ -34,8 +34,8 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			updated_at: now
 		};
 
-		if (platform?.env?.DB) {
-			const db = platform.env.DB;
+		if (platform?.DB) {
+			const db = platform.DB;
 
 			// Check if user already exists
 			const existingUser = await db.prepare(`

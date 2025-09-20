@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm run dev:full",
-    "dev:full": "pnpm run build:backend && wrangler pages dev frontend/.svelte-kit/cloudflare --compatibility-date 2024-09-17 --compatibility-flags nodejs_compat",
+    "dev:full": "pnpm run build:backend && wrangler dev --compatibility-date 2024-09-17 --compatibility-flags nodejs_compat",
     "dev:vite": "pnpm run dev:frontend & pnpm run dev:backend",
     "dev:open": "pnpm run dev:frontend:open & pnpm run dev:backend",
     "build": "pnpm run build:frontend && pnpm run build:backend",

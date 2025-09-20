@@ -36,8 +36,8 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 		};
 
 		// If D1 is available, store in database
-		if (platform?.env?.DB) {
-			const db = platform.env.DB;
+		if (platform?.DB) {
+			const db = platform.DB;
 			await db.prepare(`
 				INSERT INTO itineraries (id, title, description, edit_password_hash, theme, created_at, updated_at)
 				VALUES (?, ?, ?, ?, ?, ?, ?)

@@ -22,8 +22,8 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 
 		let user = null;
 
-		if (platform?.env?.DB) {
-			const db = platform.env.DB;
+		if (platform?.DB) {
+			const db = platform.DB;
 
 			user = await db.prepare(`
 				SELECT id, email, name, created_at FROM users WHERE email = ? AND password_hash = ?

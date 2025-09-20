@@ -7,12 +7,15 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		interface Platform {
-			env?: {
+			env: {
 				DB?: D1Database;
 				OPENAI_API_KEY?: string;
 				GEMINI_API_KEY?: string;
 				LLM_PROVIDER?: 'openai' | 'gemini';
+				ASSETS?: any;
 			};
+			DB?: D1Database;
+			ASSETS?: any;
 		}
 	}
 }
