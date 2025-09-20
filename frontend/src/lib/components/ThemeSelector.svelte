@@ -135,9 +135,9 @@
       <div class="py-2">
         {#each themes as theme}
           <button
-            class={"w-full text-left px-4 py-3 hover:bg-white/10 transition-all duration-200 flex items-center gap-3 " +
+            class={"w-full text-left px-4 py-3 hover:bg-bg-tertiary transition-all duration-200 flex items-center gap-3 " +
               (currentTheme === theme.value
-                ? "bg-white/10 text-gradient border-l-4 border-l-current"
+                ? "bg-bg-tertiary text-gradient-primary border-l-4 border-l-accent"
                 : "")}
             on:click={() => selectTheme(theme.value)}
             role="option"

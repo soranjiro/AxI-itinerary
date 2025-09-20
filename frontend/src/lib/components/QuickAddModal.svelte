@@ -207,32 +207,28 @@
     on:keydown={handleKeydown}
   >
     <div
-      class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto"
+      class="w-full max-w-md bg-card-bg rounded-2xl shadow-2xl border border-border max-h-[90vh] overflow-y-auto"
     >
       <!-- ヘッダー -->
-      <div
-        class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700"
-      >
-        <h2
-          class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"
-        >
+      <div class="flex items-center justify-between p-6 border-b border-border">
+        <h2 class="text-xl font-bold text-text-primary flex items-center gap-2">
           {#if type === "timeline"}
-            <Plus class="w-5 h-5 text-indigo-600" />
+            <Plus class="w-5 h-5 text-accent" />
             予定を追加
           {:else if type === "packing"}
-            <Package class="w-5 h-5 text-green-600" />
+            <Package class="w-5 h-5 text-success" />
             持ち物を追加
           {:else if type === "budget"}
-            <DollarSign class="w-5 h-5 text-blue-600" />
+            <DollarSign class="w-5 h-5 text-accent" />
             予算を追加
           {/if}
         </h2>
         <button
           on:click={close}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          class="p-2 rounded-lg hover:bg-bg-tertiary transition-colors"
           disabled={isSubmitting}
         >
-          <X class="w-5 h-5 text-gray-500" />
+          <X class="w-5 h-5 text-text-muted" />
         </button>
       </div>
 
@@ -459,7 +455,7 @@
             type="button"
             on:click={close}
             disabled={isSubmitting}
-            class="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex-1 px-4 py-3 rounded-lg border border-border text-text-secondary hover:bg-bg-tertiary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             キャンセル
           </button>
@@ -470,7 +466,7 @@
               (type === "budget" &&
                 (!formData.category?.trim() || !formData.item_name?.trim())) ||
               isSubmitting}
-            class="flex-1 px-4 py-3 rounded-lg bg-[var(--gradient-primary)] text-white font-medium hover:shadow-lg hover:shadow-[color:var(--primary)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2"
+            class="flex-1 px-4 py-3 rounded-lg bg-gradient-primary text-white font-medium hover:shadow-lg hover:shadow-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2"
           >
             {#if isSubmitting}
               <div
@@ -486,7 +482,7 @@
       </form>
 
       <!-- ショートカットヒント -->
-      <div class="px-6 pb-4 text-xs text-gray-500 dark:text-gray-400">
+      <div class="px-6 pb-4 text-xs text-text-muted">
         ヒント: Esc でキャンセル、Cmd/Ctrl + Enter で追加
       </div>
     </div>

@@ -197,27 +197,23 @@
 	};
 </script>
 
-<div class="flex flex-col h-[600px] card border-theme-glow overflow-hidden">
+<div class="flex flex-col h-[600px] card border-border overflow-hidden">
 	<!-- チャットヘッダー -->
 	<div
-		class="flex items-center justify-between p-6 border-b border-theme-glow bg-[var(--bg-secondary)]"
+		class="flex items-center justify-between p-6 border-b border-border bg-bg-secondary"
 	>
 		<div class="flex items-center space-x-4">
 			<div class="icon-theme-container">
 				<Bot class="w-7 h-7 text-white" />
 			</div>
 			<div>
-				<h3 class="text-lg font-bold text-gray-900 dark:text-white">
-					AI旅行アシスタント
-				</h3>
-				<p class="text-sm text-gray-600 dark:text-gray-300">
-					旅行プランをサポートします
-				</p>
+				<h3 class="text-lg font-bold text-text-primary">AI旅行アシスタント</h3>
+				<p class="text-sm text-text-secondary">旅行プランをサポートします</p>
 			</div>
 		</div>
 		<div class="flex items-center space-x-2">
-			<div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-			<span class="text-sm text-gray-500 dark:text-gray-400">オンライン</span>
+			<div class="w-3 h-3 bg-success rounded-full animate-pulse"></div>
+			<span class="text-sm text-text-muted">オンライン</span>
 		</div>
 	</div>
 
@@ -252,15 +248,15 @@
 					<div class="flex flex-col">
 						<div
 							class="rounded-2xl px-6 py-4 shadow-lg {message.sender === 'user'
-								? 'bg-[var(--gradient-primary)] text-white'
-								: 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-theme-glow'}"
+								? 'bg-gradient-primary text-white'
+								: 'bg-card-bg text-text-primary border-border'}"
 						>
 							<p class="text-sm whitespace-pre-wrap leading-relaxed">
 								{message.content}
 							</p>
 						</div>
 						<span
-							class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 {message.sender ===
+							class="text-xs text-text-muted mt-2 px-2 {message.sender ===
 							'user'
 								? 'text-right'
 								: 'text-left'}"
@@ -274,7 +270,7 @@
 								{#each message.suggestions as suggestion}
 									<button
 										on:click={() => handleSuggestionClick(suggestion)}
-										class="flex items-center space-x-3 px-4 py-3 text-sm bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800/30 dark:hover:to-indigo-800/30 text-blue-700 dark:text-blue-300 rounded-xl border-theme-glow transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow-md w-full text-left hover-theme-lift"
+										class="flex items-center space-x-3 px-4 py-3 text-sm bg-secondary-light hover:bg-secondary-light text-secondary rounded-xl border-border transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow-md w-full text-left"
 									>
 										{#if suggestion.type === "timeline"}
 											<Calendar class="w-5 h-5" />
@@ -327,7 +323,7 @@
 	</div>
 
 	<!-- 入力エリア -->
-	<div class="border-t border-theme-glow p-6 bg-gray-50/50 dark:bg-gray-800/50">
+	<div class="border-t border-border p-6 bg-bg-tertiary">
 		<div class="flex space-x-4">
 			<div class="flex-1 relative">
 				<input
@@ -339,14 +335,14 @@
 				/>
 				{#if inputMessage.trim()}
 					<div class="absolute right-3 top-1/2 transform -translate-y-1/2">
-						<Sparkles class="w-5 h-5 text-blue-500 animate-pulse" />
+						<Sparkles class="w-5 h-5 text-accent animate-pulse" />
 					</div>
 				{/if}
 			</div>
 			<button
 				on:click={sendMessage}
 				disabled={!inputMessage.trim() || isLoading}
-				class="px-6 py-4 bg-[var(--gradient-primary)] hover:bg-[var(--gradient-primary)] disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center hover-theme-lift"
+				class="px-6 py-4 bg-gradient-primary hover:bg-gradient-primary disabled:bg-text-muted disabled:text-bg-primary text-white rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
 			>
 				{#if isLoading}
 					<div
@@ -357,7 +353,7 @@
 				{/if}
 			</button>
 		</div>
-		<p class="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
+		<p class="text-xs text-text-muted mt-3 text-center">
 			例:
 			「おすすめの観光スポットを教えて」「予算を見直したい」「持ち物リストを確認して」
 		</p>

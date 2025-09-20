@@ -85,18 +85,16 @@
 		class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
 	>
 		<div
-			class="card border-theme-glow w-full max-w-md max-h-[90vh] overflow-y-auto"
+			class="card border-border w-full max-w-md max-h-[90vh] overflow-y-auto"
 		>
 			<!-- ヘッダー -->
-			<div
-				class="flex justify-between items-center p-8 border-b border-theme-glow"
-			>
-				<h3 class="text-2xl font-bold text-theme-gradient">
+			<div class="flex justify-between items-center p-8 border-b border-border">
+				<h3 class="text-2xl font-bold text-gradient-primary">
 					{isLogin ? "ログイン" : "アカウント作成"}
 				</h3>
 				<button
 					on:click={close}
-					class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-all duration-200 transform hover:scale-110 hover-theme-lift"
+					class="p-2 text-text-muted hover:text-text-secondary hover:bg-bg-tertiary rounded-xl transition-all duration-200 transform hover:scale-110"
 				>
 					<X class="w-6 h-6" />
 				</button>
@@ -108,13 +106,13 @@
 					<div class="space-y-2">
 						<label
 							for="name"
-							class="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+							class="block text-sm font-semibold text-text-primary"
 						>
 							お名前
 						</label>
 						<div class="relative">
 							<User
-								class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+								class="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-5 h-5"
 							/>
 							<input
 								id="name"
@@ -131,13 +129,13 @@
 				<div class="space-y-2">
 					<label
 						for="email"
-						class="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+						class="block text-sm font-semibold text-text-primary"
 					>
 						メールアドレス
 					</label>
 					<div class="relative">
 						<Mail
-							class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+							class="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-5 h-5"
 						/>
 						<input
 							id="email"
@@ -153,13 +151,13 @@
 				<div class="space-y-2">
 					<label
 						for="password"
-						class="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+						class="block text-sm font-semibold text-text-primary"
 					>
 						パスワード
 					</label>
 					<div class="relative">
 						<Lock
-							class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+							class="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-5 h-5"
 						/>
 						<input
 							id="password"
@@ -174,10 +172,8 @@
 				</div>
 
 				{#if error}
-					<div
-						class="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl"
-					>
-						<p class="text-sm text-red-600 dark:text-red-400">{error}</p>
+					<div class="p-3 bg-danger-light border border-danger rounded-xl">
+						<p class="text-sm text-danger">{error}</p>
 					</div>
 				{/if}
 
@@ -202,7 +198,7 @@
 				<div class="text-center">
 					<button
 						on:click={toggleMode}
-						class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+						class="text-sm text-accent hover:text-accent-hover font-medium"
 					>
 						{isLogin
 							? "アカウントをお持ちでない方はこちら"

@@ -99,16 +99,14 @@
     aria-labelledby="modal-title"
   >
     <div
-      class="card border-theme-glow max-w-md w-full max-h-[90vh] overflow-hidden"
+      class="card border-border max-w-md w-full max-h-[90vh] overflow-hidden"
     >
-      <div
-        class="flex items-center justify-between p-6 border-b border-theme-glow"
-      >
+      <div class="flex items-center justify-between p-6 border-b border-border">
         <h2
           id="modal-title"
-          class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"
+          class="text-xl font-bold text-text-primary flex items-center gap-2"
         >
-          <Sparkles class="h-5 w-5 text-blue-500" />
+          <Sparkles class="h-5 w-5 text-accent" />
           {type === "timeline"
             ? "タイムライン項目"
             : type === "packing"
@@ -117,7 +115,7 @@
         </h2>
         <button
           on:click={closeModal}
-          class="group relative overflow-hidden p-3 rounded-2xl hover:bg-bg-tertiary/50
+          class="group relative overflow-hidden p-3 rounded-2xl hover:bg-bg-tertiary
                  transition-all duration-300 backdrop-blur-sm hover:shadow-lg"
           aria-label="閉じる"
         >
@@ -337,11 +335,11 @@
         {/if}
       </form>
 
-      <div class="flex justify-end gap-4 p-6 border-t border-theme-glow">
+      <div class="flex justify-end gap-4 p-6 border-t border-border">
         <button
           type="button"
           on:click={closeModal}
-          class="group relative overflow-hidden px-8 py-4 text-text-secondary border border-border/50
+          class="group relative overflow-hidden px-8 py-4 text-text-secondary border border-border
                  rounded-2xl hover:bg-bg-tertiary hover:border-border-hover transition-all duration-300
                  font-semibold backdrop-blur-sm hover:text-text-primary shadow-lg hover:shadow-xl"
         >
