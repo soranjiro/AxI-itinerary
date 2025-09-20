@@ -22,12 +22,14 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 
 		let user = null;
 
-		if (platform?.DB) {
-			const db = platform.DB;
+		if (platform?.env?.DB) {
+			const db = platform.env.DB;
 
 			user = await db.prepare(`
 				SELECT id, email, name, created_at FROM users WHERE email = ? AND password_hash = ?
 			`).bind(userEmail, passwordHash).first();
+		} else {
+			throw error(500, 'Database not available');
 		}
 
 		if (!user) {

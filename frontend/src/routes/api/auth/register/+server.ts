@@ -58,8 +58,6 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				user.updated_at
 			).run();
 		} else {
-			console.log('platform', platform);
-			console.log('platform.DB', platform?.DB);
 			throw error(500, 'Database not available');
 		}
 

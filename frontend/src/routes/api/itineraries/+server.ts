@@ -36,8 +36,8 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 		};
 
 		// If D1 is available, store in database
-		if (platform?.DB) {
-			const db = platform.DB;
+		if (platform?.env?.DB) {
+			const db = platform.env.DB;
 			await db.prepare(`
 				INSERT INTO itineraries (id, title, description, edit_password_hash, theme, created_at, updated_at)
 				VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -99,13 +99,13 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
 			// Link to user if logged in
 			if (currentUser?.id) {
 				await db.prepare(`
-					INSERT INTO user_itineraries (id, user_id, itinerary_id, role)
+					INSERT INTO user_itineraries (user_id, itinerary_id, role, created_at)
 					VALUES (?, ?, ?, ?)
 				`).bind(
-					crypto.randomUUID(),
 					currentUser.id,
 					itinerary.id,
-					'owner'
+					'owner',
+					new Date().toISOString()
 				).run();
 			}
 		} else {
