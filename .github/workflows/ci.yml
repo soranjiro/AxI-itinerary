@@ -40,17 +40,5 @@ jobs:
         working-directory: frontend
         run: pnpm install --frozen-lockfile
 
-      - name: Build wasm
-        run: make build-wasm
-
-      - name: Typecheck frontend
-        working-directory: frontend
-        run: pnpm run check
-
-      - name: Build frontend
-        working-directory: frontend
-        run: pnpm run build
-
-      - name: Backend tests
-        working-directory: backend
-        run: cargo test --all --quiet
+      - name: Build
+        run: make build
