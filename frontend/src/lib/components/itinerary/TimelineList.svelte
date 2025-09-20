@@ -48,7 +48,7 @@
     })}
     <!-- 日付ヘッダー -->
     <div
-      class="bg-[color:var(--bg-secondary)] border border-[color:var(--border)] rounded-lg p-4 mb-6 flex items-center justify-between"
+      class="bg-[color:var(--bg-secondary)] border border-[color:var(--border)] rounded-lg p-4 mt-6 mb-6 flex items-center justify-between"
     >
       <div class="flex items-center space-x-3">
         <div class="text-lg font-bold text-[color:var(--text-primary)]">
