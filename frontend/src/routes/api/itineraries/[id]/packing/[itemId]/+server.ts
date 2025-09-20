@@ -61,3 +61,35 @@ export const PUT: RequestHandler = async ({ params, request, platform }) => {
 		throw error(500, 'Internal server error');
 	}
 };
+
+export const DELETE: RequestHandler = async ({ params, platform }) => {
+	try {
+		const { id, itemId } = params;
+
+		if (!id) {
+			throw error(400, 'Itinerary ID is required');
+		}
+
+		if (!itemId) {
+			throw error(400, 'Packing item ID is required');
+		}
+
+		if (platform?.env?.DB) {
+			const db = platform.env.DB;
+
+			const result = await db.prepare(`
+				DELETE FROM packing_items
+				WHERE id = ? AND itinerary_id = ?
+			`).bind(itemId, id).run();
+
+			if (result.changes === 0) {
+				throw error(404, 'Packing item not found');
+			}
+		}
+
+		return json({ success: true });
+	} catch (err) {
+		console.error('Error deleting packing item:', err);
+		throw error(500, 'Internal server error');
+	}
+};

@@ -242,6 +242,43 @@
 		}
 	};
 
+	const deleteItem = async (item: any) => {
+		if (!confirm("このアイテムを削除しますか？")) {
+			return;
+		}
+
+		try {
+			let endpoint = "";
+			if (activeTab === "timeline") {
+				endpoint = `/api/itineraries/${itineraryId}/timeline/${item.id}`;
+			} else if (activeTab === "packing") {
+				endpoint = `/api/itineraries/${itineraryId}/packing/${item.id}`;
+			} else if (activeTab === "budget") {
+				endpoint = `/api/itineraries/${itineraryId}/budget/${item.id}`;
+			}
+
+			const response = await fetch(endpoint, {
+				method: "DELETE",
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to delete item");
+			}
+
+			// Update local state
+			if (activeTab === "timeline") {
+				timelineItems = timelineItems.filter((i) => i.id !== item.id);
+			} else if (activeTab === "packing") {
+				packingItems = packingItems.filter((i) => i.id !== item.id);
+			} else if (activeTab === "budget") {
+				budgetItems = budgetItems.filter((i) => i.id !== item.id);
+			}
+		} catch (error) {
+			console.error("Error deleting item:", error);
+			alert("アイテムの削除に失敗しました。再度お試しください。");
+		}
+	};
+
 	const openAddModal = async (type: "timeline" | "packing" | "budget") => {
 		console.log("openAddModal called with type:", type);
 		console.log("Current showAddModal value:", showAddModal);
@@ -637,6 +674,7 @@
 					<TimelineList
 						{timelineItems}
 						on:edit={(e) => startEditing(e.detail)}
+						on:delete={(e) => deleteItem(e.detail)}
 					/>
 				</div>
 			{:else if activeTab === "packing"}
@@ -681,6 +719,7 @@
 						<PackingList
 							{packingItems}
 							on:edit={(e) => startEditing(e.detail)}
+							on:delete={(e) => deleteItem(e.detail)}
 						/>
 					</div>
 				</div>
@@ -721,7 +760,11 @@
 					<div
 						class="bg-card-bg border border-card-border rounded-2xl shadow-custom-lg overflow-hidden backdrop-blur-lg"
 					>
-						<BudgetList {budgetItems} on:edit={(e) => startEditing(e.detail)} />
+						<BudgetList
+							{budgetItems}
+							on:edit={(e) => startEditing(e.detail)}
+							on:delete={(e) => deleteItem(e.detail)}
+						/>
 					</div>
 				</div>
 			{:else if activeTab === "chat"}

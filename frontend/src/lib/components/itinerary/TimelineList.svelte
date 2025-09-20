@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Edit3, Clock, MapPin } from "lucide-svelte";
+  import { Edit3, Clock, MapPin, Trash2 } from "lucide-svelte";
   import { createEventDispatcher } from "svelte";
 
   export let timelineItems: Array<any> = [];
-  const dispatch = createEventDispatcher<{ edit: any }>();
+  const dispatch = createEventDispatcher<{ edit: any; delete: any }>();
 
   let groupedItems: Record<string, { items: any[]; dayIndex: number }>;
 
@@ -114,12 +114,20 @@
                   >{index + 1}</span
                 >
               </div>
-              <button
-                class="p-2 text-[color:var(--text-muted)] hover:text-[color:var(--primary)] hover:bg-[color:var(--primary-light)] rounded-lg transition-all duration-200"
-                on:click={() => dispatch("edit", item)}
-              >
-                <Edit3 class="w-5 h-5" />
-              </button>
+              <div class="flex items-center space-x-2">
+                <button
+                  class="p-2 text-[color:var(--text-muted)] hover:text-[color:var(--primary)] hover:bg-[color:var(--primary-light)] rounded-lg transition-all duration-200"
+                  on:click={() => dispatch("edit", item)}
+                >
+                  <Edit3 class="w-5 h-5" />
+                </button>
+                <button
+                  class="p-2 text-[color:var(--text-muted)] hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200"
+                  on:click={() => dispatch("delete", item)}
+                >
+                  <Trash2 class="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             <h3

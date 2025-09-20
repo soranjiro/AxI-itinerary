@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Edit3 } from "lucide-svelte";
+  import { Edit3, Trash2 } from "lucide-svelte";
   import { createEventDispatcher } from "svelte";
 
   export let packingItems: Array<any> = [];
-  const dispatch = createEventDispatcher<{ edit: any }>();
+  const dispatch = createEventDispatcher<{ edit: any; delete: any }>();
 </script>
 
 <div class="card overflow-hidden">
@@ -45,6 +45,12 @@
         on:click={() => dispatch("edit", item)}
       >
         <Edit3 class="w-6 h-6" />
+      </button>
+      <button
+        class="p-3 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all duration-200 transform hover:scale-110 hover-theme-lift"
+        on:click={() => dispatch("delete", item)}
+      >
+        <Trash2 class="w-6 h-6" />
       </button>
     </div>
   {/each}
