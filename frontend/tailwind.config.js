@@ -6,35 +6,41 @@ export default {
     extend: {
       colors: {
         // CSS変数を参照
-        accent: {
-          DEFAULT: 'var(--accent)',
-          secondary: 'var(--accent-secondary)',
-          hover: 'var(--accent-hover)',
-        },
         primary: {
           DEFAULT: 'var(--primary)',
           hover: 'var(--primary-hover)',
           light: 'var(--primary-light)',
+          text: 'var(--primary-text)',
         },
         secondary: {
           DEFAULT: 'var(--secondary)',
           hover: 'var(--secondary-hover)',
           light: 'var(--secondary-light)',
+          text: 'var(--secondary-text)',
         },
         success: {
           DEFAULT: 'var(--success)',
           hover: 'var(--success-hover)',
           light: 'var(--success-light)',
+          text: 'var(--success-text)',
         },
         warning: {
           DEFAULT: 'var(--warning)',
           hover: 'var(--warning-hover)',
           light: 'var(--warning-light)',
+          text: 'var(--warning-text)',
         },
         danger: {
           DEFAULT: 'var(--danger)',
           hover: 'var(--danger-hover)',
           light: 'var(--danger-light)',
+          text: 'var(--danger-text)',
+        },
+        accent: {
+          DEFAULT: 'var(--accent)',
+          secondary: 'var(--accent-secondary)',
+          hover: 'var(--accent-hover)',
+          text: 'var(--accent-text)',
         },
         // 背景色
         bg: {

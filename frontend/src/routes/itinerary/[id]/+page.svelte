@@ -269,27 +269,29 @@
 		</div>
 	{:else}
 		<!-- モバイル用ヘッダー（スクロール可能）-->
-		<div class="border-b border-gray-200 shadow-sm">
+		<div
+			class="border-b border-border shadow-sm bg-card-bg/95 backdrop-blur-lg"
+		>
 			<div class="max-w-2xl mx-auto px-4 py-6" style="max-width: 640px;">
 				<div class="space-y-4">
-					<h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
+					<h1 class="text-2xl sm:text-3xl font-bold text-text-primary">
 						{itinerary.title}
 					</h1>
 					{#if itinerary.description}
-						<p class="text-base text-gray-600">
+						<p class="text-base text-text-secondary">
 							{itinerary.description}
 						</p>
 					{/if}
 					<div class="flex items-center flex-wrap gap-2">
 						<div
-							class="px-3 py-1 rounded-full bg-blue-50 text-sm font-medium border border-blue-200"
+							class="px-3 py-1 rounded-full bg-primary/10 text-sm font-medium border border-primary/20"
 						>
-							<span class="text-blue-700">アクティブ</span>
+							<span class="text-primary">アクティブ</span>
 						</div>
 						<div
-							class="px-3 py-1 rounded-full bg-green-50 text-sm font-medium border border-green-200"
+							class="px-3 py-1 rounded-full bg-success/10 text-sm font-medium border border-success/20"
 						>
-							<span class="text-green-700">同期済み</span>
+							<span class="text-success">同期済み</span>
 						</div>
 					</div>
 				</div>
@@ -309,13 +311,13 @@
 							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
 							       transition-all duration-300 overflow-hidden
 							       {activeTab === 'timeline'
-								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								? 'text-accent-text bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
 								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
 							on:click={() => (activeTab = "timeline")}
 						>
 							{#if activeTab !== "timeline"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/5 to-bg-primary/0
 								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 								            transition-transform duration-700"
 								></div>
@@ -323,7 +325,7 @@
 
 							{#if activeTab === "timeline"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/20 via-bg-primary/10 to-bg-primary/20
 								            animate-pulse rounded-xl"
 								></div>
 							{/if}
@@ -336,13 +338,13 @@
 							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
 							       transition-all duration-300 overflow-hidden
 							       {activeTab === 'packing'
-								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								? 'text-accent-text bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
 								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
 							on:click={() => (activeTab = "packing")}
 						>
 							{#if activeTab !== "packing"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/5 to-bg-primary/0
 								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 								            transition-transform duration-700"
 								></div>
@@ -350,7 +352,7 @@
 
 							{#if activeTab === "packing"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/20 via-bg-primary/10 to-bg-primary/20
 								            animate-pulse rounded-xl"
 								></div>
 							{/if}
@@ -363,13 +365,13 @@
 							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
 							       transition-all duration-300 overflow-hidden
 							       {activeTab === 'budget'
-								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								? 'text-accent-text bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
 								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
 							on:click={() => (activeTab = "budget")}
 						>
 							{#if activeTab !== "budget"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/5 to-bg-primary/0
 								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 								            transition-transform duration-700"
 								></div>
@@ -377,7 +379,7 @@
 
 							{#if activeTab === "budget"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/20 via-bg-primary/10 to-bg-primary/20
 								            animate-pulse rounded-xl"
 								></div>
 							{/if}
@@ -390,13 +392,13 @@
 							class="group relative flex items-center gap-3 px-8 py-4 rounded-xl font-medium text-sm
 							       transition-all duration-300 overflow-hidden
 							       {activeTab === 'chat'
-								? 'text-white bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
+								? 'text-accent-text bg-gradient-to-r from-accent to-accent-secondary shadow-lg scale-105'
 								: 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary/50'}"
 							on:click={() => (activeTab = "chat")}
 						>
 							{#if activeTab !== "chat"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/5 to-bg-primary/0
 								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 								            transition-transform duration-700"
 								></div>
@@ -404,7 +406,7 @@
 
 							{#if activeTab === "chat"}
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/10 to-white/20
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/20 via-bg-primary/10 to-bg-primary/20
 								            animate-pulse rounded-xl"
 								></div>
 							{/if}
@@ -424,7 +426,7 @@
 						aria-label="members"
 					>
 						<div
-							class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
+							class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/10 to-bg-primary/0
 						            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 						            transition-transform duration-700"
 						></div>
@@ -440,7 +442,7 @@
 						aria-label="settings"
 					>
 						<div
-							class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0
+							class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/10 to-bg-primary/0
 						            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 						            transition-transform duration-700"
 						></div>
@@ -537,19 +539,19 @@
 						<button
 							on:click={() => openAddModal("timeline")}
 							class="group relative overflow-hidden px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
-							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-xl sm:rounded-2xl
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-primary-text rounded-xl sm:rounded-2xl
 							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-							       border border-white/20 backdrop-blur-sm text-sm sm:text-base"
+							       border border-primary/20 backdrop-blur-sm text-sm sm:text-base"
 						>
 							<!-- 光沢エフェクト -->
 							<div
-								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+								class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/20 to-bg-primary/0
 							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 							            transition-transform duration-700"
 							></div>
 
 							<div class="relative flex items-center space-x-2 sm:space-x-3">
-								<div class="p-0.5 sm:p-1 bg-white/20 rounded-lg">
+								<div class="p-0.5 sm:p-1 bg-bg-primary/20 rounded-lg">
 									<Plus class="w-4 h-4 sm:w-5 sm:h-5" />
 								</div>
 								<span class="font-semibold hidden sm:inline">予定を追加</span>
@@ -577,18 +579,18 @@
 						<button
 							on:click={() => openAddModal("packing")}
 							class="group relative overflow-hidden px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
-							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-xl sm:rounded-2xl
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-primary-text rounded-xl sm:rounded-2xl
 							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-							       border border-white/20 backdrop-blur-sm text-sm sm:text-base"
+							       border border-primary/20 backdrop-blur-sm text-sm sm:text-base"
 						>
 							<div
-								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+								class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/20 to-bg-primary/0
 							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 							            transition-transform duration-700"
 							></div>
 
 							<div class="relative flex items-center space-x-2 sm:space-x-3">
-								<div class="p-0.5 sm:p-1 bg-white/20 rounded-lg">
+								<div class="p-0.5 sm:p-1 bg-bg-primary/20 rounded-lg">
 									<Plus class="w-4 h-4 sm:w-5 sm:h-5" />
 								</div>
 								<span class="font-semibold hidden sm:inline"
@@ -622,18 +624,18 @@
 						<button
 							on:click={() => openAddModal("budget")}
 							class="group relative overflow-hidden px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary via-primary to-primary-hover
-							       hover:from-primary-hover hover:via-primary hover:to-primary text-white rounded-xl sm:rounded-2xl
+							       hover:from-primary-hover hover:via-primary hover:to-primary text-primary-text rounded-xl sm:rounded-2xl
 							       transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95
-							       border border-white/20 backdrop-blur-sm text-sm sm:text-base"
+							       border border-primary/20 backdrop-blur-sm text-sm sm:text-base"
 						>
 							<div
-								class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+								class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/20 to-bg-primary/0
 							            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 							            transition-transform duration-700"
 							></div>
 
 							<div class="relative flex items-center space-x-2 sm:space-x-3">
-								<div class="p-0.5 sm:p-1 bg-white/20 rounded-lg">
+								<div class="p-0.5 sm:p-1 bg-bg-primary/20 rounded-lg">
 									<Plus class="w-4 h-4 sm:w-5 sm:h-5" />
 								</div>
 								<span class="font-semibold hidden sm:inline">費用を追加</span>
@@ -670,7 +672,7 @@
 		<!-- 編集モーダル -->
 		{#if isEditing && editingItem}
 			<div
-				class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-20 p-4"
+				class="fixed inset-0 bg-bg-primary/60 backdrop-blur-sm flex items-center justify-center z-20 p-4"
 			>
 				<div
 					class="bg-card-bg border border-card-border rounded-3xl shadow-custom-lg w-full max-w-md max-h-[90vh] overflow-y-auto backdrop-blur-lg"
@@ -748,7 +750,7 @@
 								       font-semibold backdrop-blur-sm hover:text-text-primary shadow-lg hover:shadow-xl"
 							>
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/5 to-bg-primary/0
 								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 								            transition-transform duration-700"
 								></div>
@@ -757,11 +759,11 @@
 							<button
 								on:click={saveItem}
 								class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-accent to-accent-secondary
-								       hover:from-accent-hover hover:to-accent text-white rounded-2xl transition-all duration-300
+								       hover:from-accent-hover hover:to-accent text-accent-text rounded-2xl transition-all duration-300
 								       shadow-lg hover:shadow-xl font-semibold flex items-center space-x-3 transform hover:scale-105 active:scale-95"
 							>
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/20 to-bg-primary/0
 								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 								            transition-transform duration-700"
 								></div>
@@ -777,7 +779,7 @@
 		<!-- 設定モーダル -->
 		{#if showSettingsModal}
 			<div
-				class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-30 p-4"
+				class="fixed inset-0 bg-bg-primary/60 backdrop-blur-sm flex items-center justify-center z-30 p-4"
 			>
 				<div
 					class="bg-card-bg border border-card-border rounded-3xl shadow-custom-lg w-full max-w-md max-h-[90vh] overflow-y-auto backdrop-blur-lg"
@@ -850,11 +852,11 @@
 							<button
 								on:click={closeSettingsModal}
 								class="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-accent to-accent-secondary
-								       hover:from-accent-hover hover:to-accent text-white rounded-2xl transition-all duration-300
+								       hover:from-accent-hover hover:to-accent text-accent-text rounded-2xl transition-all duration-300
 								       shadow-lg hover:shadow-xl font-semibold transform hover:scale-105 active:scale-95"
 							>
 								<div
-									class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0
+									class="absolute inset-0 bg-gradient-to-r from-bg-primary/0 via-bg-primary/20 to-bg-primary/0
 								            transform -skew-x-12 -translate-x-full group-hover:translate-x-full
 								            transition-transform duration-700"
 								></div>
@@ -869,7 +871,7 @@
 		<!-- フローティングアクションボタン（スマホ時は非表示）-->
 		<button
 			on:click={() => openAddModal("timeline")}
-			class="hidden sm:flex fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-110 active:scale-95 z-20 items-center justify-center group"
+			class="hidden sm:flex fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-primary to-primary-hover text-primary-text rounded-full shadow-2xl hover:shadow-primary/40 transition-all duration-300 hover:scale-110 active:scale-95 z-20 items-center justify-center group"
 			aria-label="予定を追加"
 		>
 			<Plus class="w-6 h-6 transition-transform group-hover:rotate-90" />
