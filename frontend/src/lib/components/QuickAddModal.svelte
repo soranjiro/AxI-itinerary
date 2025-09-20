@@ -83,6 +83,8 @@
 
   function close() {
     if (isSubmitting) return;
+    // update local binding so parent with bind:isOpen gets updated
+    isOpen = false;
     resetForm();
     dispatch("close");
   }
@@ -146,6 +148,8 @@
           break;
       }
       dispatch("save", submitData);
+      // ensure modal actually closes when used with bind:isOpen
+      isOpen = false;
       close();
     } catch (error) {
       console.error("Failed to save item:", error);

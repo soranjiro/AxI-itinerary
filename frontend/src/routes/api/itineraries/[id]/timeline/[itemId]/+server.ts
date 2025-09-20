@@ -57,7 +57,7 @@ export const PUT: RequestHandler = async ({ params, request, platform }) => {
 			location_name: location_name?.trim() || '',
 			start_datetime: startISO,
 			end_datetime: endISO,
-			updated_at: now
+			updated_at: now.toISOString()
 		};
 
 		if (platform?.env?.DB) {

@@ -194,6 +194,7 @@
 					category: editingItem.category,
 					quantity: editingItem.quantity,
 					is_checked: editingItem.is_checked,
+					memo: editingItem.memo,
 				};
 			} else if (activeTab === "budget") {
 				endpoint = `/api/itineraries/${itineraryId}/budget/${editingItem.id}`;
@@ -875,6 +876,143 @@
 											   focus:ring-accent/20 transition-all duration-300 text-text-primary
 											   backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
 											   focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+									/>
+								</div>
+							{:else if activeTab === "packing"}
+								<div>
+									<label
+										for="edit-category"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										カテゴリ
+									</label>
+									<input
+										id="edit-category"
+										type="text"
+										bind:value={editingItem.category}
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="カテゴリを入力..."
+									/>
+								</div>
+
+								<div>
+									<label
+										for="edit-quantity"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										数量
+									</label>
+									<input
+										id="edit-quantity"
+										type="number"
+										min="1"
+										bind:value={editingItem.quantity}
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+									/>
+								</div>
+
+								<div>
+									<label
+										for="edit-memo"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										メモ
+									</label>
+									<textarea
+										id="edit-memo"
+										bind:value={editingItem.memo}
+										rows="3"
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary resize-none"
+										placeholder="メモを入力..."
+									></textarea>
+								</div>
+
+								<div class="flex items-center space-x-3">
+									<input
+										id="edit-checked"
+										type="checkbox"
+										bind:checked={editingItem.is_checked}
+										class="w-5 h-5 text-accent border-border/50 rounded focus:ring-accent/20 focus:ring-2"
+									/>
+									<label
+										for="edit-checked"
+										class="text-sm font-medium text-text-primary"
+									>
+										チェック済み
+									</label>
+								</div>
+							{:else if activeTab === "budget"}
+								<div>
+									<label
+										for="edit-category"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										カテゴリ
+									</label>
+									<input
+										id="edit-category"
+										type="text"
+										bind:value={editingItem.category}
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="カテゴリを入力..."
+									/>
+								</div>
+
+								<div>
+									<label
+										for="edit-planned-amount"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										予定金額
+									</label>
+									<input
+										id="edit-planned-amount"
+										type="number"
+										min="0"
+										bind:value={editingItem.planned_amount}
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="予定金額を入力..."
+									/>
+								</div>
+
+								<div>
+									<label
+										for="edit-actual-amount"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										実際の金額
+									</label>
+									<input
+										id="edit-actual-amount"
+										type="number"
+										min="0"
+										bind:value={editingItem.actual_amount}
+										class="w-full px-6 py-4 bg-gradient-to-r from-bg-secondary/50 to-bg-tertiary/30
+										       border border-border/50 rounded-2xl focus:border-accent/50 focus:ring-4
+										       focus:ring-accent/20 transition-all duration-300 text-text-primary
+										       backdrop-blur-sm shadow-inner hover:shadow-lg placeholder:text-text-muted/70
+										       focus:bg-gradient-to-r focus:from-bg-secondary focus:to-bg-tertiary"
+										placeholder="実際の金額を入力..."
 									/>
 								</div>
 							{/if}

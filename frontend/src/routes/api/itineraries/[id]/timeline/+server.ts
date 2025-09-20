@@ -55,8 +55,8 @@ export const POST: RequestHandler = async ({ params, request, platform }) => {
 			start_datetime: startISO,
 			end_datetime: endISO,
 			sort_order: 0, // Will be set properly later
-			created_at: now,
-			updated_at: now
+			created_at: now.toISOString(),
+			updated_at: now.toISOString()
 		};
 
 		if (platform?.env?.DB) {
