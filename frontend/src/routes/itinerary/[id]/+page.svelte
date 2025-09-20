@@ -879,7 +879,11 @@
 
 		<!-- 追加アイテムモーダル -->
 		{#if showAddModal}
-			<QuickAddModal bind:isOpen={showAddModal} on:save={handleAddItem} />
+			<QuickAddModal
+				bind:isOpen={showAddModal}
+				type={addModalType}
+				on:save={handleAddItem}
+			/>
 		{/if}
 	{/if}
 </main>
