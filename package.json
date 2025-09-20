@@ -16,7 +16,8 @@
     "build:backend": "cd backend && wasm-pack build --target web --out-dir ../frontend/src/lib/wasm"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "wrangler": "^4.38.0"
   },
   "workspaces": [
     "frontend"
