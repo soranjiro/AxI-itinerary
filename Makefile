@@ -8,3 +8,7 @@ deploy:
 
 dev:
 	pnpm run dev:full
+
+migrations:
+	npx wrangler d1 migrations list --database axi-itinerary-db
+	npx wrangler d1 migrations apply --database axi-itinerary-db

@@ -13,4 +13,4 @@ enabled = true
 [[d1_databases]]
 binding = "DB"
 database_name = "axi-itinerary-db"
-database_id = "fa91bed8-f5c5-4570-bf38-87994a1ce93c"
+database_id = "807d36d2-1be9-4dea-a3ab-bf0637a91a27"
