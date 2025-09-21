@@ -11,14 +11,16 @@
   const formatDateTime = (dateTime: string) => {
     const date = new Date(dateTime);
     return {
-      time: date.toLocaleString("ja-JP", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      date: date.toLocaleDateString("ja-JP", {
-        month: "numeric",
-        day: "numeric",
-      }),
+      time:
+        date.getUTCHours().toString().padStart(2, "0") +
+        ":" +
+        date.getUTCMinutes().toString().padStart(2, "0"),
+      date:
+        date.getUTCFullYear() +
+        "-" +
+        String(date.getUTCMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(date.getUTCDate()).padStart(2, "0"),
     };
   };
 
@@ -51,14 +53,16 @@
 
 <div class="relative">
   {#each Object.entries(groupedItems) as [dateKey, group]}
-    {@const dateObj = new Date(dateKey + "T00:00:00")}
-    {@const formattedDate = dateObj.toLocaleDateString("ja-JP", {
-      month: "numeric",
-      day: "numeric",
-    })}
-    {@const dayOfWeek = dateObj.toLocaleDateString("ja-JP", {
-      weekday: "short",
-    })}
+    {@const dateObj = new Date(dateKey + "T00:00:00Z")}
+    {@const formattedDate =
+      dateObj.getUTCFullYear() +
+      "-" +
+      String(dateObj.getUTCMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(dateObj.getUTCDate()).padStart(2, "0")}
+    {@const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"][
+      dateObj.getUTCDay()
+    ]}
     <!-- 日付ヘッダー -->
     <div
       class="bg-secondary border border-default rounded-lg p-4 mt-6 mb-6 flex items-center justify-between"

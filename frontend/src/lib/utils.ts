@@ -4,13 +4,12 @@ export const generateId = (): string => uuidv4();
 
 export const formatDateTime = (dateTime: string | Date): string => {
 	const date = typeof dateTime === 'string' ? new Date(dateTime) : dateTime;
-	return date.toLocaleString('ja-JP', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-		hour: '2-digit',
-		minute: '2-digit'
-	});
+	// UTC時刻をそのまま表示（ローカル変換なし）
+	return date.getUTCFullYear() + '-' +
+		   String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
+		   String(date.getUTCDate()).padStart(2, '0') + ' ' +
+		   String(date.getUTCHours()).padStart(2, '0') + ':' +
+		   String(date.getUTCMinutes()).padStart(2, '0');
 };
 
 export const formatCurrency = (amount: number): string => {

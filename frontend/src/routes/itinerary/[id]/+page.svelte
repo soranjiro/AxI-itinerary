@@ -148,19 +148,19 @@
 	const formatDateTimeForInput = (dateTime: string) => {
 		if (!dateTime) return "";
 		const date = new Date(dateTime);
-		// datetime-local input expects format: YYYY-MM-DDTHH:mm (local timezone)
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, "0");
-		const day = String(date.getDate()).padStart(2, "0");
-		const hours = String(date.getHours()).padStart(2, "0");
-		const minutes = String(date.getMinutes()).padStart(2, "0");
+		// datetime-local input expects format: YYYY-MM-DDTHH:mm (UTC)
+		const year = date.getUTCFullYear();
+		const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+		const day = String(date.getUTCDate()).padStart(2, "0");
+		const hours = String(date.getUTCHours()).padStart(2, "0");
+		const minutes = String(date.getUTCMinutes()).padStart(2, "0");
 		return `${year}-${month}-${day}T${hours}:${minutes}`;
 	};
 
 	const parseDateTimeFromInput = (inputValue: string) => {
 		if (!inputValue) return "";
-		// Input value is already in local timezone, use as-is
-		return inputValue + ":00"; // Add seconds
+		// Input value is in UTC, add Z to indicate UTC
+		return inputValue + ":00Z"; // Add seconds and Z for UTC
 	};
 
 	const startEditing = (item: any) => {
