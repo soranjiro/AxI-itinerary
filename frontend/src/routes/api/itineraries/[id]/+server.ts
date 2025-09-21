@@ -48,13 +48,13 @@ export const GET: RequestHandler = async ({ params, platform }) => {
 		} else {
 			// D1 database not available: return mock data for local development
 			const now = new Date();
-			// Format as local timezone ISO string
-			const year = now.getFullYear();
-			const month = String(now.getMonth() + 1).padStart(2, '0');
-			const day = String(now.getDate()).padStart(2, '0');
-			const hours = String(now.getHours()).padStart(2, '0');
-			const minutes = String(now.getMinutes()).padStart(2, '0');
-			const nowISO = `${year}-${month}-${day}T${hours}:${minutes}:00`;
+			// Format as UTC ISO string
+			const year = now.getUTCFullYear();
+			const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+			const day = String(now.getUTCDate()).padStart(2, '0');
+			const hours = String(now.getUTCHours()).padStart(2, '0');
+			const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+			const nowISO = `${year}-${month}-${day}T${hours}:${minutes}:00Z`;
 
 			itinerary = {
 				id,
@@ -75,12 +75,12 @@ export const GET: RequestHandler = async ({ params, platform }) => {
 					start_datetime: nowISO,
 					end_datetime: (() => {
 						const endDate = new Date(now.getTime() + 60*60*1000);
-						const endYear = endDate.getFullYear();
-						const endMonth = String(endDate.getMonth() + 1).padStart(2, '0');
-						const endDay = String(endDate.getDate()).padStart(2, '0');
-						const endHours = String(endDate.getHours()).padStart(2, '0');
-						const endMinutes = String(endDate.getMinutes()).padStart(2, '0');
-						return `${endYear}-${endMonth}-${endDay}T${endHours}:${endMinutes}:00`;
+						const endYear = endDate.getUTCFullYear();
+						const endMonth = String(endDate.getUTCMonth() + 1).padStart(2, '0');
+						const endDay = String(endDate.getUTCDate()).padStart(2, '0');
+						const endHours = String(endDate.getUTCHours()).padStart(2, '0');
+						const endMinutes = String(endDate.getUTCMinutes()).padStart(2, '0');
+						return `${endYear}-${endMonth}-${endDay}T${endHours}:${endMinutes}:00Z`;
 					})(),
 					sort_order: 1,
 					created_at: nowISO,

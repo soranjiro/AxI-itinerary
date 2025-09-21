@@ -137,12 +137,13 @@
 	});
 
 	const formatDateTime = (dateTime: string) => {
-		return new Date(dateTime).toLocaleString("ja-JP", {
-			month: "2-digit",
-			day: "2-digit",
-			hour: "2-digit",
-			minute: "2-digit",
-		});
+		const date = new Date(dateTime);
+		const year = date.getUTCFullYear();
+		const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+		const day = String(date.getUTCDate()).padStart(2, "0");
+		const hours = String(date.getUTCHours()).padStart(2, "0");
+		const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+		return `${year}/${month}/${day} ${hours}:${minutes}`;
 	};
 
 	const formatDateTimeForInput = (dateTime: string) => {
@@ -168,13 +169,13 @@
 		// 編集時のデフォルトとして、分の部分を00に揃える
 		if (editingItem.start_datetime) {
 			const date = new Date(editingItem.start_datetime);
-			date.setMinutes(0, 0, 0);
-			// Format as local timezone ISO string
-			const year = date.getFullYear();
-			const month = String(date.getMonth() + 1).padStart(2, "0");
-			const day = String(date.getDate()).padStart(2, "0");
-			const hours = String(date.getHours()).padStart(2, "0");
-			const minutes = String(date.getMinutes()).padStart(2, "0");
+			date.setUTCMinutes(0, 0, 0);
+			// Format as UTC ISO string
+			const year = date.getUTCFullYear();
+			const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+			const day = String(date.getUTCDate()).padStart(2, "0");
+			const hours = String(date.getUTCHours()).padStart(2, "0");
+			const minutes = String(date.getUTCMinutes()).padStart(2, "0");
 			editingItem.start_datetime = `${year}-${month}-${day}T${hours}:${minutes}:00`;
 		}
 		isEditing = true;

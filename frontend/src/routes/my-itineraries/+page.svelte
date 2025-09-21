@@ -30,11 +30,11 @@
 	});
 
 	const formatDate = (dateString: string) => {
-		return new Date(dateString).toLocaleDateString("ja-JP", {
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-		});
+		const date = new Date(dateString);
+		const year = date.getUTCFullYear();
+		const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+		const day = String(date.getUTCDate()).padStart(2, "0");
+		return `${year}年${month}月${day}日`;
 	};
 
 	const viewItinerary = (id: string) => {

@@ -31,7 +31,12 @@
   // 日付ごとにアイテムをグループ化し、時間順にソート
   $: groupedItems = timelineItems.reduce((groups, item, index) => {
     const date = new Date(item.start_datetime);
-    const dateKey = date.toLocaleDateString("en-CA"); // YYYY-MM-DD format
+    const dateKey =
+      date.getUTCFullYear() +
+      "-" +
+      String(date.getUTCMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(date.getUTCDate()).padStart(2, "0"); // YYYY-MM-DD format in UTC
     if (!groups[dateKey]) {
       groups[dateKey] = { items: [], dayIndex: Object.keys(groups).length };
     }
@@ -54,12 +59,7 @@
 <div class="relative">
   {#each Object.entries(groupedItems) as [dateKey, group]}
     {@const dateObj = new Date(dateKey + "T00:00:00Z")}
-    {@const formattedDate =
-      dateObj.getUTCFullYear() +
-      "-" +
-      String(dateObj.getUTCMonth() + 1).padStart(2, "0") +
-      "-" +
-      String(dateObj.getUTCDate()).padStart(2, "0")}
+    {@const formattedDate = dateKey}
     {@const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"][
       dateObj.getUTCDay()
     ]}

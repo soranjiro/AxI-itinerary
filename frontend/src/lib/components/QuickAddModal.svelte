@@ -54,9 +54,14 @@
         const now = new Date();
         formData = {
           title: "",
-          date: now.toLocaleDateString("sv-SE"), // YYYY-MM-DD format in local timezone
-          hour: now.getHours().toString().padStart(2, "0"),
-          minute: (Math.floor(now.getMinutes() / 15) * 15).toString(),
+          date:
+            now.getUTCFullYear() +
+            "-" +
+            String(now.getUTCMonth() + 1).padStart(2, "0") +
+            "-" +
+            String(now.getUTCDate()).padStart(2, "0"), // YYYY-MM-DD format in UTC
+          hour: now.getUTCHours().toString().padStart(2, "0"),
+          minute: (Math.floor(now.getUTCMinutes() / 15) * 15).toString(),
           location_name: "",
           description: "",
         };
@@ -117,13 +122,17 @@
               ? `${formData.date}T${formData.hour.padStart(2, "0")}:${formData.minute.padStart(2, "0")}:00`
               : (() => {
                   const now = new Date();
-                  now.setMinutes(Math.floor(now.getMinutes() / 15) * 15, 0, 0);
-                  // Use local timezone instead of UTC
-                  const year = now.getFullYear();
-                  const month = String(now.getMonth() + 1).padStart(2, "0");
-                  const day = String(now.getDate()).padStart(2, "0");
-                  const hours = String(now.getHours()).padStart(2, "0");
-                  const minutes = String(now.getMinutes()).padStart(2, "0");
+                  now.setUTCMinutes(
+                    Math.floor(now.getUTCMinutes() / 15) * 15,
+                    0,
+                    0,
+                  );
+                  // Use UTC instead of local timezone
+                  const year = now.getUTCFullYear();
+                  const month = String(now.getUTCMonth() + 1).padStart(2, "0");
+                  const day = String(now.getUTCDate()).padStart(2, "0");
+                  const hours = String(now.getUTCHours()).padStart(2, "0");
+                  const minutes = String(now.getUTCMinutes()).padStart(2, "0");
                   return `${year}-${month}-${day}T${hours}:${minutes}`;
                 })();
           submitData = {
