@@ -26,24 +26,44 @@ export const POST: RequestHandler = async ({ params, request, platform }) => {
 
 		// 開始日時が未指定の場合は分の部分を00にした現在時刻を使用
 		const startISO = start_datetime && !isNaN(Date.parse(start_datetime))
-			? new Date(start_datetime).toISOString()
+			? start_datetime // Use as-is (local timezone)
 			: (() => {
 				const date = new Date(now);
 				date.setMinutes(0, 0, 0); // 分と秒とミリ秒を0に設定
-				return date.toISOString();
+				// Format as local timezone ISO string
+				const year = date.getFullYear();
+				const month = String(date.getMonth() + 1).padStart(2, '0');
+				const day = String(date.getDate()).padStart(2, '0');
+				const hours = String(date.getHours()).padStart(2, '0');
+				const minutes = String(date.getMinutes()).padStart(2, '0');
+				return `${year}-${month}-${day}T${hours}:${minutes}:00`;
 			})();
 
 		// 終了日時の決定ロジック
 		let endISO: string;
 		if (end_datetime && !isNaN(Date.parse(end_datetime))) {
-			endISO = new Date(end_datetime).toISOString();
+			endISO = end_datetime; // Use as-is (local timezone)
 		} else if (typeof duration_minutes === 'number' && isFinite(duration_minutes) && duration_minutes > 0) {
 			const startDate = new Date(startISO);
-			endISO = new Date(startDate.getTime() + duration_minutes * 60 * 1000).toISOString();
+			const endDate = new Date(startDate.getTime() + duration_minutes * 60 * 1000);
+			// Format as local timezone ISO string
+			const year = endDate.getFullYear();
+			const month = String(endDate.getMonth() + 1).padStart(2, '0');
+			const day = String(endDate.getDate()).padStart(2, '0');
+			const hours = String(endDate.getHours()).padStart(2, '0');
+			const minutes = String(endDate.getMinutes()).padStart(2, '0');
+			endISO = `${year}-${month}-${day}T${hours}:${minutes}:00`;
 		} else {
 			// デフォルト60分
 			const startDate = new Date(startISO);
-			endISO = new Date(startDate.getTime() + 60 * 60 * 1000).toISOString();
+			const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+			// Format as local timezone ISO string
+			const year = endDate.getFullYear();
+			const month = String(endDate.getMonth() + 1).padStart(2, '0');
+			const day = String(endDate.getDate()).padStart(2, '0');
+			const hours = String(endDate.getHours()).padStart(2, '0');
+			const minutes = String(endDate.getMinutes()).padStart(2, '0');
+			endISO = `${year}-${month}-${day}T${hours}:${minutes}:00`;
 		}
 
 		const timelineItem = {

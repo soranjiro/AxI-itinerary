@@ -54,7 +54,7 @@
         const now = new Date();
         formData = {
           title: "",
-          date: now.toISOString().split("T")[0],
+          date: now.toLocaleDateString("sv-SE"), // YYYY-MM-DD format in local timezone
           hour: now.getHours().toString().padStart(2, "0"),
           minute: (Math.floor(now.getMinutes() / 15) * 15).toString(),
           location_name: "",
@@ -118,7 +118,13 @@
               : (() => {
                   const now = new Date();
                   now.setMinutes(Math.floor(now.getMinutes() / 15) * 15, 0, 0);
-                  return now.toISOString().slice(0, 16);
+                  // Use local timezone instead of UTC
+                  const year = now.getFullYear();
+                  const month = String(now.getMonth() + 1).padStart(2, "0");
+                  const day = String(now.getDate()).padStart(2, "0");
+                  const hours = String(now.getHours()).padStart(2, "0");
+                  const minutes = String(now.getMinutes()).padStart(2, "0");
+                  return `${year}-${month}-${day}T${hours}:${minutes}`;
                 })();
           submitData = {
             title: formData.title.trim(),

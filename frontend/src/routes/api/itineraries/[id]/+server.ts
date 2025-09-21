@@ -47,7 +47,15 @@ export const GET: RequestHandler = async ({ params, platform }) => {
 			budgetItems = budgetResult.results || [];
 		} else {
 			// D1 database not available: return mock data for local development
-			const now = new Date().toISOString();
+			const now = new Date();
+			// Format as local timezone ISO string
+			const year = now.getFullYear();
+			const month = String(now.getMonth() + 1).padStart(2, '0');
+			const day = String(now.getDate()).padStart(2, '0');
+			const hours = String(now.getHours()).padStart(2, '0');
+			const minutes = String(now.getMinutes()).padStart(2, '0');
+			const nowISO = `${year}-${month}-${day}T${hours}:${minutes}:00`;
+
 			itinerary = {
 				id,
 				title: 'サンプル旅行',
@@ -64,11 +72,19 @@ export const GET: RequestHandler = async ({ params, platform }) => {
 					title: '集合',
 					description: '出発準備',
 					location_name: '東京駅',
-					start_datetime: now,
-					end_datetime: new Date(Date.now() + 60*60*1000).toISOString(),
+					start_datetime: nowISO,
+					end_datetime: (() => {
+						const endDate = new Date(now.getTime() + 60*60*1000);
+						const endYear = endDate.getFullYear();
+						const endMonth = String(endDate.getMonth() + 1).padStart(2, '0');
+						const endDay = String(endDate.getDate()).padStart(2, '0');
+						const endHours = String(endDate.getHours()).padStart(2, '0');
+						const endMinutes = String(endDate.getMinutes()).padStart(2, '0');
+						return `${endYear}-${endMonth}-${endDay}T${endHours}:${endMinutes}:00`;
+					})(),
 					sort_order: 1,
-					created_at: now,
-					updated_at: now
+					created_at: nowISO,
+					updated_at: nowISO
 				}
 			];
 

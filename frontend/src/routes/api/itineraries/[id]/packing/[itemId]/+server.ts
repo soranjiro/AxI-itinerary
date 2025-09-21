@@ -23,7 +23,15 @@ export const PUT: RequestHandler = async ({ params, request, platform }) => {
 			throw error(400, 'Item name is required');
 		}
 
-		const now = new Date().toISOString();
+		const now = new Date();
+		// Format as local timezone ISO string
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, '0');
+		const day = String(now.getDate()).padStart(2, '0');
+		const hours = String(now.getHours()).padStart(2, '0');
+		const minutes = String(now.getMinutes()).padStart(2, '0');
+		const seconds = String(now.getSeconds()).padStart(2, '0');
+		const nowISO = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
 		const updatedItem = {
 			id: itemId,

@@ -148,14 +148,19 @@
 	const formatDateTimeForInput = (dateTime: string) => {
 		if (!dateTime) return "";
 		const date = new Date(dateTime);
-		// datetime-local input expects format: YYYY-MM-DDTHH:mm
-		return date.toISOString().slice(0, 16);
+		// datetime-local input expects format: YYYY-MM-DDTHH:mm (local timezone)
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, "0");
+		const day = String(date.getDate()).padStart(2, "0");
+		const hours = String(date.getHours()).padStart(2, "0");
+		const minutes = String(date.getMinutes()).padStart(2, "0");
+		return `${year}-${month}-${day}T${hours}:${minutes}`;
 	};
 
 	const parseDateTimeFromInput = (inputValue: string) => {
 		if (!inputValue) return "";
-		// Convert local datetime to ISO string
-		return new Date(inputValue).toISOString();
+		// Input value is already in local timezone, use as-is
+		return inputValue + ":00"; // Add seconds
 	};
 
 	const startEditing = (item: any) => {
@@ -164,7 +169,13 @@
 		if (editingItem.start_datetime) {
 			const date = new Date(editingItem.start_datetime);
 			date.setMinutes(0, 0, 0);
-			editingItem.start_datetime = date.toISOString();
+			// Format as local timezone ISO string
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, "0");
+			const day = String(date.getDate()).padStart(2, "0");
+			const hours = String(date.getHours()).padStart(2, "0");
+			const minutes = String(date.getMinutes()).padStart(2, "0");
+			editingItem.start_datetime = `${year}-${month}-${day}T${hours}:${minutes}:00`;
 		}
 		isEditing = true;
 	};
