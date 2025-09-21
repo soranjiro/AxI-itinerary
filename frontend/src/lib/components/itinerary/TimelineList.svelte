@@ -26,7 +26,7 @@
     return `${index + 1}日目`;
   };
 
-  // 日付ごとにアイテムをグループ化
+  // 日付ごとにアイテムをグループ化し、時間順にソート
   $: groupedItems = timelineItems.reduce((groups, item, index) => {
     const date = new Date(item.start_datetime);
     const dateKey = date.toLocaleDateString("en-CA"); // YYYY-MM-DD format
@@ -36,6 +36,17 @@
     groups[dateKey].items.push(item);
     return groups;
   }, {});
+
+  // 各グループ内のアイテムを時間順にソート
+  $: {
+    Object.values(groupedItems).forEach((group) => {
+      group.items.sort((a, b) => {
+        const timeA = new Date(a.start_datetime).getTime();
+        const timeB = new Date(b.start_datetime).getTime();
+        return timeA - timeB;
+      });
+    });
+  }
 </script>
 
 <div class="relative">
