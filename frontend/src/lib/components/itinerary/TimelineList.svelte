@@ -9,18 +9,12 @@
   let groupedItems: Record<string, { items: any[]; dayIndex: number }>;
 
   const formatDateTime = (dateTime: string) => {
-    const date = new Date(dateTime);
+    if (!dateTime) return { time: "", date: "" };
+    const [date, time] = dateTime.split("T");
+    const [hours, minutes] = time.split(":");
     return {
-      time:
-        date.getUTCHours().toString().padStart(2, "0") +
-        ":" +
-        date.getUTCMinutes().toString().padStart(2, "0"),
-      date:
-        date.getUTCFullYear() +
-        "-" +
-        String(date.getUTCMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(date.getUTCDate()).padStart(2, "0"),
+      time: `${hours}:${minutes}`,
+      date: date,
     };
   };
 
@@ -30,13 +24,9 @@
 
   // 日付ごとにアイテムをグループ化し、時間順にソート
   $: groupedItems = timelineItems.reduce((groups, item, index) => {
-    const date = new Date(item.start_datetime);
-    const dateKey =
-      date.getUTCFullYear() +
-      "-" +
-      String(date.getUTCMonth() + 1).padStart(2, "0") +
-      "-" +
-      String(date.getUTCDate()).padStart(2, "0"); // YYYY-MM-DD format in UTC
+    const dateKey = item.start_datetime
+      ? item.start_datetime.split("T")[0]
+      : "";
     if (!groups[dateKey]) {
       groups[dateKey] = { items: [], dayIndex: Object.keys(groups).length };
     }
@@ -47,17 +37,15 @@
   // 各グループ内のアイテムを時間順にソート
   $: {
     Object.values(groupedItems).forEach((group) => {
-      group.items.sort((a, b) => {
-        const timeA = new Date(a.start_datetime).getTime();
-        const timeB = new Date(b.start_datetime).getTime();
-        return timeA - timeB;
-      });
+      group.items.sort((a, b) =>
+        a.start_datetime.localeCompare(b.start_datetime),
+      );
     });
   }
 </script>
 
 <div class="relative">
-  {#each Object.entries(groupedItems) as [dateKey, group]}
+  {#each Object.entries(groupedItems).sort( ([a], [b]) => a.localeCompare(b), ) as [dateKey, group]}
     {@const dateObj = new Date(dateKey + "T00:00:00Z")}
     {@const formattedDate = dateKey}
     {@const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"][

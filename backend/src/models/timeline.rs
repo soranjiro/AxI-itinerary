@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
+use chrono::{NaiveDateTime, DateTime, Utc};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TimelineItem {
@@ -11,8 +11,8 @@ pub struct TimelineItem {
     pub location_address: Option<String>,
     pub location_lat: Option<f64>,
     pub location_lng: Option<f64>,
-    pub start_datetime: Option<DateTime<Utc>>,
-    pub end_datetime: Option<DateTime<Utc>>,
+    pub start_datetime: Option<NaiveDateTime>,
+    pub end_datetime: Option<NaiveDateTime>,
     pub budget_amount: Option<i32>,
     pub memo: Option<String>,
     pub sort_order: i32,
@@ -28,8 +28,8 @@ pub struct CreateTimelineItemRequest {
     pub location_address: Option<String>,
     pub location_lat: Option<f64>,
     pub location_lng: Option<f64>,
-    pub start_datetime: Option<DateTime<Utc>>,
-    pub end_datetime: Option<DateTime<Utc>>,
+    pub start_datetime: Option<NaiveDateTime>,
+    pub end_datetime: Option<NaiveDateTime>,
     pub budget_amount: Option<i32>,
     pub memo: Option<String>,
 }
@@ -42,8 +42,8 @@ pub struct UpdateTimelineItemRequest {
     pub location_address: Option<String>,
     pub location_lat: Option<f64>,
     pub location_lng: Option<f64>,
-    pub start_datetime: Option<DateTime<Utc>>,
-    pub end_datetime: Option<DateTime<Utc>>,
+    pub start_datetime: Option<NaiveDateTime>,
+    pub end_datetime: Option<NaiveDateTime>,
     pub budget_amount: Option<i32>,
     pub memo: Option<String>,
     pub sort_order: Option<i32>,

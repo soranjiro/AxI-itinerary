@@ -137,46 +137,34 @@
 	});
 
 	const formatDateTime = (dateTime: string) => {
-		const date = new Date(dateTime);
-		const year = date.getUTCFullYear();
-		const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-		const day = String(date.getUTCDate()).padStart(2, "0");
-		const hours = String(date.getUTCHours()).padStart(2, "0");
-		const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+		if (!dateTime) return "";
+		// dateTime is in format "2025-01-15T09:00:00" (timezone-naive)
+		const [date, time] = dateTime.split("T");
+		const [year, month, day] = date.split("-");
+		const [hours, minutes] = time.split(":");
 		return `${year}/${month}/${day} ${hours}:${minutes}`;
 	};
 
 	const formatDateTimeForInput = (dateTime: string) => {
 		if (!dateTime) return "";
-		const date = new Date(dateTime);
-		// datetime-local input expects format: YYYY-MM-DDTHH:mm (UTC)
-		const year = date.getUTCFullYear();
-		const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-		const day = String(date.getUTCDate()).padStart(2, "0");
-		const hours = String(date.getUTCHours()).padStart(2, "0");
-		const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-		return `${year}-${month}-${day}T${hours}:${minutes}`;
+		// dateTime is in format "2025-01-15T09:00:00" (timezone-naive)
+		return dateTime.slice(0, 16); // "2025-01-15T09:00"
 	};
 
 	const parseDateTimeFromInput = (inputValue: string) => {
 		if (!inputValue) return "";
-		// Input value is in UTC, add Z to indicate UTC
-		return inputValue + ":00Z"; // Add seconds and Z for UTC
+		// inputValue is "2025-01-15T09:00", add seconds for NaiveDateTime
+		return inputValue + ":00";
 	};
 
 	const startEditing = (item: any) => {
 		editingItem = { ...item };
 		// 編集時のデフォルトとして、分の部分を00に揃える
 		if (editingItem.start_datetime) {
-			const date = new Date(editingItem.start_datetime);
-			date.setUTCMinutes(0, 0, 0);
-			// Format as UTC ISO string
-			const year = date.getUTCFullYear();
-			const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-			const day = String(date.getUTCDate()).padStart(2, "0");
-			const hours = String(date.getUTCHours()).padStart(2, "0");
-			const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-			editingItem.start_datetime = `${year}-${month}-${day}T${hours}:${minutes}:00`;
+			// editingItem.start_datetime is "2025-01-15T09:00:00"
+			const parts = editingItem.start_datetime.split(":");
+			parts[1] = "00"; // set minutes to 00
+			editingItem.start_datetime = parts.join(":");
 		}
 		isEditing = true;
 	};
