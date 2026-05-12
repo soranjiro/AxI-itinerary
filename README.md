@@ -1,3 +1,11 @@
+# Archived: Project has Moved
+
+This repository is no longer maintained and has been archived for provenance.
+
+The project has continued under the name [tabitabi](https://github.com/soranjiro/tabitabi).
+
+---
+
 # AxI Itinerary
 
 AxI Itinerary is a web application designed as a travel itinerary planner and guidebook, helping users organize and manage their trips effectively.
